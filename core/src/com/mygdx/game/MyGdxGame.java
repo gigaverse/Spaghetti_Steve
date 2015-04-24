@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.TimerTask;
 
 
@@ -43,6 +44,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
         Restaurant current = new Restaurant();
         restaurants.add(current);
+
+        Timer timer = new Timer();
+        timer.schedule(new compileToFunds(), 0, 1000);
 
         //Dealing with the Main Screen
         mainScreen = new Stage();
@@ -86,6 +90,8 @@ public class MyGdxGame extends ApplicationAdapter {
         mainScreen.addActor(button);
 
         //Dealing with the Upgrade Menus
+        upgradeScreen = new Stage();
+        //TODO make the upgrade menus
     }
 
 
@@ -98,7 +104,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		batch.begin();
         mainScreen.draw();
-        font.draw(batch, "test test u suck", 100, 100);
+        font.draw(batch, "test test u suck " + total, 100, 200);
 		batch.end();
 	}
 
