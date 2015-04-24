@@ -16,49 +16,76 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import java.util.ArrayList;
+import java.util.TimerTask;
+
+
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
-    private Stage stage; //** stage holds the Button **//
-    private BitmapFont font; //** same as that used in Tut 7 **//
-    private TextureAtlas buttonsAtlas; //** image of buttons **//
-    private Skin buttonSkin; //** images are used as skins of the button **//
-    private TextButton button; //** the button - the only actor in program **//
-    ImageButton menu;
-	String[] states = {"GameView"};
+    /*When you make a stage, you want to make the stage and all the things that fall under it*/
+    private Stage mainScreen;
+    private BitmapFont font;
+    private TextureAtlas buttonsAtlas;
+    private Skin buttonSkin;
+    private TextButton button;
+
+    private Stage upgradeScreen;
+
+    ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+    int currentRestaurant;
+    double total;
+
+	String[] states = {"GameView", "UpgradeMenu"};
     String state = states[0];
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 
-        buttonsAtlas = new TextureAtlas("menuButton.atlas"); //** button atlas image **//
-        buttonSkin = new Skin();
-        buttonSkin.addRegions(buttonsAtlas); //** skins for on and off **//
-        font = new BitmapFont(Gdx.files.internal("wow.fnt"),false); //** font **//
+        Restaurant current = new Restaurant();
+        restaurants.add(current);
 
-        //Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true
-        stage = new Stage();
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
+        //Dealing with the Main Screen
+        mainScreen = new Stage();
+        buttonsAtlas = new TextureAtlas("menuButton.atlas");
+        buttonSkin = new Skin();
+        buttonSkin.addRegions(buttonsAtlas);
+
+        font = new BitmapFont(Gdx.files.internal("wow.fnt"),false);
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+
         style.up = buttonSkin.getDrawable("button");
         style.down = buttonSkin.getDrawable("buttonPressed");
         style.font = font;
 
-        button = new TextButton("Menu", style); //** Button text and style **//
-        button.setPosition(0, 0); //** Button location **//
-        button.setHeight((int)(Gdx.graphics.getHeight()*0.1)); //** Button Height **//
-        button.setWidth(Gdx.graphics.getWidth()); //** Button Width **//
+        button = new TextButton("Menu", style);
+        button.setPosition(0, 0);
+        button.setHeight((int)(Gdx.graphics.getHeight()*0.1));
+        button.setWidth(Gdx.graphics.getWidth());
+        Gdx.input.setInputProcessor(mainScreen);
 
         button.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("my app", "Pressed"); //** Usually used to start Game, etc. **//
+                Gdx.app.log("wow", "Menu Opened"); //** Usually used to start Game, etc. **//
+
+                if(!state.equals("UpgradeMenu"))
+                {
+                    //TODO load up the upgrade menu
+                }
+                else
+                {
+                    //TODO go back to the main screen
+                }
                 return true;
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("my app", "Released");
+
             }
         });
 
-        stage.addActor(button);
+        mainScreen.addActor(button);
+
+        //Dealing with the Upgrade Menus
     }
 
 
@@ -66,10 +93,23 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClearColor((float) (215 / 256.0), (float) (252 / 256.0), (float) (212 / 256.0), 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        mainScreen.act();
+
 		batch.begin();
-        stage.draw();
+        mainScreen.draw();
+        font.draw(batch, "test test u suck", 100, 100);
 		batch.end();
 	}
+
+
+    public void show() {
+        batch.dispose();
+        buttonSkin.dispose();
+        buttonsAtlas.dispose();
+        font.dispose();
+        mainScreen.dispose();
+    }
 
     @Override
     public void dispose() {
@@ -77,9 +117,24 @@ public class MyGdxGame extends ApplicationAdapter {
         buttonSkin.dispose();
         buttonsAtlas.dispose();
         font.dispose();
-        stage.dispose();
+        mainScreen.dispose();
     }
 
 
+
+    class compileToFunds extends TimerTask {
+        public void run() {
+            double num = 1;
+            for(Restaurant r : restaurants)
+            {
+                for(String s : r.list.keySet())
+                {
+                    Upgrade u = r.list.get(s);
+                    num += u.tick();
+                }
+            }
+            total += num;
+        }
+    }
 }
 
