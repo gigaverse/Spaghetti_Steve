@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,10 +20,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Json;
 
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.json.*;
+
+import jdk.nashorn.internal.parser.JSONParser;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -48,7 +57,19 @@ public class MyGdxGame extends ApplicationAdapter {
     String state = states[0];
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
+
+        FileHandle hope = Gdx.files.local("pasta.dat");
+        try {
+            total = Double.parseDouble(hope.readString());
+        }
+        catch(Exception ex) {
+            System.out.println(ex.toString());
+        }
+
+
+
+
+        batch = new SpriteBatch();
 
         Restaurant current = new Restaurant();
         restaurants.add(current);
@@ -439,6 +460,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
     class compileToFunds extends TimerTask {
         public void run() {
+            FileHandle hope = Gdx.files.local("pasta.dat");
+            hope.writeString(Double.toString(total),false);
             double num = 0.1;
             for(Restaurant r : restaurants)
             {
