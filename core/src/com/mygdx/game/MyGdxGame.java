@@ -13,10 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -32,6 +34,9 @@ public class MyGdxGame extends ApplicationAdapter {
     private TextureAtlas buttonsAtlas;
     private Skin buttonSkin;
     private TextButton menuButton;
+
+    private TextureAtlas labelAtlas;
+    private Skin labelSkin;
 
     private Stage upgradeScreen;
 
@@ -49,7 +54,7 @@ public class MyGdxGame extends ApplicationAdapter {
         restaurants.add(current);
 
         Timer timer = new Timer();
-        timer.schedule(new compileToFunds(), 0, 1000);
+        timer.schedule(new compileToFunds(), 0, 100);
 
         //Dealing with the Main Screen
         mainScreen = new Stage();
@@ -102,9 +107,24 @@ public class MyGdxGame extends ApplicationAdapter {
 
         //Dealing with the Upgrade Menus
         upgradeScreen = new Stage();
+
+        //TODO make sure to put this label code somewhere more organized
+        labelAtlas = new TextureAtlas("label.atlas");
+        labelSkin = new Skin();
+        labelSkin.addRegions(labelAtlas);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        big.setColor(0f,0f,0f,1f);
+        labelStyle.background = labelSkin.getDrawable("default");
+        labelStyle.font = big;
+
+
         //TODO make the upgrade menus
+        final Label text1 = new Label(restaurants.get(currentRestaurant).get("1").getAmount() + "", labelStyle);
+        text1.setAlignment(Align.center);
+        text1.setWrap(true);
+
         final TextButton button1 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("1").getName(), restaurants.get(currentRestaurant).get("1").getCost()), style);
-        button1.setPosition((int)(Gdx.graphics.getHeight()),0);
         button1.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button1.setWidth(Gdx.graphics.getWidth());
 
@@ -118,12 +138,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("1").getCost();
                     restaurants.get(currentRestaurant).get("1").add();
                     button1.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("1").getName(), restaurants.get(currentRestaurant).get("1").getCost()));
+                    text1.setText(restaurants.get(currentRestaurant).get("1").getAmount() + "");
                 }
             }
         });
 
+        final Label text2 = new Label(restaurants.get(currentRestaurant).get("2").getAmount() + "", labelStyle);
+        text2.setAlignment(Align.center);
+        text2.setWrap(true);
+
         final TextButton button2 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("2").getName(), restaurants.get(currentRestaurant).get("2").getCost()), style);
-        button2.setPosition((int)(Gdx.graphics.getHeight()*0.8),0);
         button2.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button2.setWidth(Gdx.graphics.getWidth());
 
@@ -137,12 +161,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("2").getCost();
                     restaurants.get(currentRestaurant).get("2").add();
                     button2.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("2").getName(), restaurants.get(currentRestaurant).get("2").getCost()));
+                    text2.setText(restaurants.get(currentRestaurant).get("2").getAmount() + "");
                 }
             }
         });
 
+        final Label text3 = new Label(restaurants.get(currentRestaurant).get("3").getAmount() + "", labelStyle);
+        text3.setAlignment(Align.center);
+        text3.setWrap(true);
+
         final TextButton button3 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("3").getName(), restaurants.get(currentRestaurant).get("3").getCost()), style);
-        button3.setPosition((int)(Gdx.graphics.getHeight()*0.6),0);
         button3.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button3.setWidth(Gdx.graphics.getWidth());
 
@@ -156,12 +184,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("3").getCost();
                     restaurants.get(currentRestaurant).get("3").add();
                     button3.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("3").getName(), restaurants.get(currentRestaurant).get("3").getCost()));
+                    text3.setText(restaurants.get(currentRestaurant).get("3").getAmount() + "");
                 }
             }
         });
 
+        final Label text4 = new Label(restaurants.get(currentRestaurant).get("4").getAmount() + "", labelStyle);
+        text4.setAlignment(Align.center);
+        text4.setWrap(true);
+
         final TextButton button4 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("4").getName(), restaurants.get(currentRestaurant).get("4").getCost()), style);
-        button4.setPosition((int)(Gdx.graphics.getHeight()),0);
         button4.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button4.setWidth(Gdx.graphics.getWidth());
 
@@ -175,12 +207,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("4").getCost();
                     restaurants.get(currentRestaurant).get("4").add();
                     button4.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("4").getName(), restaurants.get(currentRestaurant).get("4").getCost()));
+                    text4.setText(restaurants.get(currentRestaurant).get("4").getAmount() + "");
                 }
             }
         });
 
+        final Label text5 = new Label(restaurants.get(currentRestaurant).get("5").getAmount() + "", labelStyle);
+        text5.setAlignment(Align.center);
+        text5.setWrap(true);
+
         final TextButton button5 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("5").getName(), restaurants.get(currentRestaurant).get("5").getCost()), style);
-        button5.setPosition((int)(Gdx.graphics.getHeight()*0.8),0);
         button5.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button5.setWidth(Gdx.graphics.getWidth());
 
@@ -194,12 +230,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("5").getCost();
                     restaurants.get(currentRestaurant).get("5").add();
                     button5.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("5").getName(), restaurants.get(currentRestaurant).get("5").getCost()));
+                    text5.setText(restaurants.get(currentRestaurant).get("5").getAmount() + "");
                 }
             }
         });
 
+        final Label text6 = new Label(restaurants.get(currentRestaurant).get("6").getAmount() + "", labelStyle);
+        text6.setAlignment(Align.center);
+        text6.setWrap(true);
+
         final TextButton button6 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("6").getName(), restaurants.get(currentRestaurant).get("6").getCost()), style);
-        button6.setPosition((int)(Gdx.graphics.getHeight()*0.6),0);
         button6.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button6.setWidth(Gdx.graphics.getWidth());
 
@@ -213,12 +253,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("6").getCost();
                     restaurants.get(currentRestaurant).get("6").add();
                     button6.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("6").getName(), restaurants.get(currentRestaurant).get("6").getCost()));
+                    text6.setText(restaurants.get(currentRestaurant).get("6").getAmount() + "");
                 }
             }
         });
 
+        final Label text7 = new Label(restaurants.get(currentRestaurant).get("7").getAmount() + "", labelStyle);
+        text7.setAlignment(Align.center);
+        text7.setWrap(true);
+
         final TextButton button7 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("7").getName(), restaurants.get(currentRestaurant).get("7").getCost()), style);
-        button7.setPosition((int)(Gdx.graphics.getHeight()*0.6),0);
         button7.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button7.setWidth(Gdx.graphics.getWidth());
 
@@ -232,13 +276,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("7").getCost();
                     restaurants.get(currentRestaurant).get("7").add();
                     button7.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("7").getName(), restaurants.get(currentRestaurant).get("7").getCost()));
+                    text7.setText(restaurants.get(currentRestaurant).get("7").getAmount() + "");
                 }
             }
         });
 
+        final Label text8 = new Label(restaurants.get(currentRestaurant).get("8").getAmount() + "", labelStyle);
+        text8.setAlignment(Align.center);
+        text8.setWrap(true);
 
         final TextButton button8 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("8").getName(), restaurants.get(currentRestaurant).get("8").getCost()), style);
-        button8.setPosition((int)(Gdx.graphics.getHeight()),0);
         button8.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button8.setWidth(Gdx.graphics.getWidth());
 
@@ -252,12 +299,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("8").getCost();
                     restaurants.get(currentRestaurant).get("8").add();
                     button8.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("8").getName(), restaurants.get(currentRestaurant).get("8").getCost()));
+                    text8.setText(restaurants.get(currentRestaurant).get("8").getAmount() + "");
                 }
             }
         });
 
+        final Label text9 = new Label(restaurants.get(currentRestaurant).get("9").getAmount() + "", labelStyle);
+        text9.setAlignment(Align.center);
+        text9.setWrap(true);
+
         final TextButton button9 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("9").getName(), restaurants.get(currentRestaurant).get("9").getCost()), style);
-        button9.setPosition((int)(Gdx.graphics.getHeight()*0.8),0);
         button9.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button9.setWidth(Gdx.graphics.getWidth());
 
@@ -271,12 +322,16 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("9").getCost();
                     restaurants.get(currentRestaurant).get("9").add();
                     button9.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("9").getName(), restaurants.get(currentRestaurant).get("9").getCost()));
+                    text9.setText(restaurants.get(currentRestaurant).get("9").getAmount() + "");
                 }
             }
         });
 
+        final Label text10 = new Label(restaurants.get(currentRestaurant).get("10").getAmount() + "", labelStyle);
+        text10.setAlignment(Align.center);
+        text10.setWrap(true);
+
         final TextButton button10 = new TextButton(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("10").getName(), restaurants.get(currentRestaurant).get("10").getCost()), style);
-        button10.setPosition((int)(Gdx.graphics.getHeight()*0.6),0);
         button10.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         button10.setWidth(Gdx.graphics.getWidth());
 
@@ -290,30 +345,42 @@ public class MyGdxGame extends ApplicationAdapter {
                     total -= restaurants.get(currentRestaurant).get("10").getCost();
                     restaurants.get(currentRestaurant).get("10").add();
                     button10.setText(String.format("%s costs %d lbs of pasta", restaurants.get(currentRestaurant).get("10").getName(), restaurants.get(currentRestaurant).get("10").getCost()));
+                    text10.setText(restaurants.get(currentRestaurant).get("10").getAmount() + "");
                 }
             }
         });
 
         final Table scrollTable = new Table();
-        scrollTable.add(button1).padTop(40).padBottom(10f);
+        scrollTable.center();
+        scrollTable.add(button1).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text1).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button2).padTop(40).padBottom(10f);
+        scrollTable.add(button2).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text2).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button3).padTop(40).padBottom(10f);
+        scrollTable.add(button3).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text3).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button4).padTop(40).padBottom(10f);
+        scrollTable.add(button4).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text4).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button5).padTop(40).padBottom(10f);
+        scrollTable.add(button5).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text5).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button6).padTop(40).padBottom(10f);
+        scrollTable.add(button6).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text6).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button7).padTop(40).padBottom(10f);
+        scrollTable.add(button7).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text7).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button8).padTop(40).padBottom(10f);
+        scrollTable.add(button8).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text8).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button9).padTop(40).padBottom(10f);
+        scrollTable.add(button9).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text9).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
-        scrollTable.add(button10).padTop(40).padBottom(10f);
+        scrollTable.add(button10).expandX().padTop(40).padBottom(10f);
+        scrollTable.add(text10).padTop(40).padBottom(10f).padLeft(5).padRight(5).width((int)(Gdx.graphics.getWidth()*0.3)).height(button1.getHeight());
         scrollTable.row();
 
         final ScrollPane scroller = new ScrollPane(scrollTable);
@@ -327,7 +394,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor((float) (215 / 256.0), (float) (252 / 256.0), (float) (212 / 256.0), 1);
+		Gdx.gl.glClearColor((float) (189 / 256.0), (float) (196 / 256.0), (float) (167 / 256.0), 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
@@ -372,7 +439,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     class compileToFunds extends TimerTask {
         public void run() {
-            double num = 1;
+            double num = 0.1;
             for(Restaurant r : restaurants)
             {
                 for(String s : r.list.keySet())

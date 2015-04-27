@@ -15,7 +15,7 @@ public class Upgrade{
         this.type = type;
         this.amount = amount;
         this.worth = worth;
-        cost = (long)(worth*10);
+        cost = (long)(worth*100);
     }
 
     public void add()
