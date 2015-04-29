@@ -84,7 +84,7 @@ public class MyGdxGame extends ApplicationAdapter {
         buttonSkin.addRegions(buttonsAtlas);
 
         font = new BitmapFont(Gdx.files.internal("wow.fnt"),false);
-        //TODO find out how to not hardcode the font stuff
+        //TODO develop app in 1080p then add a scale to account for resolution.
         big = new BitmapFont(Gdx.files.internal("big.fnt"),false);
         big.setColor(0f,0f,0f,1f);
 
