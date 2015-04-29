@@ -52,7 +52,6 @@ project(":core") {
 
 
     dependencies {
-        compile 'org.json:json:20141113'
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     }

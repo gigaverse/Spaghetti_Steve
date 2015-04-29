@@ -1,38 +1,23 @@
 package com.mygdx.game;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Json;
-
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.io.FileWriter;
-import java.io.IOException;
-import org.json.*;
-
-import jdk.nashorn.internal.parser.JSONParser;
-
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -43,21 +28,19 @@ public class MyGdxGame extends ApplicationAdapter {
     private TextureAtlas buttonsAtlas;
     private Skin buttonSkin;
     private TextButton menuButton;
-
     private TextureAtlas labelAtlas;
     private Skin labelSkin;
-
     private Stage upgradeScreen;
 
     ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
     int currentRestaurant;
     double total;
-
 	String[] states = {"GameView", "UpgradeMenu"};
     String state = states[0];
+
 	@Override
 	public void create () {
-
+        //read file if its been previously saved
         FileHandle hope = Gdx.files.local("pasta.dat");
         try {
             total = Double.parseDouble(hope.readString());
@@ -66,11 +49,7 @@ public class MyGdxGame extends ApplicationAdapter {
             System.out.println(ex.toString());
         }
 
-
-
-
         batch = new SpriteBatch();
-
         Restaurant current = new Restaurant();
         restaurants.add(current);
 
@@ -140,7 +119,7 @@ public class MyGdxGame extends ApplicationAdapter {
         labelStyle.font = big;
 
 
-        //TODO make the upgrade menus
+        //Created labels and added "buying" an upgrade
         final Label text1 = new Label(restaurants.get(currentRestaurant).get("1").getAmount() + "", labelStyle);
         text1.setAlignment(Align.center);
         text1.setWrap(true);
@@ -371,6 +350,8 @@ public class MyGdxGame extends ApplicationAdapter {
             }
         });
 
+
+        //actually putting menu buttons onto the screen
         final Table scrollTable = new Table();
         scrollTable.center();
         scrollTable.add(button1).expandX().padTop(40).padBottom(10f);
@@ -405,7 +386,6 @@ public class MyGdxGame extends ApplicationAdapter {
         scrollTable.row();
 
         final ScrollPane scroller = new ScrollPane(scrollTable);
-
         final Table table = new Table();
         table.setFillParent(true);
         table.add(scroller).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.8)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));
@@ -414,15 +394,17 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	@Override
-	public void render () {
+	public void render ()
+    {
 		Gdx.gl.glClearColor((float) (189 / 256.0), (float) (196 / 256.0), (float) (167 / 256.0), 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-        if(state.equals("UpgradeMenu")) {
+        if(state.equals("UpgradeMenu"))
+        {
             upgradeScreen.act();
         }
-        else {
+        else
+        {
             mainScreen.act();
         }
 		batch.begin();
@@ -437,7 +419,6 @@ public class MyGdxGame extends ApplicationAdapter {
         big.draw(batch, String.format("%.2f lbs of Pasta", total), 5,(int)(Gdx.graphics.getHeight()-5));
         batch.end();
 	}
-
 
     public void show() {
         batch.dispose();
@@ -456,10 +437,11 @@ public class MyGdxGame extends ApplicationAdapter {
         mainScreen.dispose();
     }
 
-
-
-    class compileToFunds extends TimerTask {
-        public void run() {
+    class compileToFunds extends TimerTask
+    {
+        public void run()
+        {
+            //saving file
             FileHandle hope = Gdx.files.local("pasta.dat");
             hope.writeString(Double.toString(total),false);
             double num = 0.1;
