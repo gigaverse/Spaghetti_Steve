@@ -22,6 +22,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Bitmap;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Face;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType.GlyphMetrics;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType.GlyphSlot;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Library;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType.SizeMetrics;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Stroker;
+
+
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -30,8 +40,6 @@ import java.util.TimerTask;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.json.*;
-
-import jdk.nashorn.internal.parser.JSONParser;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -83,9 +91,19 @@ public class MyGdxGame extends ApplicationAdapter {
         buttonSkin = new Skin();
         buttonSkin.addRegions(buttonsAtlas);
 
-        font = new BitmapFont(Gdx.files.internal("wow.fnt"),false);
-        //TODO develop app in 1080p then add a scale to account for resolution.
-        big = new BitmapFont(Gdx.files.internal("big.fnt"),false);
+        //Generates Bitmap font from .ttf
+        //TODO Make algorithm for size scaling based off resolution here
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Sansation-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 12;
+        BitmapFont font12 = generator.generateFont(parameter);
+        parameter.size = 36;
+        BitmapFont font36 = generator.generateFont(parameter);
+        generator.dispose();
+
+        font = font12;
+        big = font36;
         big.setColor(0f,0f,0f,1f);
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();

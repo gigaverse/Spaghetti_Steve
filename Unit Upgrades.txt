@@ -1,0 +1,44 @@
+PASTA (How much you can convert to MONEY)
+PASTA QUALITY (How much money you get per PASTA)
+CUSTOMERS (Higher = faster convert of PASTA to MONEY)
+MONEY (Upgrade RESTURANT, upgrade UNITS, advance TIERS)
+
+(Upgrades will apply per tier, e.g. chef at resturaunt tier, African children at world tier)
+
+Units:
+
+Chef:
+===========================================================
+Use: Upgrading this allows for upgrade of PASTA QUALITY
+
+Conditions: Upgrades available as you progress through stage tiers (local, region, state, country, world, etc.), possibility to replace chef with cooking crew, factory, African children work force, etc. as you progress into later tiers as opposed to a single chef(?)
+
+Upgrade currency: Upgrades according to total PASTA made + MONEY
+===========================================================
+
+Server:
+===========================================================
+Use: Upgrading this increases the rate of converting PASTA > MONEY
+
+Conditions: A few upgrades per tier. Upgrades in later tiers to pack mules trucks, ships, planes, etc.
+
+Upgrade currency: uses total PASTA made + MONEY to upgrade.
+===========================================================
+
+Marketeer:
+===========================================================
+Use: Upgrading this brings in more customers. 
+
+Conditions: A few upgrades per tier.
+
+Upgrade currency: Uses MONEY to upgrade
+===========================================================
+
+Conquer:
+===========================================================
+Use: Upgrading this makes taking over countries faster.
+
+Conditions: Unlocks at owning your first country tier
+
+Upgrade currency: Warrior of pasta, upgrades with PASTA QUALITY + PASTA
+===========================================================
