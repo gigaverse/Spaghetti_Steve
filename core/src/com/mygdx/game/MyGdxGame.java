@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-<<<<<<< HEAD
 import com.badlogic.gdx.utils.Json;
 
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -37,11 +36,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import org.json.*;
 
-=======
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
->>>>>>> origin/dev
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
