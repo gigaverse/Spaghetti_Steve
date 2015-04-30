@@ -58,7 +58,7 @@ public class MyGdxGame extends ApplicationAdapter {
     String[] states = {"GameView", "UpgradeMenu"};
     String state = states[0];
 
-    //Sets the scale of the current resolution as opposed to 1080p; the resolution we're dev-ing in
+    float scale;
 
     @Override
     public void create () {
@@ -84,12 +84,17 @@ public class MyGdxGame extends ApplicationAdapter {
         buttonSkin = new Skin();
         buttonSkin.addRegions(buttonsAtlas);
 
+
+        //Sets the scale of the current resolution as opposed to 1080p; the resolution we're dev-ing in
+        scale = (Gdx.graphics.getWidth()*Gdx.graphics.getHeight()) / (1920 * 1080);
+
         //Generates Bitmap font from .ttf
         //TODO Test algorithm for size scaling based off resolution here
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Sansation-Regular.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Sansation-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = (int)(36*scale);
         BitmapFont font12 = generator.generateFont(parameter);
+        parameter.size = (int)(96*scale);
         BitmapFont font36 = generator.generateFont(parameter);
         generator.dispose();
 
