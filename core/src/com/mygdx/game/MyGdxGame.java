@@ -34,14 +34,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.json.*;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
+    SpriteBatch batch;
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private Stage mainScreen;
@@ -56,11 +55,13 @@ public class MyGdxGame extends ApplicationAdapter {
     ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
     int currentRestaurant;
     double total;
-	String[] states = {"GameView", "UpgradeMenu"};
+    String[] states = {"GameView", "UpgradeMenu"};
     String state = states[0];
 
-	@Override
-	public void create () {
+    //Sets the scale of the current resolution as opposed to 1080p; the resolution we're dev-ing in
+
+    @Override
+    public void create () {
         //read file if its been previously saved
         FileHandle hope = Gdx.files.local("pasta.dat");
         try {
@@ -84,13 +85,11 @@ public class MyGdxGame extends ApplicationAdapter {
         buttonSkin.addRegions(buttonsAtlas);
 
         //Generates Bitmap font from .ttf
-        //TODO Make algorithm for size scaling based off resolution here
+        //TODO Test algorithm for size scaling based off resolution here
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Sansation-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 12;
         BitmapFont font12 = generator.generateFont(parameter);
-        parameter.size = 36;
         BitmapFont font36 = generator.generateFont(parameter);
         generator.dispose();
 
@@ -424,11 +423,11 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
 
-	@Override
-	public void render ()
+    @Override
+    public void render ()
     {
-		Gdx.gl.glClearColor((float) (189 / 256.0), (float) (196 / 256.0), (float) (167 / 256.0), 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor((float) (189 / 256.0), (float) (196 / 256.0), (float) (167 / 256.0), 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(state.equals("UpgradeMenu"))
         {
@@ -438,18 +437,18 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             mainScreen.act();
         }
-		batch.begin();
+        batch.begin();
         mainScreen.draw();
         if(state.equals("UpgradeMenu")) {
             upgradeScreen.draw();
         }
-		batch.end();
+        batch.end();
         //Drawing the Top Bar
         batch.begin();
         //TODO -- Make this not hardcoded
         big.draw(batch, String.format("%.2f lbs of Pasta", total), 5,(int)(Gdx.graphics.getHeight()-5));
         batch.end();
-	}
+    }
 
     public void show() {
         batch.dispose();
