@@ -51,7 +51,9 @@ public class MyGdxGame extends ApplicationAdapter {
     private TextureAtlas labelAtlas;
     private Skin labelSkin;
     private Stage upgradeScreen;
-
+    Label pastaDisplay;
+    Label moneyDisplay;
+    double total;
     ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
     int currentRestaurant;
     String[] states = {"GameView", "UpgradeMenu"};
@@ -156,13 +158,40 @@ public class MyGdxGame extends ApplicationAdapter {
         labelStyle.font = big;
 
         upgradeScreen.addActor(UpgradeMenu.upgradeMenu(restaurants,currentRestaurant,labelStyle,style));
+
+        pastaDisplay = new Label(String.format("%.2f\nlbs", restaurants.get(currentRestaurant).sum), labelStyle);
+        pastaDisplay.setAlignment(Align.center);
+        pastaDisplay.setWrap(true);
+        pastaDisplay.setX(0);
+        pastaDisplay.setY(Gdx.graphics.getHeight()*0.9f);
+        pastaDisplay.setWidth(Gdx.graphics.getWidth()/2);
+        pastaDisplay.setHeight(Gdx.graphics.getHeight()/10);
+        mainScreen.addActor(pastaDisplay);
+
+        TextureAtlas moneyAtlas = new TextureAtlas("moneyLabel.atlas");
+        Skin moneySkin = new Skin();
+        moneySkin.addRegions(moneyAtlas);
+
+        Label.LabelStyle moneyStyle = new Label.LabelStyle();
+        big.setColor(0f,0f,0f,1f);
+        moneyStyle.background = moneySkin.getDrawable("default");
+        moneyStyle.font = big;
+
+        moneyDisplay = new Label(String.format("$%6.2f", total), moneyStyle);
+        moneyDisplay.setAlignment(Align.center);
+        moneyDisplay.setWrap(true);
+        moneyDisplay.setX(Gdx.graphics.getWidth()/2);
+        moneyDisplay.setY(Gdx.graphics.getHeight()*0.9f);
+        moneyDisplay.setWidth(Gdx.graphics.getWidth()/2);
+        moneyDisplay.setHeight(Gdx.graphics.getHeight()/10);
+        mainScreen.addActor(moneyDisplay);
     }
 
 
     @Override
     public void render ()
     {
-        Gdx.gl.glClearColor((float) (182 / 256.0), (float) (163 / 256.0), (float) (158 / 256.0), 1);
+        Gdx.gl.glClearColor((float) (173 / 256.0), (float) (162 / 256.0), (float) (150 / 256.0), 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(state.equals("UpgradeMenu"))
@@ -182,7 +211,6 @@ public class MyGdxGame extends ApplicationAdapter {
         //Drawing the Top Bar
         batch.begin();
         //TODO -- Make this not hardcoded
-        big.draw(batch, String.format("%.2f lbs of Pasta", restaurants.get(currentRestaurant).sum*1.0), 5,(int)(Gdx.graphics.getHeight()-5));
         batch.end();
     }
 
@@ -220,6 +248,10 @@ public class MyGdxGame extends ApplicationAdapter {
                 r.setSum(r.getSum() + num);
                 Gdx.app.log("wow", r.sum +"");
             }
+            if(pastaDisplay != null)
+                pastaDisplay.setText(String.format("%6.2f\nlbs", restaurants.get(currentRestaurant).sum));
+            if(moneyDisplay != null)
+                moneyDisplay.setText(String.format("$%.2f", total));
 
         }
     }
