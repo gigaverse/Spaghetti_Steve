@@ -7,19 +7,35 @@ import java.util.*;
  */
 public class Upgrade{
     private String name, type;
-    private long amount;
+    private long amount, cost;
     private double worth;
+
+    public Upgrade()
+    {
+        name = "w";
+        type = "w";
+        amount = 0;
+        cost = 0;
+        worth = 0;
+    }
     public Upgrade(String name,String type, long amount, double worth)
     {
         this.name = name;
         this.type = type;
         this.amount = amount;
         this.worth = worth;
+        cost = (long)(worth*100);
     }
 
     public void add()
     {
         amount++;
+        cost *= 1.35;
+    }
+
+    public long getCost()
+    {
+        return cost;
     }
 
     public String getName()
