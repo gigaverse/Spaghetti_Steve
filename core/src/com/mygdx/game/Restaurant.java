@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class Restaurant {
     public Map<String,Upgrade> list;
-    public long sum;
+    public double sum;
     public Restaurant()
     {
         list = new HashMap<String,Upgrade>();
@@ -36,5 +36,15 @@ public class Restaurant {
     public Upgrade get(String name)
     {
         return list.get(name);
+    }
+
+    public void setSum(double sum)
+    {
+        this.sum = sum;
+    }
+
+    public double getSum()
+    {
+        return sum;
     }
 }

@@ -9,6 +9,15 @@ public class Upgrade{
     private String name, type;
     private long amount, cost;
     private double worth;
+
+    public Upgrade()
+    {
+        name = "w";
+        type = "w";
+        amount = 0;
+        cost = 0;
+        worth = 0;
+    }
     public Upgrade(String name,String type, long amount, double worth)
     {
         this.name = name;
