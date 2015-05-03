@@ -6,31 +6,29 @@ import java.util.*;
  * Created by mahmo266317 on 4/13/2015.
  */
 public class Upgrade{
-    private String name, type;
+    private String name;
     private long amount, cost;
     private double worth;
 
     public Upgrade()
     {
         name = "w";
-        type = "w";
         amount = 0;
         cost = 0;
         worth = 0;
     }
-    public Upgrade(String name,String type, long amount, double worth)
+    public Upgrade(String name, long amount,long cost, double worth)
     {
         this.name = name;
-        this.type = type;
         this.amount = amount;
         this.worth = worth;
-        cost = (long)(worth*100);
+        this.cost = cost;
     }
 
     public void add()
     {
         amount++;
-        cost *= 1.35;
+        cost = (long)Math.ceil(cost*1.4);
     }
 
     public long getCost()
@@ -41,11 +39,6 @@ public class Upgrade{
     public String getName()
     {
         return name;
-    }
-
-    public String getType()
-    {
-        return type;
     }
 
     public long getAmount()
