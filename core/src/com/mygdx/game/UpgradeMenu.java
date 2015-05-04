@@ -23,7 +23,7 @@ public class UpgradeMenu {
 
         for(int i = 0; i < restaurants.get(currentRestaurant).getList().size(); i++)
         {
-            final Upgrade u = restaurants.get(currentRestaurant).get(i+1);
+            final Upgrade u = restaurants.get(currentRestaurant).get(i);
 
             final Label counter = new Label(u.getAmount() + "", labelStyle);
             counter.setAlignment(Align.center);

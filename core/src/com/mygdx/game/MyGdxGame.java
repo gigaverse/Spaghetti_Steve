@@ -43,40 +43,40 @@ public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
-    private Stage mainScreen;
-    private BitmapFont font, big;
-    private TextureAtlas buttonsAtlas;
-    private Skin buttonSkin;
-    private TextButton menuButton, optionsButton;
-    private TextureAtlas labelAtlas;
-    private Skin labelSkin;
+    private static Stage mainScreen;
+    private static BitmapFont font, big;
+    private static TextureAtlas buttonsAtlas;
+    private static Skin buttonSkin;
+    private static TextButton menuButton, optionsButton;
+    private static TextureAtlas labelAtlas;
+    private static Skin labelSkin;
+    private static TextButton.TextButtonStyle buttonStyle;
+    private static Label.LabelStyle labelStyle;
 
-    private Stage upgradeScreen;
+    private static Stage upgradeScreen;
 
-    private Stage optionsScreen;
+    private static Stage optionsScreen;
 
-    Label pastaDisplay;
-    Label moneyDisplay;
+    static Label pastaDisplay;
+    static Label moneyDisplay;
 
-    double total;
-    ArrayList<Restaurant> restaurants;
-    int currentRestaurant;
-    String[] states = {"GameView", "UpgradeMenu", "OptionsMenu"};
-    String state = states[0];
+    static PlayerSave player;
+    static int currentRestaurant;
+    static String[] states = {"GameView", "UpgradeMenu", "OptionsMenu"};
+    static String state = states[0];
 
-    float scale;
+    static float scale;
 
     @Override
     public void create () {
         //read file if its been previously saved
-        restaurants = new ArrayList<Restaurant>();
+        player = new PlayerSave();
         FileHandle hope = Gdx.files.local("pasta2.dat");
         try {
             Json j = new Json();
             String wow = hope.readString();
             Gdx.app.log("wow", wow + "");
-            Restaurant r = j.fromJson(Restaurant.class, wow);
-            restaurants.add(r);
+            player = j.fromJson(PlayerSave.class, wow);
         }
         catch(Exception ex) {
             System.out.println(ex.toString());
@@ -84,9 +84,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch = new SpriteBatch();
         Restaurant current = new Restaurant();
-        if(restaurants.size() == 0) {
-            restaurants = new ArrayList<Restaurant>();
-            restaurants.add(current);
+        if(player.getRestaurants().size() == 0) {
+            player.init();
         }
 
         Timer timer = new Timer();
@@ -112,11 +111,11 @@ public class MyGdxGame extends ApplicationAdapter {
         big = font36;
         big.setColor(0f,0f,0f,1f);
 
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        buttonStyle = new TextButton.TextButtonStyle();
 
-        style.up = buttonSkin.getDrawable("button");
-        style.down = buttonSkin.getDrawable("buttonPressed");
-        style.font = font;
+        buttonStyle.up = buttonSkin.getDrawable("button");
+        buttonStyle.down = buttonSkin.getDrawable("buttonPressed");
+        buttonStyle.font = font;
 
         TextButton.TextButtonStyle optionsStyle = new TextButton.TextButtonStyle();
         Skin optionsSkin = new Skin();
@@ -126,7 +125,7 @@ public class MyGdxGame extends ApplicationAdapter {
         optionsStyle.down = optionsSkin.getDrawable("buttonPressed");
         optionsStyle.font = font;
 
-        menuButton = new TextButton("Menu", style);
+        menuButton = new TextButton("Menu", buttonStyle);
         menuButton.setPosition(0, 0);
         menuButton.setHeight((int)(Gdx.graphics.getHeight()*0.1));
         menuButton.setWidth(Gdx.graphics.getWidth()/2);
@@ -157,6 +156,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
                     mainScreen.addActor(menuButton);
                     mainScreen.addActor(optionsButton);
+                    upgradeScreen();
                     Gdx.input.setInputProcessor(mainScreen);
 
                 }
@@ -183,6 +183,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
                     mainScreen.addActor(menuButton);
                     mainScreen.addActor(optionsButton);
+                    upgradeScreen();
                     Gdx.input.setInputProcessor(mainScreen);
 
                 }
@@ -200,19 +201,19 @@ public class MyGdxGame extends ApplicationAdapter {
         labelSkin = new Skin();
         labelSkin.addRegions(labelAtlas);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle = new Label.LabelStyle();
         big.setColor(0f,0f,0f,1f);
         labelStyle.background = labelSkin.getDrawable("default");
         labelStyle.font = big;
 
-        upgradeScreen.addActor(UpgradeMenu.upgradeMenu(restaurants,currentRestaurant,labelStyle,style));
+        upgradeScreen.addActor(RestaurantsMenu.restaurantsMenu(player,labelStyle,buttonStyle));
 
         //Dealing With The Options Menu
         optionsScreen = new Stage();
 
-        optionsScreen.addActor(OptionsMenu.optionsMenu(restaurants, style, labelStyle, upgradeScreen));
+        optionsScreen.addActor(OptionsMenu.optionsMenu(player.getRestaurants(), buttonStyle, labelStyle, upgradeScreen));
 
-        pastaDisplay = new Label(String.format("%.2f\nlbs", restaurants.get(currentRestaurant).sum), labelStyle);
+        pastaDisplay = new Label(String.format("%.1f\nlbs", player.getCurrentRestaurant().sum), labelStyle);
         pastaDisplay.setAlignment(Align.center);
         pastaDisplay.setWrap(true);
         pastaDisplay.setX(0);
@@ -230,7 +231,7 @@ public class MyGdxGame extends ApplicationAdapter {
         moneyStyle.background = moneySkin.getDrawable("default");
         moneyStyle.font = big;
 
-        moneyDisplay = new Label(String.format("$%6.2f", total), moneyStyle);
+        moneyDisplay = new Label(String.format("$%.2f", player.getTotal()), moneyStyle);
         moneyDisplay.setAlignment(Align.center);
         moneyDisplay.setWrap(true);
         moneyDisplay.setX(Gdx.graphics.getWidth()/2);
@@ -238,13 +239,14 @@ public class MyGdxGame extends ApplicationAdapter {
         moneyDisplay.setWidth(Gdx.graphics.getWidth()/2);
         moneyDisplay.setHeight(Gdx.graphics.getHeight()/10);
         mainScreen.addActor(moneyDisplay);
+
     }
 
 
     @Override
     public void render ()
     {
-        Gdx.gl.glClearColor((float) (173 / 256.0), (float) (162 / 256.0), (float) (150 / 256.0), 1);
+        Gdx.gl.glClearColor((float) (210 / 256.0), (float) (215 / 256.0), (float) (223 / 256.0), 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(state.equals(states[1]))
@@ -293,28 +295,44 @@ public class MyGdxGame extends ApplicationAdapter {
         mainScreen.dispose();
     }
 
+    public static void updateMenu(Table t)
+    {
+        upgradeScreen.clear();
+        upgradeScreen.addActor(t);
+        state = states[1];
+        upgradeScreen.addActor(menuButton);
+        upgradeScreen.addActor(optionsButton);
+        Gdx.input.setInputProcessor(upgradeScreen);
+    }
+
+    public static void upgradeScreen()
+    {
+        upgradeScreen.clear();
+        upgradeScreen.addActor(RestaurantsMenu.restaurantsMenu(player,labelStyle,buttonStyle));
+    }
+
     class compileToFunds extends TimerTask
     {
         public void run()
         {
             //saving file
             double num = 0.1;
-            for(Restaurant r : restaurants)
+            for(Restaurant r : player.getRestaurants())
             {
                 num = 0.1;
                 for(int i = 0; i < r.getList().size(); i++)
                 {
 
-                    Upgrade u = r.get(i+1);
+                    Upgrade u = r.get(i);
                     if(u != null)
                         num += u.tick();
                 }
                 r.setSum(r.getSum() + num);
             }
             if(pastaDisplay != null)
-                pastaDisplay.setText(String.format("%6.2f\nlbs", restaurants.get(currentRestaurant).sum));
+                pastaDisplay.setText(String.format("%.1f\nlbs", player.getCurrentRestaurant().sum));
             if(moneyDisplay != null)
-                moneyDisplay.setText(String.format("$%.2f", total));
+                moneyDisplay.setText(String.format("$%.2f", player.getTotal()));
 
         }
     }
@@ -326,7 +344,7 @@ public class MyGdxGame extends ApplicationAdapter {
             FileHandle hope = Gdx.files.local("pasta2.dat");
             hope.delete();
             Json json = new Json();
-            hope.writeString(json.toJson(restaurants.get(currentRestaurant)), false);
+            hope.writeString(json.toJson(player), false);
         }
     }
 }
