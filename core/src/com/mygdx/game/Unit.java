@@ -8,6 +8,11 @@ public class Unit {
     private long amount, cost;
     private double multiplier,atk,def,range;
 
+    public Unit()
+    {
+        this.name = "";
+    }
+
     public Unit(String name, long amount, long cost, double multiplier)
     {
         this.name = name;

@@ -53,15 +53,14 @@ public class MyGdxGame extends ApplicationAdapter {
     public void create () {
         //read file if its been previously saved
         player = new PlayerSave();
-        FileHandle hope = Gdx.files.local("pasta2.dat");
+        FileHandle hope = Gdx.files.local("pasta3.dat");
         try {
             Json j = new Json();
             String wow = hope.readString();
-            Gdx.app.log("wow", wow + "");
             player = j.fromJson(PlayerSave.class, wow);
         }
         catch(Exception ex) {
-            System.out.println(ex.toString());
+            Gdx.app.log("wow", ex.toString());
         }
 
         batch = new SpriteBatch();
@@ -337,7 +336,7 @@ public class MyGdxGame extends ApplicationAdapter {
     {
         public void run() {
             //saving file
-            FileHandle hope = Gdx.files.local("pasta2.dat");
+            FileHandle hope = Gdx.files.local("pasta3.dat");
             hope.delete();
             Json json = new Json();
             hope.writeString(json.toJson(player), false);
