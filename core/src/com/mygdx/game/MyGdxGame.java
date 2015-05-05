@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -18,26 +17,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Bitmap;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Face;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType.GlyphMetrics;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType.GlyphSlot;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Library;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType.SizeMetrics;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType.Stroker;
 
 
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
+
 import java.util.Timer;
 import java.util.TimerTask;
-import java.io.FileWriter;
-import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
@@ -61,11 +46,8 @@ public class MyGdxGame extends ApplicationAdapter {
     static Label moneyDisplay;
 
     static PlayerSave player;
-    static int currentRestaurant;
     static String[] states = {"GameView", "UpgradeMenu", "OptionsMenu"};
     static String state = states[0];
-
-    static float scale;
 
     @Override
     public void create () {
@@ -83,7 +65,6 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         batch = new SpriteBatch();
-        Restaurant current = new Restaurant();
         if(player.getRestaurants().size() == 0) {
             player.init();
         }
@@ -211,7 +192,7 @@ public class MyGdxGame extends ApplicationAdapter {
         //Dealing With The Options Menu
         optionsScreen = new Stage();
 
-        optionsScreen.addActor(OptionsMenu.optionsMenu(player.getRestaurants(), buttonStyle, labelStyle, upgradeScreen));
+        optionsScreen.addActor(OptionsMenu.optionsMenu(player, buttonStyle, labelStyle, upgradeScreen));
 
         pastaDisplay = new Label(String.format("%.1f\nlbs", player.getCurrentRestaurant().sum), labelStyle);
         pastaDisplay.setAlignment(Align.center);
@@ -311,6 +292,21 @@ public class MyGdxGame extends ApplicationAdapter {
         upgradeScreen.addActor(RestaurantsMenu.restaurantsMenu(player,labelStyle,buttonStyle));
     }
 
+    public static void upgradeScreenButtons(Label name, TextButton left, TextButton right)
+    {
+        upgradeScreen.addActor(name);
+        upgradeScreen.addActor(left);
+        upgradeScreen.addActor(right);
+    }
+
+    public static void RestaurantScreen(int page)
+    {
+            upgradeScreen.clear();
+            upgradeScreen.addActor(UpgradeMenu.upgradeMenu(player,labelStyle,buttonStyle,page));
+        upgradeScreen.addActor(menuButton);
+        upgradeScreen.addActor(optionsButton);
+    }
+
     class compileToFunds extends TimerTask
     {
         public void run()
@@ -320,10 +316,10 @@ public class MyGdxGame extends ApplicationAdapter {
             for(Restaurant r : player.getRestaurants())
             {
                 num = 0.1;
-                for(int i = 0; i < r.getList().size(); i++)
+                for(int i = 0; i < r.getUpgrades().size(); i++)
                 {
 
-                    Upgrade u = r.get(i);
+                    Upgrade u = r.getUpgrade(i);
                     if(u != null)
                         num += u.tick();
                 }
@@ -336,7 +332,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         }
     }
-
+    //TODO FIX SAVING
     class saveGame extends TimerTask
     {
         public void run() {

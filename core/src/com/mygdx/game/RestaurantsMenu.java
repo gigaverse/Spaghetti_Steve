@@ -20,13 +20,34 @@ public class RestaurantsMenu {
         {
             //Created labels and added "buying" an upgrade
             Table scrollTable = new Table();
-            scrollTable.center();
+
+
+            final ScrollPane scroller = new ScrollPane(scrollTable);
+            final Table table = new Table();
+            table.setFillParent(true);
+            //scrollTable.center();
+
+            Label label = new Label("Restaurants", labelStyle);
+            label.setAlignment(Align.center);
+            label.setWrap(false);
+            label.setHeight((int)(Gdx.graphics.getHeight()*0.1));
+            label.setWidth(Gdx.graphics.getWidth());
+
+            table
+                    .add(label)
+                    .padTop((int)(Gdx.graphics.getHeight()*0.025))
+                    .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                    .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                    .width((int)(Gdx.graphics.getWidth()*0.95))
+                    .height(label.getHeight());
+
+            table.row();
 
             for(int i = 0; i < player.getRestaurants().size(); i++)
             {
                 final int j = i;
                 Restaurant r = player.getRestaurants().get(i);
-                final Label counter = new Label(r.getIncomePerSecond() + " lbs/sec", labelStyle);
+                final Label counter = new Label(String.format("%.1f\nlbs/sec",r.getIncomePerSecond()), labelStyle);
                 counter.setAlignment(Align.center);
                 counter.setWrap(true);
                 counter.setHeight((int)(Gdx.graphics.getHeight()*0.1));
@@ -43,19 +64,31 @@ public class RestaurantsMenu {
 
                     public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                         player.setCurrentRestaurant(j);
-                        MyGdxGame.updateMenu(UpgradeMenu.upgradeMenu(player.getRestaurants(), player.currentRestaurant, labelStyle,style));
+                        MyGdxGame.updateMenu(UpgradeMenu.upgradeMenu(player,labelStyle,style,0));
                     }
                 });
 
-                scrollTable.add(upgradeButton).expandX().padTop((int)(Gdx.graphics.getHeight()*0.0125)).padBottom((int)(Gdx.graphics.getHeight()*0.0125)).width((int)(Gdx.graphics.getWidth()*0.6)).padLeft((int)(Gdx.graphics.getWidth()*0.025)).padRight((int)(Gdx.graphics.getWidth()*0.025)).height(upgradeButton.getHeight());
-                scrollTable.add(counter).padTop((int)(Gdx.graphics.getHeight()*0.0125)).padBottom((int)(Gdx.graphics.getHeight()*0.0125)).padLeft((int)(Gdx.graphics.getWidth()*0.025)).padRight((int)(Gdx.graphics.getWidth()*0.025)).width((int)(Gdx.graphics.getWidth()*0.3)).height(counter.getHeight());
+                scrollTable.add(upgradeButton)
+                        .expandX()
+                        .padTop((int)(Gdx.graphics.getHeight()*0.0125))
+                        .padBottom((int)(Gdx.graphics.getHeight()*0.0125))
+                        .width((int)(Gdx.graphics.getWidth()*0.6))
+                        .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                        .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                        .height(upgradeButton.getHeight());
+
+                scrollTable.add(counter)
+                        .padTop((int)(Gdx.graphics.getHeight()*0.0125))
+                        .padBottom((int)(Gdx.graphics.getHeight()*0.0125))
+                        .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                        .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                        .width((int)(Gdx.graphics.getWidth()*0.3))
+                        .height(counter.getHeight());
+
                 scrollTable.row();
             }
 
-            final ScrollPane scroller = new ScrollPane(scrollTable);
-            final Table table = new Table();
-            table.setFillParent(true);
-            table.add(scroller).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.8)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));
+            table.add(scroller).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.675)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));
             return table;
         }
 
