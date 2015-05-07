@@ -17,19 +17,34 @@ public class Restaurant {
 
         upgrades = new ArrayList<Upgrade>();
 
-        upgrades.add(new Upgrade("Pasta Sauce", 0, 5, 0.1));
-        upgrades.add(new Upgrade("Alfredo Sauce", 0, 40, 0.4));
-        upgrades.add(new Upgrade("Meatballs", 0, 160, 1.2));
-        upgrades.add(new Upgrade("Spaghetti Maker", 0, 600, 3.0));
-        upgrades.add(new Upgrade("Industrial Spaghetti Wagon", 0, 1100, 6.5));
-        upgrades.add(new Upgrade("Pastinator", 0, 2050, 11.2));
-        upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 6666, 40.0));
-        upgrades.add(new Upgrade("Small Spaghetti Collider", 0, 15000, 96.8));
-        upgrades.add(new Upgrade("Large Pasta Collider", 0, 35000, 175.0));
-        upgrades.add(new Upgrade("Anti-Pasta", 0, 100000, 350.0));
+        upgrades.add(new Upgrade("Forks", 0, 5, 0.025));
+        upgrades.add(new Upgrade("Pasta Pans", 0, 40, 0.1));
+        upgrades.add(new Upgrade("Instant Noodles", 0, 160, 0.3));
+
+        upgrades.add(new Upgrade("Tomato Sauce", 0, 600, 0.75));
+        upgrades.add(new Upgrade("Boiling Water", 0, 1100, 1.5));
+        upgrades.add(new Upgrade("Angel Hair Pasta", 0, 2050, 3));
+
+        upgrades.add(new Upgrade("Pasta Cutter", 0, 6666, 10.0));
+        upgrades.add(new Upgrade("Alfredo Cauldron", 0, 15000, 24.0));
+        upgrades.add(new Upgrade("Spaghetti Spitter", 0, 35000, 45));
+
+        upgrades.add(new Upgrade("Pasta Room", 0, 100000, 75));
+        upgrades.add(new Upgrade("Spaghetti Monster", 0, 225000, 135));
+        upgrades.add(new Upgrade("Spaghetti Community", 0, 400000, 200));
+
+        upgrades.add(new Upgrade("Pasta Fort", 0, 875000, 335));
+        upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 1750000, 575));
+        upgrades.add(new Upgrade("The Spaghetto", 0, 3000000, 1000));
+
 
         units = new ArrayList<Unit>();
-        units.add(new Unit("Waiter",0, 10000, 0.001));
+        units.add(new Unit("Pasta Maker",0, 10000, 0));
+
+        units.add(new Unit("Table Bus",0, 10000, 0.001));
+        units.add(new Unit("Waiter",0, 50000, 0.003));
+        units.add(new Unit("Server",0, 125000, 0.007));
+        units.add(new Unit("Sous Chef",0, 250000, 0.015));
 
     }
 

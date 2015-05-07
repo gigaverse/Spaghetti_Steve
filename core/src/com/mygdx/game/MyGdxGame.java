@@ -318,8 +318,11 @@ public class MyGdxGame extends ApplicationAdapter {
         String[] s = String.format("%.2f", d).split("\\.");
         String prefix = "";
 
-        if(String.format("%.2f",d).length() < 10)
-            return String.format("%.2f",d);
+        if(String.format("%.2f",d).length() < 10) {
+            if(s[1].equals("00"))
+                return String.format("%d", (int)d);
+            return String.format("%.2f", d);
+        }
 
         for(int i = 0; i < prefixes.length; i++) {
             while (s[0].length() > (24 - (i * 3))) {

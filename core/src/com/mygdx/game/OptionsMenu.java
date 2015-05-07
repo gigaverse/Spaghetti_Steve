@@ -69,6 +69,7 @@ public class OptionsMenu {
                         deleteSaveButton.setText("SAVE DELETED.");
                         FileHandle hope = Gdx.files.local("pasta2.dat");
                         hope.delete();
+                        player.setTotal(0);
                         for(int i = player.getRestaurants().size()-1; i >=0; i--)
                         {
                             player.getRestaurants().remove(i);

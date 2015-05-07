@@ -1,10 +1,12 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
@@ -88,9 +90,37 @@ public class RestaurantsMenu {
                 scrollTable.row();
             }
 
-            table.add(scroller).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.675)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));
+            table.add(scroller).size(Gdx.graphics.getWidth(), (int) (Gdx.graphics.getHeight() * 0.575));
 
-            //TODO ADD BUTTON TO PURCHASE NEW RESTAURANTS
+            //TODO Make button stand out
+
+            TextButton.TextButtonStyle greenButton = new TextButton.TextButtonStyle();
+
+            TextureAtlas buttonAtlas = new TextureAtlas("greenButton.atlas");
+            Skin buttonSkin = new Skin();
+            buttonSkin.addRegions(buttonAtlas);
+
+            greenButton.up = buttonSkin.getDrawable("button");
+            greenButton.down = buttonSkin.getDrawable("buttonPressed");
+            greenButton.font = style.font;
+
+            TextButton purchaseButton = new TextButton("Seek New Restaurants...", greenButton);
+            purchaseButton.setHeight((int)(Gdx.graphics.getHeight()*0.1));
+            purchaseButton.setWidth(Gdx.graphics.getWidth());
+
+            purchaseButton.addListener(new InputListener() {
+                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
+
+                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                    //TODO Make the code that finds a new Restaurant
+                }
+            });
+
+            table.row();
+            table.add(purchaseButton).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.1)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));
+
             return table;
         }
 

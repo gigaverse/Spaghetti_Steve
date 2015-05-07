@@ -4,7 +4,7 @@ package com.mygdx.game;
  * Created by Gigaverse on 5/4/2015.
  */
 public class Unit {
-    private String name;
+    private String name, type;
     private long amount, cost;
     private double multiplier,atk,def,range;
 
@@ -15,6 +15,7 @@ public class Unit {
 
     public Unit(String name, long amount, long cost, double multiplier)
     {
+        this.type = "money";
         this.name = name;
         this.amount = amount;
         this.cost = cost;
@@ -23,6 +24,7 @@ public class Unit {
 
     public Unit(String name, long amount, long cost, double atk, double def, double range)
     {
+        this.type = "minion";
         this.name = name;
         this.amount = amount;
         this.cost = cost;
@@ -51,6 +53,11 @@ public class Unit {
     public String getName()
     {
         return name;
+    }
+
+    public String getType()
+    {
+        return type;
     }
 
     public double getAtk() {

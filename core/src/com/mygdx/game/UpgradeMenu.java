@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class UpgradeMenu {
     public static Table upgradeMenu(final PlayerSave player, Label.LabelStyle labelStyle, TextButton.TextButtonStyle style, final int pageNumber)
     {
-        final String[] states = {"Upgrades", "Units"};
+        final String[] states = {"Upgrades", "Financial", "Minions", "Quality"};
 
         //Created labels and added "buying" an upgrade
         Table scrollTable = new Table();
@@ -47,7 +47,7 @@ public class UpgradeMenu {
                 int n = pageNumber;
                 n--;
                 if(n < 0)
-                    n = states.length - n;
+                    n = states.length + n;
                 n %= states.length;
                 MyGdxGame.RestaurantScreen(n);
             }
@@ -64,9 +64,9 @@ public class UpgradeMenu {
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 int n = pageNumber;
-                n--;
+                n++;
                 if(n < 0)
-                    n = states.length - n;
+                    n = states.length + n;
                 n %= states.length;
                 MyGdxGame.RestaurantScreen(n);
             }
@@ -100,8 +100,10 @@ public class UpgradeMenu {
         table.row();
 
         if(pageNumber == 0) {
+            //THIS IS THE LOCATION IN WHICH YOU DECIDE WHEN YOU SEE UPGRADES
+            long pastaMakerLevel = player.getCurrentRestaurant().getUnits().get(0).getAmount() + 1;
 
-            for (int i = 0; i < player.getCurrentRestaurant().getUpgrades().size(); i++) {
+            for (int i = 0; i < Math.min(player.getCurrentRestaurant().getUpgrades().size(),pastaMakerLevel*3); i++) {
                 final Upgrade u = player.getCurrentRestaurant().getUpgrade(i);
 
                 final Label counter = new Label(u.getAmount() + "", labelStyle);
@@ -153,6 +155,14 @@ public class UpgradeMenu {
         {
             for (int i = 0; i < player.getCurrentRestaurant().getUnits().size(); i++) {
                 final Unit u = player.getCurrentRestaurant().getUnit(i);
+                if(u.getType() == null)
+                    continue;
+                if(pageNumber == 1 && !u.getType().equals("money"))
+                    continue;
+                if(pageNumber == 2 && !u.getType().equals("minion"))
+                    continue;
+                if(pageNumber == 3 && !u.getType().equals("upgrade"))
+                    continue;
 
                 final Label counter = new Label(u.getAmount() + "", labelStyle);
                 counter.setAlignment(Align.center);
