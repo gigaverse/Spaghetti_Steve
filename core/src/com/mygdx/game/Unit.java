@@ -85,6 +85,11 @@ public class Unit {
         this.multiplier = multiplier;
     }
 
+    public double getMultiplier()
+    {
+        return multiplier;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

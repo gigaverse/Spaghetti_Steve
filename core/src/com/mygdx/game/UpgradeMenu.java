@@ -21,7 +21,7 @@ public class UpgradeMenu {
 
         //Created labels and added "buying" an upgrade
         Table scrollTable = new Table();
-        scrollTable.center();
+        scrollTable.top();
 
         final ScrollPane scroller = new ScrollPane(scrollTable);
         final Table table = new Table();
@@ -123,7 +123,7 @@ public class UpgradeMenu {
                         if (player.getCurrentRestaurant().sum >= u.getCost()) {
                             player.getCurrentRestaurant().sum -= u.getCost();
                             u.add();
-                            upgradeButton.setText(String.format("%s : %d lbs", u.getName(), u.getCost()));
+                            upgradeButton.setText(String.format("%s : %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
                             counter.setText(u.getAmount() + "");
                         }
                     }
@@ -173,7 +173,7 @@ public class UpgradeMenu {
                         if (player.getCurrentRestaurant().sum >= u.getCost()) {
                             player.getCurrentRestaurant().sum -= u.getCost();
                             u.add();
-                            upgradeButton.setText(String.format("%s : %d lbs", u.getName(), u.getCost()));
+                            upgradeButton.setText(String.format("%s : %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
                             counter.setText(u.getAmount() + "");
                         }
                     }

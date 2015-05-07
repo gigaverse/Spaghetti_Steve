@@ -20,7 +20,7 @@ public class RestaurantsMenu {
         {
             //Created labels and added "buying" an upgrade
             Table scrollTable = new Table();
-
+            scrollTable.top();
 
             final ScrollPane scroller = new ScrollPane(scrollTable);
             final Table table = new Table();
@@ -89,6 +89,8 @@ public class RestaurantsMenu {
             }
 
             table.add(scroller).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.675)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));
+
+            //TODO ADD BUTTON TO PURCHASE NEW RESTAURANTS
             return table;
         }
 

@@ -29,7 +29,7 @@ public class MyGdxGame extends ApplicationAdapter {
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
-    private static BitmapFont font, big;
+    private static BitmapFont font, big, font24;
     private static TextureAtlas buttonsAtlas;
     private static Skin buttonSkin;
     private static TextButton menuButton, optionsButton;
@@ -52,6 +52,7 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void create () {
         //read file if its been previously saved
+
         player = new PlayerSave();
         FileHandle hope = Gdx.files.local("pasta3.dat");
         try {
@@ -83,6 +84,8 @@ public class MyGdxGame extends ApplicationAdapter {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int)(12*Gdx.graphics.getDensity());
         BitmapFont font12 = generator.generateFont(parameter);
+        parameter.size = (int)(20*Gdx.graphics.getDensity());
+        font24 = generator.generateFont(parameter);
         parameter.size = (int)(28*Gdx.graphics.getDensity());
         BitmapFont font36 = generator.generateFont(parameter);
         generator.dispose();
@@ -184,10 +187,11 @@ public class MyGdxGame extends ApplicationAdapter {
         labelStyle = new Label.LabelStyle();
         big.setColor(0f,0f,0f,1f);
         labelStyle.background = labelSkin.getDrawable("default");
-        labelStyle.font = big;
+        labelStyle.font = font24;
 
         upgradeScreen.addActor(RestaurantsMenu.restaurantsMenu(player,labelStyle,buttonStyle));
 
+        labelStyle.font = big;
         //Dealing With The Options Menu
         optionsScreen = new Stage();
 
@@ -288,7 +292,9 @@ public class MyGdxGame extends ApplicationAdapter {
     public static void upgradeScreen()
     {
         upgradeScreen.clear();
+        labelStyle.font = font24;
         upgradeScreen.addActor(RestaurantsMenu.restaurantsMenu(player,labelStyle,buttonStyle));
+        labelStyle.font = big;
     }
 
     public static void upgradeScreenButtons(Label name, TextButton left, TextButton right)
@@ -306,28 +312,55 @@ public class MyGdxGame extends ApplicationAdapter {
         upgradeScreen.addActor(optionsButton);
     }
 
+    public static String convertNumber(double d)
+    {
+        char[] prefixes = "YZEPTGM".toCharArray();
+        String[] s = String.format("%.2f", d).split("\\.");
+        String prefix = "";
+
+        if(String.format("%.2f",d).length() < 10)
+            return String.format("%.2f",d);
+
+        for(int i = 0; i < prefixes.length; i++) {
+            while (s[0].length() > (24 - (i * 3))) {
+                s[0] = s[0].substring(0, s[0].length() - (24 - (i * 3)));
+                prefix += prefixes[i] + "";
+            }
+        }
+        prefix = s[0] + prefix;
+        return prefix;
+    }
+
     class compileToFunds extends TimerTask
     {
         public void run()
         {
             //saving file
-            double num = 0.1;
+            double numPasta = 0.1;
+            double numDollars = 0;
             for(Restaurant r : player.getRestaurants())
             {
-                num = 0.1;
-                for(int i = 0; i < r.getUpgrades().size(); i++)
+                numPasta = 0.1;
+                for(Upgrade u : r.getUpgrades())
                 {
-
-                    Upgrade u = r.getUpgrade(i);
                     if(u != null)
-                        num += u.tick();
+                        numPasta += u.tick();
                 }
-                r.setSum(r.getSum() + num);
+
+                for(Unit u : r.getUnits())
+                {
+                    if(u != null)
+                        numDollars += u.getAmount()*u.getMultiplier();
+                }
+                r.setSum(r.getSum() + numPasta);
             }
-            if(pastaDisplay != null)
-                pastaDisplay.setText(String.format("%.1f\nlbs", player.getCurrentRestaurant().sum));
+            player.setTotal(player.getTotal() + numDollars);
+            if(pastaDisplay != null) {
+                pastaDisplay.setText(String.format("%s\nlbs", convertNumber(player.getCurrentRestaurant().sum)));
+                Gdx.app.log("wow", player.getCurrentRestaurant().sum + "");
+            }
             if(moneyDisplay != null)
-                moneyDisplay.setText(String.format("$%.2f", player.getTotal()));
+                moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotal())));
 
         }
     }
