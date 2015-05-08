@@ -161,7 +161,7 @@ public class UpgradeMenu {
                     continue;
                 if(pageNumber == 2 && !u.getType().equals("minion"))
                     continue;
-                if(pageNumber == 3 && !u.getType().equals("upgrade"))
+                if(pageNumber == 3 && !u.getType().equals("quality"))
                     continue;
 
                 final Label counter = new Label(u.getAmount() + "", labelStyle);

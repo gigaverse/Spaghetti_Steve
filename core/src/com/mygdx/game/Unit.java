@@ -13,18 +13,18 @@ public class Unit {
         this.name = "";
     }
 
-    public Unit(String name, long amount, long cost, double multiplier)
+    public Unit(String name,String type,  long amount, long cost, double multiplier)
     {
-        this.type = "money";
+        this.type = type;
         this.name = name;
         this.amount = amount;
         this.cost = cost;
         this.multiplier = multiplier;
     }
 
-    public Unit(String name, long amount, long cost, double atk, double def, double range)
+    public Unit(String name,String type, long amount, long cost, double atk, double def, double range)
     {
-        this.type = "minion";
+        this.type = type;
         this.name = name;
         this.amount = amount;
         this.cost = cost;
@@ -33,9 +33,10 @@ public class Unit {
         this.range = range;
     }
 
-    public Unit(String name, long amount, long cost, double multiplier, double atk, double def, double range)
+    public Unit(String name,String type, long amount, long cost, double multiplier, double atk, double def, double range)
     {
         this.name = name;
+        this.type = type;
         this.amount = amount;
         this.cost = cost;
         this.multiplier = multiplier;
@@ -47,7 +48,10 @@ public class Unit {
     public void add()
     {
         amount++;
-        cost = (long)Math.ceil(cost*1.4);
+        if(type.equals("quality"))
+            cost = (long)Math.pow(cost, 2.4);
+        else
+            cost = (long)Math.ceil(cost*1.4);
     }
 
     public String getName()

@@ -3,7 +3,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -26,6 +28,8 @@ import java.util.TimerTask;
 
 public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
+    Sprite iconSprite;
+
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
@@ -37,6 +41,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private static Skin labelSkin;
     private static TextButton.TextButtonStyle buttonStyle;
     private static Label.LabelStyle labelStyle;
+    private static Texture icon;
 
     private static Stage upgradeScreen;
 
@@ -52,6 +57,8 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void create () {
         //read file if its been previously saved
+        icon = new Texture(Gdx.files.internal("badlogic.jpg"));
+        iconSprite = new Sprite(icon);
 
         player = new PlayerSave();
         FileHandle hope = Gdx.files.local("pasta3.dat");
@@ -155,8 +162,10 @@ public class MyGdxGame extends ApplicationAdapter {
                 if(state.equals(states[0]) || state.equals(states[1]))
                 {
                     state = states[2];
+                    optionsScreen.clear();
                     optionsScreen.addActor(menuButton);
                     optionsScreen.addActor(optionsButton);
+                    optionsScreen.addActor(OptionsMenu.optionsMenu(player, buttonStyle, labelStyle, upgradeScreen));
                     Gdx.input.setInputProcessor(optionsScreen);
 
                 }
@@ -233,6 +242,8 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClearColor((float) (210 / 256.0), (float) (215 / 256.0), (float) (223 / 256.0), 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        iconSprite.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()/2);
+
         if(state.equals(states[1]))
         {
             upgradeScreen.act();
@@ -257,7 +268,8 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             optionsScreen.draw();
         }
-
+        iconSprite.draw(batch);
+        iconSprite.rotate(1);
         batch.end();
         //Drawing the Top Bar
     }
