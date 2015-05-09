@@ -33,6 +33,7 @@ public class MyGdxGame extends ApplicationAdapter {
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
+    double animationparam = 0;
     private static BitmapFont font, big, font24;
     private static TextureAtlas buttonsAtlas;
     private static Skin buttonSkin;
@@ -57,8 +58,10 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void create () {
         //read file if its been previously saved
-        icon = new Texture(Gdx.files.internal("badlogic.jpg"));
+        icon = new Texture(Gdx.files.internal("chefs.png"));
         iconSprite = new Sprite(icon);
+        iconSprite.setCenterX(Gdx.graphics.getWidth() / 2);
+        iconSprite.setCenterY(Gdx.graphics.getHeight() / 2);
 
         player = new PlayerSave();
         FileHandle hope = Gdx.files.local("pasta3.dat");
@@ -242,7 +245,6 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClearColor((float) (210 / 256.0), (float) (215 / 256.0), (float) (223 / 256.0), 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        iconSprite.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()/2);
 
         if(state.equals(states[1]))
         {
@@ -256,10 +258,25 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             mainScreen.act();
         }
-
+        //Main Screen Drawing
         batch.begin();
 
         mainScreen.draw();
+
+        batch.end();
+
+        //Any Main Screen Animations go here
+        batch.begin();
+        iconSprite.scale((float)(0.5 + 0.1*Math.cos(animationparam)));
+        iconSprite.draw(batch);
+        iconSprite.rotate(-1);
+        iconSprite.scale(-(float)(0.5 + 0.1*Math.cos(animationparam)));
+        animationparam = (animationparam + 0.05) % (2*Math.PI);
+
+        batch.end();
+
+        //Everything else
+        batch.begin();
 
         if(state.equals(states[1])) {
             upgradeScreen.draw();
@@ -268,10 +285,10 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             optionsScreen.draw();
         }
-        iconSprite.draw(batch);
-        iconSprite.rotate(1);
+
         batch.end();
         //Drawing the Top Bar
+
     }
 
     public void show() {
