@@ -184,7 +184,7 @@ public class UpgradeMenu {
                         if (player.getCurrentRestaurant().sum >= u.getCost()) {
                             player.getCurrentRestaurant().sum -= u.getCost();
                             u.add();
-                            upgradeButton.setText(String.format("%s : %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
+                            upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
                             counter.setText("Amount:\n" +(u.getAmount()));
                             if(u.getType().equals("quality"))
                                 counter.setText("Level:\n" +(u.getAmount()+1));
