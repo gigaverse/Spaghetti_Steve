@@ -105,8 +105,7 @@ public class UpgradeMenu {
 
             for (int i = 0; i < Math.min(player.getCurrentRestaurant().getUpgrades().size(),pastaMakerLevel*3); i++) {
                 final Upgrade u = player.getCurrentRestaurant().getUpgrade(i);
-
-                final Label counter = new Label(u.getAmount() + "", labelStyle);
+                final Label counter = new Label("Amount\n" +u.getAmount(), labelStyle);
                 counter.setAlignment(Align.center);
                 counter.setWrap(true);
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
@@ -126,7 +125,7 @@ public class UpgradeMenu {
                             player.getCurrentRestaurant().sum -= u.getCost();
                             u.add();
                             upgradeButton.setText(String.format("%s : %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
-                            counter.setText(u.getAmount() + "");
+                            counter.setText("Amount\n" +(u.getAmount()));
                         }
                     }
                 });
@@ -164,7 +163,9 @@ public class UpgradeMenu {
                 if(pageNumber == 3 && !u.getType().equals("quality"))
                     continue;
 
-                final Label counter = new Label(u.getAmount() + "", labelStyle);
+                final Label counter = new Label("Amount\n" +u.getAmount(), labelStyle);
+                if(u.getType().equals("quality"))
+                    counter.setText("Level\n" +(u.getAmount()+1));
                 counter.setAlignment(Align.center);
                 counter.setWrap(true);
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
@@ -184,7 +185,9 @@ public class UpgradeMenu {
                             player.getCurrentRestaurant().sum -= u.getCost();
                             u.add();
                             upgradeButton.setText(String.format("%s : %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
-                            counter.setText(u.getAmount() + "");
+                            counter.setText("Amount:\n" +(u.getAmount()));
+                            if(u.getType().equals("quality"))
+                                counter.setText("Level:\n" +(u.getAmount()+1));
                         }
                     }
                 });

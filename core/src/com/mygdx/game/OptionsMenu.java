@@ -26,6 +26,7 @@ public class OptionsMenu {
         final ScrollPane scroller = new ScrollPane(scrollTable);
         final Table table = new Table();
         table.setFillParent(true);
+        scrollTable.top();
 
         Label label = new Label("Options", labelStyle);
         label.setAlignment(Align.center);
@@ -69,20 +70,19 @@ public class OptionsMenu {
                         deleteSaveButton.setText("SAVE DELETED.");
                         FileHandle hope = Gdx.files.local("pasta2.dat");
                         hope.delete();
-                        player.setTotal(0);
-                        for(int i = player.getRestaurants().size()-1; i >=0; i--)
-                        {
-                            player.getRestaurants().remove(i);
-                            player.getRestaurants().add(new Restaurant());
-                        }
-                        i = 0;
-                        upgradeScreen.clear();
-                        upgradeScreen.addActor(UpgradeMenu.upgradeMenu(player,labelStyle,style, 0));
+                        player.reset();
                     }
                  }
         });
 
-        scrollTable.add(deleteSaveButton).expandX().padTop(40).padBottom(10f).width((int)(Gdx.graphics.getWidth())).height(deleteSaveButton.getHeight());
+        scrollTable
+                .add(deleteSaveButton)
+                .padTop((int)(Gdx.graphics.getHeight()*0.025))
+                .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                .width((int)(Gdx.graphics.getWidth()*0.95))
+                .height(label.getHeight());
+
         scrollTable.row();
 
         table.add(scroller).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.675)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));

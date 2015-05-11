@@ -8,7 +8,7 @@ import java.util.*;
 public class Restaurant {
     private ArrayList<Upgrade> upgrades;
     private ArrayList<Unit> units;
-    public double sum;
+    public double sum, cost;
     private String name;
     public Restaurant()
     {
@@ -39,7 +39,7 @@ public class Restaurant {
 
 
         units = new ArrayList<Unit>();
-        units.add(new Unit("Pasta Maker","quality",0, 10000, 0));
+        units.add(new Unit("Pasta Maker","quality",0, 5000, 0));
 
         units.add(new Unit("Table Bus","money",0, 10000, 0.001));
         units.add(new Unit("Waiter","money",0, 50000, 0.003));
@@ -93,6 +93,16 @@ public class Restaurant {
     public double getSum()
     {
         return sum;
+    }
+
+    public void setCost(double cost)
+    {
+        this.cost = cost;
+    }
+
+    public double getCost()
+    {
+        return cost;
     }
 
     public double getIncomePerSecond()

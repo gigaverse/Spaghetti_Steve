@@ -138,6 +138,8 @@ public class MyGdxGame extends ApplicationAdapter {
                 if(state.equals(states[0]) || state.equals(states[2]))
                 {
                     state = states[1];
+                    upgradeScreen.clear();
+                    upgradeScreen.addActor(RestaurantsMenu.restaurantsMenu(player,labelStyle,buttonStyle));
                     upgradeScreen.addActor(menuButton);
                     upgradeScreen.addActor(optionsButton);
                     Gdx.input.setInputProcessor(upgradeScreen);
@@ -269,9 +271,9 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.begin();
         iconSprite.scale((float)(0.5 + 0.1*Math.cos(animationparam)));
         iconSprite.draw(batch);
-        iconSprite.rotate(-1);
+        iconSprite.rotate(-0.5f);
         iconSprite.scale(-(float)(0.5 + 0.1*Math.cos(animationparam)));
-        animationparam = (animationparam + 0.05) % (2*Math.PI);
+        animationparam = (animationparam + 0.025) % (2*Math.PI);
 
         batch.end();
 
@@ -336,7 +338,19 @@ public class MyGdxGame extends ApplicationAdapter {
     public static void RestaurantScreen(int page)
     {
             upgradeScreen.clear();
+        labelStyle.font = font24;
             upgradeScreen.addActor(UpgradeMenu.upgradeMenu(player,labelStyle,buttonStyle,page));
+        labelStyle.font = big;
+        upgradeScreen.addActor(menuButton);
+        upgradeScreen.addActor(optionsButton);
+    }
+
+    public static void ExpansionScreen()
+    {
+        upgradeScreen.clear();
+        labelStyle.font = font24;
+        upgradeScreen.addActor(ExpansionMenu.expansionMenu(player,labelStyle,buttonStyle));
+        labelStyle.font = big;
         upgradeScreen.addActor(menuButton);
         upgradeScreen.addActor(optionsButton);
     }
@@ -389,7 +403,6 @@ public class MyGdxGame extends ApplicationAdapter {
             player.setTotal(player.getTotal() + numDollars);
             if(pastaDisplay != null) {
                 pastaDisplay.setText(String.format("%s\nlbs", convertNumber(player.getCurrentRestaurant().sum)));
-                Gdx.app.log("wow", player.getCurrentRestaurant().sum + "");
             }
             if(moneyDisplay != null)
                 moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotal())));

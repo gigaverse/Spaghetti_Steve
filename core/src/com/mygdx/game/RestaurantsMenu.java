@@ -66,7 +66,7 @@ public class RestaurantsMenu {
 
                     public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                         player.setCurrentRestaurant(j);
-                        MyGdxGame.updateMenu(UpgradeMenu.upgradeMenu(player,labelStyle,style,0));
+                        MyGdxGame.RestaurantScreen(0);
                     }
                 });
 
@@ -115,6 +115,7 @@ public class RestaurantsMenu {
 
                 public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                     //TODO Make the code that finds a new Restaurant
+                    MyGdxGame.ExpansionScreen();
                 }
             });
 

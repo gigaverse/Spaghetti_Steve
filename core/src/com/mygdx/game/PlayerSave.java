@@ -7,11 +7,13 @@ import java.util.ArrayList;
  */
 public class PlayerSave {
     private ArrayList<Restaurant> restaurants;
+    private ArrayList<Restaurant> potential;
     int currentRestaurant;
     double total;
     public PlayerSave()
     {
         restaurants = new ArrayList<Restaurant>();
+        potential = new ArrayList<Restaurant>();
         currentRestaurant = 0;
         total = 0;
     }
@@ -22,9 +24,24 @@ public class PlayerSave {
         return restaurants.add(new Restaurant());
     }
 
+    public boolean reset()
+    {
+        restaurants = new ArrayList<Restaurant>();
+        potential = new ArrayList<Restaurant>();
+        currentRestaurant = 0;
+        total = 0;
+        restaurants = new ArrayList<Restaurant>();
+        return restaurants.add(new Restaurant());
+    }
+
     public ArrayList<Restaurant> getRestaurants()
     {
         return restaurants;
+    }
+
+    public ArrayList<Restaurant> getPotential()
+    {
+        return potential;
     }
 
     public Restaurant getCurrentRestaurant()

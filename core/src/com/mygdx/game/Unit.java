@@ -49,7 +49,7 @@ public class Unit {
     {
         amount++;
         if(type.equals("quality"))
-            cost = (long)Math.pow(cost, 2.4);
+            cost = (long)Math.pow(cost, 1.2);
         else
             cost = (long)Math.ceil(cost*1.4);
     }
