@@ -34,7 +34,7 @@ public class MyGdxGame extends ApplicationAdapter {
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
     double animationparam = 0;
-    private static BitmapFont font, big, font24;
+    private static BitmapFont font, big, font20,  font24;
     private static TextureAtlas buttonsAtlas;
     private static Skin buttonSkin;
     private static TextButton menuButton, optionsButton;
@@ -98,6 +98,8 @@ public class MyGdxGame extends ApplicationAdapter {
         font24 = generator.generateFont(parameter);
         parameter.size = (int)(28*Gdx.graphics.getDensity());
         BitmapFont font36 = generator.generateFont(parameter);
+        parameter.size = (int)(16*Gdx.graphics.getDensity());
+        font20 = generator.generateFont(parameter);
         generator.dispose();
 
         font = font12;
@@ -267,7 +269,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.end();
 
-        //Any Main Screen Animations go here
+        //TODO Any Main Screen Animations go here INCLUDING DROPPING STUFF
         batch.begin();
         iconSprite.scale((float)(0.5 + 0.1*Math.cos(animationparam)));
         iconSprite.draw(batch);
@@ -338,8 +340,10 @@ public class MyGdxGame extends ApplicationAdapter {
     public static void RestaurantScreen(int page)
     {
             upgradeScreen.clear();
-        labelStyle.font = font24;
+            labelStyle.font = font24;
+            buttonStyle.font = font20;
             upgradeScreen.addActor(UpgradeMenu.upgradeMenu(player,labelStyle,buttonStyle,page));
+        buttonStyle.font = font;
         labelStyle.font = big;
         upgradeScreen.addActor(menuButton);
         upgradeScreen.addActor(optionsButton);
@@ -369,11 +373,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
         for(int i = 0; i < prefixes.length; i++) {
             while (s[0].length() > (24 - (i * 3))) {
+                s[1] = s[0].substring(s[0].length() - (24 - (i * 3)));
                 s[0] = s[0].substring(0, s[0].length() - (24 - (i * 3)));
                 prefix += prefixes[i] + "";
             }
         }
-        prefix = s[0] + prefix;
+        prefix = s[0] + "." + s[1].substring(0, 2) + prefix;
         return prefix;
     }
 
@@ -382,7 +387,7 @@ public class MyGdxGame extends ApplicationAdapter {
         public void run()
         {
             //saving file
-            double numPasta = 0.1;
+            double numPasta = 0;
             double numDollars = 0;
             for(Restaurant r : player.getRestaurants())
             {

@@ -50,7 +50,7 @@ public class ExpansionMenu {
         {
             final int j = i;
             final Restaurant r = player.getPotential().get(i);
-            final Label counter = new Label(String.format("Cost\n%d", (int)r.getCost()), labelStyle);
+            final Label counter = new Label(String.format("Cost\n$%d", (int)r.getCost()), labelStyle);
             counter.setAlignment(Align.center);
             counter.setWrap(true);
             counter.setHeight((int)(Gdx.graphics.getHeight()*0.1));

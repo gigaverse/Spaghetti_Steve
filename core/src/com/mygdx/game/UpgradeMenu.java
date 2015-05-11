@@ -111,7 +111,7 @@ public class UpgradeMenu {
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 counter.setWidth(Gdx.graphics.getWidth());
 
-                final TextButton upgradeButton = new TextButton(String.format("%s : %d lbs", u.getName(), u.getCost()), style);
+                final TextButton upgradeButton = new TextButton(String.format("%s\n%d lbs", u.getName(), u.getCost()), style);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
 
@@ -124,7 +124,7 @@ public class UpgradeMenu {
                         if (player.getCurrentRestaurant().sum >= u.getCost()) {
                             player.getCurrentRestaurant().sum -= u.getCost();
                             u.add();
-                            upgradeButton.setText(String.format("%s : %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
+                            upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
                             counter.setText("Amount\n" +(u.getAmount()));
                         }
                     }
@@ -171,7 +171,7 @@ public class UpgradeMenu {
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 counter.setWidth(Gdx.graphics.getWidth());
 
-                final TextButton upgradeButton = new TextButton(String.format("%s : %d lbs", u.getName(), u.getCost()), style);
+                final TextButton upgradeButton = new TextButton(String.format("%s\n%d lbs", u.getName(), u.getCost()), style);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
 
