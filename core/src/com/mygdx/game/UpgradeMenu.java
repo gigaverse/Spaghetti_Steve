@@ -20,6 +20,7 @@ public class UpgradeMenu {
         final String[] states = {"Upgrades", "Financial", "Minions", "Quality"};
 
         //Created labels and added "buying" an upgrade
+
         Table scrollTable = new Table();
         scrollTable.top();
 
@@ -31,12 +32,53 @@ public class UpgradeMenu {
         Label label = new Label(states[pageNumber], labelStyle);
         label.setAlignment(Align.center);
         label.setWrap(false);
-        label.setHeight((int)(Gdx.graphics.getHeight()*0.1));
+        label.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
         label.setWidth(Gdx.graphics.getWidth());
 
         TextButton leftButton = new TextButton("<-", style);
         leftButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
-        leftButton.setWidth((int)(Gdx.graphics.getWidth()*0.175));
+        leftButton.setWidth((int) (Gdx.graphics.getWidth() * 0.175));
+
+//        Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+//
+//            @Override
+//            public void onUp() {
+//                MyGdxGame.state = "UpgradeMenu";
+//               //TODO get menu button and options pressable
+//            }
+//
+//            @Override
+//            public void onRight() {
+//                int n = pageNumber;
+//                n--;
+//                if (n < 0)
+//                    n = states.length + n;
+//                n %= states.length;
+//                MyGdxGame.RestaurantScreen(n);
+//                 //TODO get upgrade buttons pressable
+//
+//            }
+//
+//            @Override
+//            public void onLeft() {
+//                int n = pageNumber;
+//                n++;
+//                if (n < 0)
+//                    n = states.length + n;
+//                n %= states.length;
+//                MyGdxGame.RestaurantScreen(n);
+//
+//                 //TODO get upgrade buttons pressable
+//            }
+//
+//            @Override
+//            public void onDown() {
+//                MyGdxGame.state = "GameView";
+                //TODO Fix button disappearing
+//
+//            }
+//        }));
+
 
         leftButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -55,7 +97,7 @@ public class UpgradeMenu {
 
         TextButton rightButton = new TextButton("->", style);
         rightButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
-        rightButton.setWidth((int)(Gdx.graphics.getWidth()*0.175));
+        rightButton.setWidth((int) (Gdx.graphics.getWidth() * 0.175));
 
         rightButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -65,12 +107,16 @@ public class UpgradeMenu {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 int n = pageNumber;
                 n++;
-                if(n < 0)
+                if (n < 0)
                     n = states.length + n;
                 n %= states.length;
                 MyGdxGame.RestaurantScreen(n);
             }
         });
+
+
+
+
 
         table2
                 .add(leftButton)
@@ -90,8 +136,8 @@ public class UpgradeMenu {
         table2
                 .add(rightButton)
                 .padLeft((int)(Gdx.graphics.getWidth()*0.025))
-                .padRight((int)(Gdx.graphics.getWidth()*0.025))
-                .width((int)(Gdx.graphics.getWidth()*0.175))
+                .padRight((int) (Gdx.graphics.getWidth() * 0.025))
+                .width((int) (Gdx.graphics.getWidth() * 0.175))
                 .height(label.getHeight());
 
         table.add(table2)
@@ -216,5 +262,6 @@ public class UpgradeMenu {
         table.add(scroller).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.675)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));
 
         return table;
+
     }
 }
