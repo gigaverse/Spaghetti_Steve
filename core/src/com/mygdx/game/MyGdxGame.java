@@ -322,6 +322,17 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.input.setInputProcessor(upgradeScreen);
     }
 
+    public static void mainScreen()
+    {
+        state = "GameView";
+        mainScreen.clear();
+        mainScreen.addActor(menuButton);
+        mainScreen.addActor(optionsButton);
+        mainScreen.addActor(pastaDisplay);
+        mainScreen.addActor(moneyDisplay);
+        Gdx.input.setInputProcessor(mainScreen);
+    }
+
     public static void upgradeScreen()
     {
         upgradeScreen.clear();
@@ -347,6 +358,8 @@ public class MyGdxGame extends ApplicationAdapter {
         labelStyle.font = big;
         upgradeScreen.addActor(menuButton);
         upgradeScreen.addActor(optionsButton);
+        Gdx.input.setInputProcessor(upgradeScreen);
+
     }
 
     public static void ExpansionScreen()
