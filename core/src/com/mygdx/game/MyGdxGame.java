@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 
-
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,9 +29,8 @@ import java.util.TimerTask;
 public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Sprite iconSprite;
-    Sprite doshSprite;
-    Sprite pastaSprite;
-
+    ArrayList<Sprite> fallingSprites = new ArrayList<Sprite>();
+    boolean working;
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
@@ -45,7 +44,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private static TextButton.TextButtonStyle buttonStyle;
     private static Label.LabelStyle labelStyle;
     private static Texture icon;
-
+    Timer timer;
     private static Stage upgradeScreen;
 
     private static Stage optionsScreen;
@@ -65,14 +64,6 @@ public class MyGdxGame extends ApplicationAdapter {
         iconSprite.setCenterX(Gdx.graphics.getWidth() / 2);
         iconSprite.setCenterY(Gdx.graphics.getHeight() / 2);
 
-        icon = new Texture(Gdx.files.internal("pasta.png"));
-        pastaSprite = new Sprite(icon);
-        pastaSprite.scale(.75f*Gdx.graphics.getDensity());
-
-        icon = new Texture(Gdx.files.internal("dosh.png"));
-        doshSprite = new Sprite(icon);
-        doshSprite.scale(.75f*Gdx.graphics.getDensity());
-
         player = new PlayerSave();
         FileHandle hope = Gdx.files.local("pasta3.dat");
         try {
@@ -89,9 +80,10 @@ public class MyGdxGame extends ApplicationAdapter {
             player.init();
         }
 
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new compileToFunds(), 0, 100);
-        timer.schedule(new saveGame(), 0, 1000);
+        Timer t = new Timer();
+        t.schedule(new saveGame(), 0, 1000);
 
         //Dealing with the Main Screen
         mainScreen = new Stage();
@@ -272,31 +264,32 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             mainScreen.act();
         }
+
+        batch.begin();
+
+
+        //TODO Multiply sprites in a list or something and apply random X velocity and gravity
+
+        iconSprite.scale((float)(0.3 + 0.05*Math.cos(animationparam))*Gdx.graphics.getDensity());
+        iconSprite.draw(batch);
+        iconSprite.rotate(-0.5f);
+        iconSprite.scale(-(float)(0.3 + 0.05*Math.cos(animationparam))*Gdx.graphics.getDensity());
+            for (Sprite s : fallingSprites) {
+                s.setCenterX(Gdx.graphics.getWidth() / 2 - 100);
+                s.setCenterY(Gdx.graphics.getWidth() / 2);
+                s.draw(batch);
+                s.rotate(2f);
+            }
+        timer.schedule(new compileToFunds(), 0, 100);
+
+        animationparam = (animationparam + 0.05) % (2*Math.PI);
+
+        batch.end();
+
         //Main Screen Drawing
         batch.begin();
 
         mainScreen.draw();
-
-        batch.end();
-
-        //TODO Any Main Screen Animations go here INCLUDING DROPPING STUFF
-        batch.begin();
-        iconSprite.scale((float)(0.5 + 0.1*Math.cos(animationparam)));
-        iconSprite.draw(batch);
-        iconSprite.rotate(-0.5f);
-        iconSprite.scale(-(float)(0.5 + 0.1*Math.cos(animationparam)));
-
-        //TODO Multiply sprites in a list or something and apply random X velocity and gravity
-        pastaSprite.setCenterX(Gdx.graphics.getWidth() / 2 - 100);
-        pastaSprite.setCenterY(Gdx.graphics.getWidth() / 2);
-        doshSprite.setCenterX(Gdx.graphics.getWidth() / 2 + 100);
-        doshSprite.setCenterY(Gdx.graphics.getWidth() / 2);
-        pastaSprite.draw(batch);
-        doshSprite.draw(batch);
-        pastaSprite.rotate(2f);
-        doshSprite.rotate(2f);
-
-        animationparam = (animationparam + 0.025) % (2*Math.PI);
 
         batch.end();
 
@@ -407,6 +400,7 @@ public class MyGdxGame extends ApplicationAdapter {
     {
         public void run()
         {
+            working = true;
             //saving file
             double numPasta = 0;
             double numDollars = 0;
@@ -417,12 +411,27 @@ public class MyGdxGame extends ApplicationAdapter {
                 {
                     if(u != null)
                         numPasta += u.tick();
+
+                    icon = new Texture(Gdx.files.internal("pasta.png"));
+                    Sprite pastaSprite = new Sprite(icon);
+                    pastaSprite.scale(.75f*Gdx.graphics.getDensity());
+                    pastaSprite.setCenterY(Gdx.graphics.getHeight());
+                    pastaSprite.setCenterX((int)(Math.random()*Gdx.graphics.getWidth()*0.5));
+                    fallingSprites.add(pastaSprite);
+
                 }
 
                 for(Unit u : r.getUnits())
                 {
                     if(u != null)
                         numDollars += u.getAmount()*u.getMultiplier();
+
+                    icon = new Texture(Gdx.files.internal("dosh.png"));
+                    Sprite doshSprite = new Sprite(icon);
+                    doshSprite.scale(.75f*Gdx.graphics.getDensity());
+                    doshSprite.setCenterY(Gdx.graphics.getHeight());
+                    doshSprite.setCenterX((int)(Math.random()*Gdx.graphics.getWidth()*0.5 + Gdx.graphics.getWidth()*0.5));
+                    fallingSprites.add(doshSprite);
                 }
                 r.setSum(r.getSum() + numPasta);
             }
@@ -432,7 +441,7 @@ public class MyGdxGame extends ApplicationAdapter {
             }
             if(moneyDisplay != null)
                 moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotal())));
-
+            working = false;
         }
     }
     //TODO FIX SAVING
