@@ -35,7 +35,7 @@ public class Restaurant {
 
         upgrades.add(new Upgrade("Pasta Fort", 0, 875000, 335));
         upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 1750000, 575));
-        upgrades.add(new Upgrade("The Spaghetto", 0, 3000000, 1000));
+        upgrades.add(new Upgrade("The Spaghetto", 0 , 3000000, 1000));
 
 
         units = new ArrayList<Unit>();

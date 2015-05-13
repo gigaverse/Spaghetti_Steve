@@ -29,6 +29,8 @@ import java.util.TimerTask;
 public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Sprite iconSprite;
+    Sprite doshSprite;
+    Sprite pastaSprite;
 
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
@@ -62,6 +64,14 @@ public class MyGdxGame extends ApplicationAdapter {
         iconSprite = new Sprite(icon);
         iconSprite.setCenterX(Gdx.graphics.getWidth() / 2);
         iconSprite.setCenterY(Gdx.graphics.getHeight() / 2);
+
+        icon = new Texture(Gdx.files.internal("pasta.png"));
+        pastaSprite = new Sprite(icon);
+        pastaSprite.scale(.75f*Gdx.graphics.getDensity());
+
+        icon = new Texture(Gdx.files.internal("dosh.png"));
+        doshSprite = new Sprite(icon);
+        doshSprite.scale(.75f*Gdx.graphics.getDensity());
 
         player = new PlayerSave();
         FileHandle hope = Gdx.files.local("pasta3.dat");
@@ -275,6 +285,17 @@ public class MyGdxGame extends ApplicationAdapter {
         iconSprite.draw(batch);
         iconSprite.rotate(-0.5f);
         iconSprite.scale(-(float)(0.5 + 0.1*Math.cos(animationparam)));
+
+        //TODO Multiply sprites in a list or something and apply random X velocity and gravity
+        pastaSprite.setCenterX(Gdx.graphics.getWidth() / 2 - 100);
+        pastaSprite.setCenterY(Gdx.graphics.getWidth() / 2);
+        doshSprite.setCenterX(Gdx.graphics.getWidth() / 2 + 100);
+        doshSprite.setCenterY(Gdx.graphics.getWidth() / 2);
+        pastaSprite.draw(batch);
+        doshSprite.draw(batch);
+        pastaSprite.rotate(2f);
+        doshSprite.rotate(2f);
+
         animationparam = (animationparam + 0.025) % (2*Math.PI);
 
         batch.end();
