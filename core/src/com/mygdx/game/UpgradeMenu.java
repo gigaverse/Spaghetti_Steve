@@ -24,27 +24,126 @@ public class UpgradeMenu {
         Table scrollTable = new Table();
         scrollTable.top();
 
-        final PagedScrollPane scroller = new PagedScrollPane(scrollTable,new ScrollPane.ScrollPaneStyle());
+        final ScrollPane scroller = new ScrollPane(scrollTable);
         final Table table = new Table();
         table.setFillParent(true);
         Table table2 = new Table();
 
+        Label label = new Label(states[pageNumber], labelStyle);
+        label.setAlignment(Align.center);
+        label.setWrap(false);
+        label.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+        label.setWidth(Gdx.graphics.getWidth());
 
-        for(String state : states) {
-            Label label = new Label(state, labelStyle);
-            label.setAlignment(Align.center);
-            label.setWrap(false);
-            label.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
-            label.setWidth(Gdx.graphics.getWidth());
+        TextButton leftButton = new TextButton("<-", style);
+        leftButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+        leftButton.setWidth((int) (Gdx.graphics.getWidth() * 0.175));
 
-            table2
-                    .add(label)
-                    .padLeft((int) (Gdx.graphics.getWidth() * 0.025))
-                    .padRight((int) (Gdx.graphics.getWidth() * 0.025))
-                    .width((int) (Gdx.graphics.getWidth() * 0.95))
-                    .height(label.getHeight());
-        }
+//        Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+//
+//            @Override
+//            public void onUp() {
+//                MyGdxGame.state = "UpgradeMenu";
+//               //TODO get menu button and options pressable
+//            }
+//
+//            @Override
+//            public void onRight() {
+//                int n = pageNumber;
+//                n--;
+//                if (n < 0)
+//                    n = states.length + n;
+//                n %= states.length;
+//                MyGdxGame.RestaurantScreen(n);
+//                 //TODO get upgrade buttons pressable
+//
+//            }
+//
+//            @Override
+//            public void onLeft() {
+//                int n = pageNumber;
+//                n++;
+//                if (n < 0)
+//                    n = states.length + n;
+//                n %= states.length;
+//                MyGdxGame.RestaurantScreen(n);
+//
+//                 //TODO get upgrade buttons pressable
+//            }
+//
+//            @Override
+//            public void onDown() {
+//                MyGdxGame.state = "GameView";
+                //TODO Fix button disappearing
+//
+//            }
+//        }));
 
+
+        leftButton.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                int n = pageNumber;
+                n--;
+                if(n < 0)
+                    n = states.length + n;
+                n %= states.length;
+                MyGdxGame.RestaurantScreen(n);
+            }
+        });
+
+        TextButton rightButton = new TextButton("->", style);
+        rightButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+        rightButton.setWidth((int) (Gdx.graphics.getWidth() * 0.175));
+
+        rightButton.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                int n = pageNumber;
+                n++;
+                if (n < 0)
+                    n = states.length + n;
+                n %= states.length;
+                MyGdxGame.RestaurantScreen(n);
+            }
+        });
+
+
+
+
+
+        table2
+                .add(leftButton)
+                .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                .width((int)(Gdx.graphics.getWidth()*0.175))
+                .height(label.getHeight());
+
+
+        table2
+                .add(label)
+                .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                .width((int)(Gdx.graphics.getWidth()*0.5))
+                .height(label.getHeight());
+
+        table2
+                .add(rightButton)
+                .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                .padRight((int) (Gdx.graphics.getWidth() * 0.025))
+                .width((int) (Gdx.graphics.getWidth() * 0.175))
+                .height(label.getHeight());
+
+        table.add(table2)
+             .expandX()
+             .height(label.getHeight());
+        table.row();
 
         if(pageNumber == 0) {
             //THIS IS THE LOCATION IN WHICH YOU DECIDE WHEN YOU SEE UPGRADES
