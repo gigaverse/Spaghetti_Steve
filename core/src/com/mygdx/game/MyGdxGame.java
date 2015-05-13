@@ -30,7 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Sprite iconSprite;
     ArrayList<Sprite> fallingSprites = new ArrayList<Sprite>();
-    boolean working;
+    private int tick;
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
@@ -43,7 +43,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private static Skin labelSkin;
     private static TextButton.TextButtonStyle buttonStyle;
     private static Label.LabelStyle labelStyle;
-    private static Texture icon;
+    private static Texture icon, money, pasta;
     Timer timer;
     private static Stage upgradeScreen;
 
@@ -60,6 +60,8 @@ public class MyGdxGame extends ApplicationAdapter {
     public void create () {
         //read file if its been previously saved
         icon = new Texture(Gdx.files.internal("chefs.png"));
+        money = new Texture(Gdx.files.internal("dosh.png"));
+        pasta = new Texture(Gdx.files.internal("pasta.png"));
         iconSprite = new Sprite(icon);
         iconSprite.setCenterX(Gdx.graphics.getWidth() / 2);
         iconSprite.setCenterY(Gdx.graphics.getHeight() / 2);
@@ -273,16 +275,26 @@ public class MyGdxGame extends ApplicationAdapter {
         iconSprite.scale((float)(0.3 + 0.05*Math.cos(animationparam))*Gdx.graphics.getDensity());
         iconSprite.draw(batch);
         iconSprite.rotate(-0.5f);
-        iconSprite.scale(-(float)(0.3 + 0.05*Math.cos(animationparam))*Gdx.graphics.getDensity());
-            for (Sprite s : fallingSprites) {
-                s.setCenterX(Gdx.graphics.getWidth() / 2 - 100);
-                s.setCenterY(Gdx.graphics.getWidth() / 2);
-                s.draw(batch);
-                s.rotate(2f);
-            }
-        timer.schedule(new compileToFunds(), 0, 100);
+        iconSprite.scale(-(float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+
 
         animationparam = (animationparam + 0.05) % (2*Math.PI);
+
+        batch.end();
+
+        batch.begin();
+
+        for (int i = fallingSprites.size()-1; i >=0; i--) {
+            Sprite s = fallingSprites.get(i);
+            if(s.getY() < 0) {
+                fallingSprites.remove(i);
+                continue;
+            }
+
+            s.setCenterY(s.getY() - 0.001f*(Gdx.graphics.getHeight() - s.getY() + 1));
+            s.draw(batch);
+            s.rotate((int)(Math.random()*4-2)*2f);
+        }
 
         batch.end();
 
@@ -400,7 +412,6 @@ public class MyGdxGame extends ApplicationAdapter {
     {
         public void run()
         {
-            working = true;
             //saving file
             double numPasta = 0;
             double numDollars = 0;
@@ -411,26 +422,31 @@ public class MyGdxGame extends ApplicationAdapter {
                 {
                     if(u != null)
                         numPasta += u.tick();
+                }
 
-                    icon = new Texture(Gdx.files.internal("pasta.png"));
-                    Sprite pastaSprite = new Sprite(icon);
-                    pastaSprite.scale(.75f*Gdx.graphics.getDensity());
+                for (float j = 0; j < numPasta; j += 2000) {
+                    if((int)(Math.random()*2) == 1)
+                        continue;
+                    Sprite pastaSprite = new Sprite(pasta);
+                    pastaSprite.scale(.75f * Gdx.graphics.getDensity());
                     pastaSprite.setCenterY(Gdx.graphics.getHeight());
-                    pastaSprite.setCenterX((int)(Math.random()*Gdx.graphics.getWidth()*0.5));
+                    pastaSprite.setCenterX((int) (Math.random() * Gdx.graphics.getWidth() * 0.5));
                     fallingSprites.add(pastaSprite);
-
                 }
 
                 for(Unit u : r.getUnits())
                 {
                     if(u != null)
                         numDollars += u.getAmount()*u.getMultiplier();
+                }
 
-                    icon = new Texture(Gdx.files.internal("dosh.png"));
-                    Sprite doshSprite = new Sprite(icon);
-                    doshSprite.scale(.75f*Gdx.graphics.getDensity());
+                for(double j = 0; j < numDollars; j += 0.4) {
+                    if((int)(Math.random()*2) == 1)
+                        continue;
+                    Sprite doshSprite = new Sprite(money);
+                    doshSprite.scale(.75f * Gdx.graphics.getDensity());
                     doshSprite.setCenterY(Gdx.graphics.getHeight());
-                    doshSprite.setCenterX((int)(Math.random()*Gdx.graphics.getWidth()*0.5 + Gdx.graphics.getWidth()*0.5));
+                    doshSprite.setCenterX((int) (Math.random() * Gdx.graphics.getWidth() * 0.5 + Gdx.graphics.getWidth() * 0.5));
                     fallingSprites.add(doshSprite);
                 }
                 r.setSum(r.getSum() + numPasta);
@@ -441,7 +457,6 @@ public class MyGdxGame extends ApplicationAdapter {
             }
             if(moneyDisplay != null)
                 moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotal())));
-            working = false;
         }
     }
     //TODO FIX SAVING
