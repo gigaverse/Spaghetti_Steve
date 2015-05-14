@@ -118,4 +118,5 @@ public class ExpansionMenu {
         r3.setCost(50000);
         potential.add(r3);
     }
+
 }

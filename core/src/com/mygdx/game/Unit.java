@@ -51,7 +51,7 @@ public class Unit {
         if(type.equals("quality"))
             cost = (long)Math.pow(cost, 1.2);
         else
-            cost = (long)Math.ceil(cost*1.4);
+            cost = (long)Math.ceil(cost*1.1);
     }
 
     public String getName()
