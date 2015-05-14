@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,9 +30,11 @@ import java.util.TimerTask;
 public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Sprite iconSprite;
-    Texture money, pasta;
+
     ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>();
     boolean working;
+
+
     Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
@@ -44,7 +47,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private static Skin labelSkin;
     private static TextButton.TextButtonStyle buttonStyle;
     private static Label.LabelStyle labelStyle;
-    private static Texture icon;
+    private static Texture icon, money, pasta;
     Timer timer;
     private static Stage upgradeScreen;
 
@@ -56,13 +59,27 @@ public class MyGdxGame extends ApplicationAdapter {
     static PlayerSave player;
     static String[] states = {"GameView", "UpgradeMenu", "OptionsMenu"};
     static String state = states[0];
+    private NameGenerator nameGenerator;
 
     @Override
     public void create () {
         //read file if its been previously saved
         icon = new Texture(Gdx.files.internal("chefs.png"));
-        pasta = new Texture(Gdx.files.internal("pasta.png"));
+        try {
+            nameGenerator = new NameGenerator();
+            for(int i = 0; i < 100; i++)
+            {
+                Gdx.app.log("wow", nameGenerator.pull());
+            }
+        }
+        catch(IOException e)
+        {
+            Gdx.app.log("wow",e.toString());
+        }
+
         money = new Texture(Gdx.files.internal("dosh.png"));
+        pasta = new Texture(Gdx.files.internal("pasta.png"));
+
         iconSprite = new Sprite(icon);
         iconSprite.setCenterX(Gdx.graphics.getWidth() / 2);
         iconSprite.setCenterY(Gdx.graphics.getHeight() / 2);
@@ -276,6 +293,7 @@ public class MyGdxGame extends ApplicationAdapter {
         iconSprite.scale((float)(0.3 + 0.05*Math.cos(animationparam))*Gdx.graphics.getDensity());
         iconSprite.draw(batch);
         iconSprite.rotate(-0.5f);
+
         iconSprite.scale(-(float)(0.3 + 0.05*Math.cos(animationparam))*Gdx.graphics.getDensity());
 
 
@@ -285,10 +303,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.begin();
 
+
         for (int i = fallingSprites.size() - 1; i >= 0; i--) {
             FallingObject f = fallingSprites.get(i);
             if(f == null || !f.draw(batch))
                 fallingSprites.remove(i);
+
         }
 
         batch.end();
@@ -407,7 +427,6 @@ public class MyGdxGame extends ApplicationAdapter {
     {
         public void run()
         {
-            working = true;
             //saving file
             double numPasta = 0;
             double numDollars = 0;
@@ -418,9 +437,8 @@ public class MyGdxGame extends ApplicationAdapter {
                 {
                     if(u != null)
                         numPasta += u.tick();
-
-
                 }
+
 
                 for(int i = 0; i < numPasta; i+=350)
                 {
@@ -433,8 +451,8 @@ public class MyGdxGame extends ApplicationAdapter {
                 {
                     if(u != null)
                         numDollars += u.getAmount()*u.getMultiplier();
-
                 }
+
                 r.setSum(r.getSum() + numPasta);
 
                 for(float i = 0; i < numDollars; i+=0.5)
@@ -443,14 +461,13 @@ public class MyGdxGame extends ApplicationAdapter {
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
                     fallingSprites.add(doshSprite);
                 }
-            }
+                }
             player.setTotal(player.getTotal() + numDollars);
             if(pastaDisplay != null) {
                 pastaDisplay.setText(String.format("%s\nlbs", convertNumber(player.getCurrentRestaurant().sum)));
             }
             if(moneyDisplay != null)
                 moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotal())));
-            working = false;
         }
     }
     //TODO FIX SAVING
