@@ -46,10 +46,12 @@ public class Restaurant {
         units.add(new Unit("Server","money",0, 125000, 0.035));
         units.add(new Unit("Sous Chef","money",0, 250000, 0.075));
 
+        /*
         units.add(new Unit("Dishwasher Boy","minion",0, 10000, 1,1,1));
         units.add(new Unit("Spoon Man","minion",0, 30000, 2,2,2));
         units.add(new Unit("Pastamancer","minion",0, 75000, 3,4,3));
         units.add(new Unit("Alfredo Blaster","minion",0, 120000, 5,10,5));
+        */
 
 
 
