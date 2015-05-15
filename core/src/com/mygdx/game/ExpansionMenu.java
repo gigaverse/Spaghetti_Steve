@@ -114,7 +114,17 @@ public class ExpansionMenu {
         String[] suffixes = {" Pasta Palace",
                              " Spaghetti Stand",
                              " Fettuccine Frenzy",
-                             " Penne Place"};
+                             " Angel Hair Arena",
+                             " Penne Penthouse",
+                             " Ravioli Rave",
+                             " Macaroni Mansion",
+                             " Cannelloni Castle",
+                             " Farfalle Fair",
+                             " Cavatelli Cart",
+                             " Merletti Mart",
+                             " Dischi depository",
+                             " Orzo Outlet",
+                            " Tortelli Tower"};
         for(int i = 0; i < 10-player.getRestaurants().size(); i++)
         {
             Restaurant r = new Restaurant();

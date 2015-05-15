@@ -35,7 +35,7 @@ public class SplashScreen {
         timer = 0;
         yVel = Gdx.graphics.getHeight()/48;
 
-        rot = -4;
+        rot = -5.7f;
     }
 
     public void tick(SpriteBatch batch, double animationparam)
@@ -73,7 +73,7 @@ public class SplashScreen {
                 if (Math.abs(yVel) < Gdx.graphics.getHeight() / 144) {
                     yVel = 0;
                     yAccel = 0;
-                    rot = -0.5f;
+                    rot = -0f;
                 }
             }
             yVel -= yAccel;

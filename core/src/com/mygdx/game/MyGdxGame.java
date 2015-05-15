@@ -266,8 +266,15 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void render ()
     {
-        Gdx.gl.glClearColor((float) (210 / 256.0), (float) (215 / 256.0), (float) (223 / 256.0), 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if(!state.equals(states[3])) {
+            Gdx.gl.glClearColor((float) (210 / 256.0), (float) (215 / 256.0), (float) (223 / 256.0), 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        }
+        else
+        {
+            Gdx.gl.glClearColor(1,1,1, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        }
 
 
         if(state.equals(states[1]))
@@ -287,12 +294,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
         //TODO Multiply sprites in a list or something and apply random X velocity and gravity
+        if(!state.equals(states[3])) {
+            iconSprite.scale((float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+            iconSprite.draw(batch);
+            iconSprite.rotate(-0.5f);
 
-        iconSprite.scale((float)(0.3 + 0.05*Math.cos(animationparam))*Gdx.graphics.getDensity());
-        iconSprite.draw(batch);
-        iconSprite.rotate(-0.5f);
-
-        iconSprite.scale(-(float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+            iconSprite.scale(-(float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+        }
 
 
         animationparam = (animationparam + 0.05) % (2*Math.PI);
