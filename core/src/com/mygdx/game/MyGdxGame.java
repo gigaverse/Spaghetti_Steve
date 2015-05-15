@@ -32,10 +32,7 @@ public class MyGdxGame extends ApplicationAdapter {
     Sprite iconSprite;
 
     ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>();
-    boolean working;
 
-
-    Stage current;
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
     double animationparam = 0;
@@ -51,20 +48,27 @@ public class MyGdxGame extends ApplicationAdapter {
     Timer timer;
     private static Stage upgradeScreen;
 
+    private static SplashScreen splashScreen;
+
     private static Stage optionsScreen;
 
     static Label pastaDisplay;
     static Label moneyDisplay;
 
     static PlayerSave player;
-    static String[] states = {"GameView", "UpgradeMenu", "OptionsMenu"};
-    static String state = states[0];
+    static String[] states = {"GameView", "UpgradeMenu", "OptionsMenu", "SplashScreen"};
+    static String state = states[3];
     private NameGenerator nameGenerator;
 
     @Override
     public void create () {
         //read file if its been previously saved
+        splashScreen = new SplashScreen();
+
+        state = states[3];
         icon = new Texture(Gdx.files.internal("chefs.png"));
+
+
         try {
             nameGenerator = new NameGenerator();
             for(int i = 0; i < 100; i++)
@@ -249,7 +253,7 @@ public class MyGdxGame extends ApplicationAdapter {
         moneySkin.addRegions(moneyAtlas);
 
         Label.LabelStyle moneyStyle = new Label.LabelStyle();
-        big.setColor(0f,0f,0f,1f);
+        big.setColor(0f, 0f, 0f, 1f);
         moneyStyle.background = moneySkin.getDrawable("default");
         moneyStyle.font = big;
 
@@ -280,7 +284,7 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             optionsScreen.act();
         }
-        else
+        else if(state.equals(states[0]))
         {
             mainScreen.act();
         }
@@ -294,12 +298,30 @@ public class MyGdxGame extends ApplicationAdapter {
         iconSprite.draw(batch);
         iconSprite.rotate(-0.5f);
 
-        iconSprite.scale(-(float)(0.3 + 0.05*Math.cos(animationparam))*Gdx.graphics.getDensity());
+        iconSprite.scale(-(float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
 
 
         animationparam = (animationparam + 0.05) % (2*Math.PI);
 
         batch.end();
+
+
+        batch.begin();
+
+        if(state.equals(states[3]))
+        {
+            if(Gdx.input.isTouched())
+            {
+                state = (states[0]);
+            }
+            splashScreen.tick(batch);
+        }
+
+        batch.end();
+
+        if(state.equals(states[3]))
+            return;
+
 
         batch.begin();
 
