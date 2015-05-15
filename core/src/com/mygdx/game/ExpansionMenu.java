@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -43,7 +44,14 @@ public class ExpansionMenu {
         //TODO - Add Restaurants to take
         if(player.getPotential().size() == 0)
         {
-            populatePotential(player.getPotential());
+            try {
+                populatePotential(player.getPotential());
+            }
+            catch(Exception io)
+            {
+
+
+            }
         }
 
         for(int i = 0; i < player.getPotential().size(); i++)
@@ -101,20 +109,24 @@ public class ExpansionMenu {
         return table;
     }
 
-    private static void populatePotential(ArrayList<Restaurant> potential)
+    private static void populatePotential(ArrayList<Restaurant> potential) throws IOException
     {
         Restaurant r = new Restaurant();
-        r.setName("Filthy Frank's Fettuccine Frenzy");
+        NameGenerator nameGen = new NameGenerator();
+        //r.setName("Filthy Frank's Fettuccine Frenzy");
+       r.setName(nameGen.pull()+ " Fettuccine Frenzy");
         r.setCost(250);
         potential.add(r);
 
         Restaurant r2 = new Restaurant();
-        r2.setName("Billy Bob's Burger Blast");
+        //r2.setName("Billy Bob's Burger Blast");
+        r2.setName(nameGen.pull()+" Burger Blast");
         r2.setCost(3750);
         potential.add(r2);
 
         Restaurant r3 = new Restaurant();
-        r3.setName("Penne Penny's Pasta Palace");
+        //r3.setName("Penne Penny's Pasta Palace");
+        r3.setName(nameGen.pull()+" Pasta Palace");
         r3.setCost(50000);
         potential.add(r3);
     }

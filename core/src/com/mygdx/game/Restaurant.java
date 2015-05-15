@@ -41,10 +41,13 @@ public class Restaurant {
         units = new ArrayList<Unit>();
         units.add(new Unit("Pasta Maker","quality",0, 5000, 0));
 
-        units.add(new Unit("Table Bus","money",0, 10000, 0.005));
-        units.add(new Unit("Waiter","money",0, 50000, 0.015));
-        units.add(new Unit("Server","money",0, 125000, 0.035));
-        units.add(new Unit("Sous Chef","money",0, 250000, 0.075));
+        units.add(new Unit("Table Bus","money",0, 500, 0.005));
+        units.add(new Unit("Waiter","money",0, 2500, 0.015));
+        units.add(new Unit("Server","money",0, 7500, 0.035));
+
+        units.add(new Unit("Sous Chef","money",0, 15000, 0.075));
+        units.add(new Unit("Advertisement","money",0, 50000, 0.25));
+        units.add(new Unit("Internet Shop","money",0, 100000, 1));
 
         /*
         units.add(new Unit("Dishwasher Boy","minion",0, 10000, 1,1,1));

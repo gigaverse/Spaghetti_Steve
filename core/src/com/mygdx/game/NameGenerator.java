@@ -1,7 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,11 +21,13 @@ public class NameGenerator {
         names = new HashMap<Character, ArrayList<String>>();
         adjectives = new HashMap<Character, ArrayList<String>>();
 
-        Scanner s = new Scanner(Gdx.files.internal("names.txt").file());
 
-        while(s.hasNextLine())
+        FileHandle fileHandle = Gdx.files.internal("names.txt");
+        String help = fileHandle.readString().replaceAll("[^A-Z]+"," " );
+        Gdx.app.log("wow",help);
+
+        for(String name : help.split(" "))
         {
-            String name = s.nextLine().split(" ")[0];
             name = name.charAt(0) + name.substring(1).toLowerCase();
             ArrayList<String> list = new ArrayList<String>();
             if(names.containsKey(name.charAt(0)))
@@ -32,11 +36,15 @@ public class NameGenerator {
             names.put(name.charAt(0), list);
         }
 
-        s = new Scanner(Gdx.files.internal("adjectives.txt").file());
+        FileHandle filex = Gdx.files.internal("adjectives.txt");
+        help = filex.readString().replaceAll("[^A-Za-z]+", " ");
+        Gdx.app.log("wow",help);
 
-        while(s.hasNextLine())
+
+
+
+        for(String adjective : help.split(" "))
         {
-            String adjective = s.nextLine().split(" ")[0];
             adjective = adjective.charAt(0) + adjective.substring(1).toLowerCase();
             ArrayList<String> list = new ArrayList<String>();
             if(adjectives.containsKey(adjective.charAt(0)))
@@ -48,9 +56,18 @@ public class NameGenerator {
 
     public String pull()
     {
-        char random = (char)((int)(Math.random()*26) + 65);
-        ArrayList<String> alist = adjectives.get(random);
-        ArrayList<String> nlist = names.get(random);
+        ArrayList<String> alist;
+        ArrayList<String> nlist;
+        while(true) {
+            char random = (char)((int)(Math.random()*26) + 65);
+            alist = adjectives.get(random);
+            nlist = names.get(random);
+            if(alist == null || nlist == null)
+                continue;
+            if(alist.size() > 0 && nlist.size() > 0)
+                break;
+        }
+
         return String.format("%s %s", alist.get((int)(Math.random()*alist.size())), nlist.get((int)(Math.random()*nlist.size())));
     }
 }

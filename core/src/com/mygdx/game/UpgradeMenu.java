@@ -39,47 +39,6 @@ public class UpgradeMenu {
         leftButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
         leftButton.setWidth((int) (Gdx.graphics.getWidth() * 0.175));
 
-//        Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
-//
-//            @Override
-//            public void onUp() {
-//                MyGdxGame.state = "UpgradeMenu";
-//               //TODO get menu button and options pressable
-//            }
-//
-//            @Override
-//            public void onRight() {
-//                int n = pageNumber;
-//                n--;
-//                if (n < 0)
-//                    n = states.length + n;
-//                n %= states.length;
-//                MyGdxGame.RestaurantScreen(n);
-//                 //TODO get upgrade buttons pressable
-//
-//            }
-//
-//            @Override
-//            public void onLeft() {
-//                int n = pageNumber;
-//                n++;
-//                if (n < 0)
-//                    n = states.length + n;
-//                n %= states.length;
-//                MyGdxGame.RestaurantScreen(n);
-//
-//                 //TODO get upgrade buttons pressable
-//            }
-//
-//            @Override
-//            public void onDown() {
-//                MyGdxGame.state = "GameView";
-                //TODO Fix button disappearing
-//
-//            }
-//        }));
-
-
         leftButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
