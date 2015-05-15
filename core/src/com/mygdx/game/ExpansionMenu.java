@@ -45,7 +45,7 @@ public class ExpansionMenu {
         if(player.getPotential().size() == 0)
         {
             try {
-                populatePotential(player.getPotential());
+                populatePotential(player);
             }
             catch(Exception io)
             {
@@ -109,26 +109,19 @@ public class ExpansionMenu {
         return table;
     }
 
-    private static void populatePotential(ArrayList<Restaurant> potential) throws IOException
+    private static void populatePotential(PlayerSave player) throws IOException
     {
-        Restaurant r = new Restaurant();
-        NameGenerator nameGen = new NameGenerator();
-        //r.setName("Filthy Frank's Fettuccine Frenzy");
-       r.setName(nameGen.pull()+ " Fettuccine Frenzy");
-        r.setCost(250);
-        potential.add(r);
-
-        Restaurant r2 = new Restaurant();
-        //r2.setName("Billy Bob's Burger Blast");
-        r2.setName(nameGen.pull()+" Burger Blast");
-        r2.setCost(3750);
-        potential.add(r2);
-
-        Restaurant r3 = new Restaurant();
-        //r3.setName("Penne Penny's Pasta Palace");
-        r3.setName(nameGen.pull()+" Pasta Palace");
-        r3.setCost(50000);
-        potential.add(r3);
+        String[] suffixes = {" Pasta Palace",
+                             " Spaghetti Stand",
+                             " Fettuccine Frenzy",
+                             " Penne Place"};
+        for(int i = 0; i < 10-player.getRestaurants().size(); i++)
+        {
+            Restaurant r = new Restaurant();
+            r.setName(MyGdxGame.nameGenerator.pull()+"'s\n" +suffixes[(int)(Math.random()*suffixes.length)]);
+            r.setCost(Math.pow(((i+1)*100), 1.3));
+            player.getPotential().add(r);
+        }
     }
 
 }

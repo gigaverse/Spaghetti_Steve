@@ -58,7 +58,7 @@ public class MyGdxGame extends ApplicationAdapter {
     static PlayerSave player;
     static String[] states = {"GameView", "UpgradeMenu", "OptionsMenu", "SplashScreen"};
     static String state = states[3];
-    private NameGenerator nameGenerator;
+    public static NameGenerator nameGenerator;
 
     @Override
     public void create () {
@@ -67,14 +67,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
         state = states[3];
         icon = new Texture(Gdx.files.internal("chefs.png"));
-
-
         try {
             nameGenerator = new NameGenerator();
-            for(int i = 0; i < 100; i++)
-            {
-                Gdx.app.log("wow", nameGenerator.pull());
-            }
         }
         catch(IOException e)
         {
@@ -314,7 +308,7 @@ public class MyGdxGame extends ApplicationAdapter {
             {
                 state = (states[0]);
             }
-            splashScreen.tick(batch);
+            splashScreen.tick(batch, animationparam);
         }
 
         batch.end();
@@ -464,7 +458,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
                 for(int i = 0; i < numPasta; i+=350)
                 {
-                    FallingObject doshSprite = new FallingObject(pasta, 0, Gdx.graphics.getHeight());
+                    FallingObject doshSprite = new FallingObject(pasta, 0, Gdx.graphics.getHeight(), (float)Math.random()*5f, 0);
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
                     fallingSprites.add(doshSprite);
                 }
@@ -479,7 +473,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
                 for(float i = 0; i < numDollars; i+=0.5)
                 {
-                    FallingObject doshSprite = new FallingObject(money, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                    FallingObject doshSprite = new FallingObject(money, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float)Math.random()*5f, 0);
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
                     fallingSprites.add(doshSprite);
                 }

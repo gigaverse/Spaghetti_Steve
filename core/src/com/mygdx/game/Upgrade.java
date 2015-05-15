@@ -29,7 +29,6 @@ public class Upgrade{
     {
         amount++;
         cost = (long)Math.ceil(cost*1.1);
-        cost = (long)Math.ceil(cost*1.2);
     }
 
     public long getCost()

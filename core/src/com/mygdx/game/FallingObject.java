@@ -12,15 +12,15 @@ public class FallingObject {
     private Sprite sprite;
     private int x, y;
     private float rot,xVel, yVel;
-    public FallingObject(Texture t, int x, int y)
+    public FallingObject(Texture t, int x, int y, float xVel, float yVel)
     {
         sprite = new Sprite(t);
         this.x = x;
         this.y = y;
         rot = (float)(Math.random()*2 - 1);
-        xVel = (float)Math.random()*5f;
-        if(x > Gdx.graphics.getWidth()/2)
-            xVel*= -1;
+        this.xVel = xVel;
+        this.yVel = -1*yVel;
+
     }
 
     public boolean draw(SpriteBatch batch)
