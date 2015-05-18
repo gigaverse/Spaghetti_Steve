@@ -65,7 +65,7 @@ public class RestaurantsMenu {
                     }
 
                     public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                        player.setCurrentRestaurant(j);
+                        player.setCurrent(j);
                         MyGdxGame.RestaurantScreen(0);
                     }
                 });

@@ -10,8 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Json;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by Gigaverse on 5/3/2015.
@@ -77,6 +79,36 @@ public class OptionsMenu {
 
         scrollTable
                 .add(deleteSaveButton)
+                .padTop((int)(Gdx.graphics.getHeight()*0.025))
+                .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                .width((int)(Gdx.graphics.getWidth()*0.95))
+                .height(label.getHeight());
+
+        scrollTable.row();
+
+        final TextButton closeGame = new TextButton(String.format("Save & Quit"), style);
+        closeGame.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+        closeGame.setWidth(Gdx.graphics.getWidth());
+
+
+        closeGame.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                FileHandle hope = Gdx.files.local("pasta3.dat");
+                Json json = new Json();
+                hope.writeString(json.toJson(player), false);
+                MyGdxGame.timer.cancel();
+                MyGdxGame.t.cancel();
+                Gdx.app.exit();
+            }
+        });
+
+        scrollTable
+                .add(closeGame)
                 .padTop((int)(Gdx.graphics.getHeight()*0.025))
                 .padLeft((int)(Gdx.graphics.getWidth()*0.025))
                 .padRight((int)(Gdx.graphics.getWidth()*0.025))

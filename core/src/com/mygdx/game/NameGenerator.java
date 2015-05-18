@@ -24,7 +24,6 @@ public class NameGenerator {
 
         FileHandle fileHandle = Gdx.files.internal("names.txt");
         String help = fileHandle.readString().replaceAll("[^A-Z]+"," " );
-        Gdx.app.log("wow",help);
 
         for(String name : help.split(" "))
         {
@@ -38,7 +37,6 @@ public class NameGenerator {
 
         FileHandle filex = Gdx.files.internal("adjectives.txt");
         help = filex.readString().replaceAll("[^A-Za-z]+", " ");
-        Gdx.app.log("wow",help);
 
 
 

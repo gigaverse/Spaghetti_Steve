@@ -58,11 +58,11 @@ public class SplashScreen {
         timer++;
         if(timer >= 25) {
             //TODO Draw Chef popping up
-            chef.scale((float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+            chef.scale((float) (0.3 + 0.1 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
             chef.draw(batch);
             chef.rotate(rot);
-            chef.scale(-(float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
             chef.setCenterY(y);
+            chef.scale(-(float) (0.3 + 0.1 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
             y = y + yVel;
             if (!half)
                 rot += 0.05;
@@ -73,7 +73,7 @@ public class SplashScreen {
                 if (Math.abs(yVel) < Gdx.graphics.getHeight() / 144) {
                     yVel = 0;
                     yAccel = 0;
-                    rot = -0f;
+                    rot = 0;
                 }
             }
             yVel -= yAccel;

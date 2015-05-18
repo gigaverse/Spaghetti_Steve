@@ -1,6 +1,7 @@
 package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -45,7 +46,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private static TextButton.TextButtonStyle buttonStyle;
     private static Label.LabelStyle labelStyle;
     private static Texture icon, money, pasta;
-    Timer timer;
+    public static Timer timer, t;
     private static Stage upgradeScreen;
 
     private static SplashScreen splashScreen;
@@ -100,7 +101,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         timer = new Timer();
         timer.schedule(new compileToFunds(), 0, 100);
-        Timer t = new Timer();
+        t = new Timer();
         t.schedule(new saveGame(), 0, 1000);
 
         //Dealing with the Main Screen
@@ -424,9 +425,14 @@ public class MyGdxGame extends ApplicationAdapter {
         upgradeScreen.addActor(optionsButton);
     }
 
+    public void hide()
+    {
+        fallingSprites = new ArrayList<FallingObject>();
+    }
+
     public static String convertNumber(double d)
     {
-        char[] prefixes = "YZEPTGM".toCharArray();
+        char[] prefixes = "YZEPTGMK".toCharArray();
         String[] s = String.format("%.2f", d).split("\\.");
         String prefix = "";
 
@@ -466,7 +472,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
                 for(int i = 0; i < numPasta; i+=350)
                 {
-                    FallingObject doshSprite = new FallingObject(pasta, 0, Gdx.graphics.getHeight(), (float)Math.random()*5f, 0);
+                    FallingObject doshSprite = new FallingObject(pasta, 0, Gdx.graphics.getHeight(), (float)Math.random()*5f, -(float)Math.random()*3f);
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
                     fallingSprites.add(doshSprite);
                 }
@@ -479,9 +485,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
                 r.setSum(r.getSum() + numPasta);
 
-                for(float i = 0; i < numDollars; i+=0.5)
+                for(float i = 0; i < numDollars; i+=1.5)
                 {
-                    FallingObject doshSprite = new FallingObject(money, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float)Math.random()*5f, 0);
+                    FallingObject doshSprite = new FallingObject(money, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float)Math.random()*5f, -(float)Math.random()*3f);
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
                     fallingSprites.add(doshSprite);
                 }
@@ -500,7 +506,6 @@ public class MyGdxGame extends ApplicationAdapter {
         public void run() {
             //saving file
             FileHandle hope = Gdx.files.local("pasta3.dat");
-            hope.delete();
             Json json = new Json();
             hope.writeString(json.toJson(player), false);
         }

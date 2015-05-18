@@ -7,14 +7,19 @@ import java.util.ArrayList;
  */
 public class PlayerSave {
     private ArrayList<Restaurant> restaurants;
-    private ArrayList<Restaurant> potential;
-    int currentRestaurant;
+    private ArrayList<Restaurant> potentialRestaurants;
+    private ArrayList<Territory> territories;
+    private ArrayList<Territory> potentialTerritories;
+    int current;
     double total;
+    boolean country;
     public PlayerSave()
     {
         restaurants = new ArrayList<Restaurant>();
-        potential = new ArrayList<Restaurant>();
-        currentRestaurant = 0;
+        potentialRestaurants = new ArrayList<Restaurant>();
+        territories = new ArrayList<Territory>();
+        potentialTerritories = new ArrayList<Territory>();
+        current = 0;
         total = 0;
     }
 
@@ -27,8 +32,10 @@ public class PlayerSave {
     public boolean reset()
     {
         restaurants = new ArrayList<Restaurant>();
-        potential = new ArrayList<Restaurant>();
-        currentRestaurant = 0;
+        potentialRestaurants = new ArrayList<Restaurant>();
+        territories = new ArrayList<Territory>();
+        potentialTerritories = new ArrayList<Territory>();
+        current = 0;
         total = 0;
         restaurants = new ArrayList<Restaurant>();
         return restaurants.add(new Restaurant());
@@ -39,19 +46,34 @@ public class PlayerSave {
         return restaurants;
     }
 
-    public ArrayList<Restaurant> getPotential()
+    public ArrayList<Restaurant> getPotentialRestaurants()
     {
-        return potential;
+        return potentialRestaurants;
+    }
+
+    public ArrayList<Territory> getTerritories()
+    {
+        return territories;
+    }
+
+    public ArrayList<Territory> getPotentialTerritories()
+    {
+        return potentialTerritories;
     }
 
     public Restaurant getCurrentRestaurant()
     {
-        return restaurants.get(currentRestaurant);
+        return restaurants.get(current);
     }
 
-    public void setCurrentRestaurant(int currentRestaurant)
+    public Territory getCurrentTerritory()
     {
-        this.currentRestaurant = currentRestaurant;
+        return territories.get(current);
+    }
+
+    public void setCurrent(int current)
+    {
+        this.current = current;
     }
 
     public void setTotal(double total)

@@ -42,7 +42,7 @@ public class ExpansionMenu {
         table.row();
 
         //TODO - Add Restaurants to take
-        if(player.getPotential().size() == 0)
+        if(player.getPotentialRestaurants().size() == 0)
         {
             try {
                 populatePotential(player);
@@ -54,10 +54,10 @@ public class ExpansionMenu {
             }
         }
 
-        for(int i = 0; i < player.getPotential().size(); i++)
+        for(int i = 0; i < player.getPotentialRestaurants().size(); i++)
         {
             final int j = i;
-            final Restaurant r = player.getPotential().get(i);
+            final Restaurant r = player.getPotentialRestaurants().get(i);
             final Label counter = new Label(String.format("Cost\n$%d", (int)r.getCost()), labelStyle);
             counter.setAlignment(Align.center);
             counter.setWrap(true);
@@ -76,7 +76,7 @@ public class ExpansionMenu {
                 public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                     if(player.getTotal() >= r.getCost()) {
                         player.setTotal(player.getTotal() - r.getCost());
-                        player.getPotential().remove(j);
+                        player.getPotentialRestaurants().remove(j);
                         player.getRestaurants().add(r);
                         MyGdxGame.ExpansionScreen();
                     }
@@ -130,7 +130,7 @@ public class ExpansionMenu {
             Restaurant r = new Restaurant();
             r.setName(MyGdxGame.nameGenerator.pull()+"'s\n" +suffixes[(int)(Math.random()*suffixes.length)]);
             r.setCost(Math.pow(((i+1)*100), 1.3));
-            player.getPotential().add(r);
+            player.getPotentialRestaurants().add(r);
         }
     }
 
