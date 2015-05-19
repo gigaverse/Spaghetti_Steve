@@ -36,7 +36,6 @@ public class SplashScreen {
         scale = 2/3.0f;
 
         Gdx.app.log("wow", Gdx.graphics.getDensity() + "");
-
         yVel = Gdx.graphics.getHeight()/48;
 
         rot = -5.7f;
@@ -75,7 +74,7 @@ public class SplashScreen {
                 half = true;
             if (half && y <= Gdx.graphics.getHeight() / 2) {
                 yVel = -yVel;
-                if (Math.abs(yVel) < Gdx.graphics.getHeight() / scale*Gdx.graphics.getDensity()) {
+                if (Math.abs(yVel) < Gdx.graphics.getHeight() / (scale*Gdx.graphics.getDensity())) {
                     yVel = 0;
                     yAccel = 0;
                     rot = 0;
