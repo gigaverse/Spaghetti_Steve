@@ -50,6 +50,8 @@ public class UpgradeMenu {
                 if(n < 0)
                     n = states.length + n;
                 n %= states.length;
+                if(n == 2 && !player.country)
+                    n--;
                 MyGdxGame.RestaurantScreen(n);
             }
         });
@@ -69,6 +71,8 @@ public class UpgradeMenu {
                 if (n < 0)
                     n = states.length + n;
                 n %= states.length;
+                if(n == 2 && !player.country)
+                    n++;
                 MyGdxGame.RestaurantScreen(n);
             }
         });

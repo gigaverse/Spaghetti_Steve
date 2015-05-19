@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class SplashScreen {
     private ArrayList<FallingObject> fallingSprites;
     Texture money, pasta, c;
-    float yAccel, yVel, y, rot;
+    float yAccel, yVel, y, rot, scale;
     boolean half;
     Sprite chef;
     int timer;
@@ -33,9 +33,14 @@ public class SplashScreen {
         chef.setCenterX(Gdx.graphics.getWidth()/2);
         chef.setCenterY(y);
         timer = 0;
+        scale = 2/3.0f;
+
+        Gdx.app.log("wow", Gdx.graphics.getDensity() + "");
+
         yVel = Gdx.graphics.getHeight()/48;
 
         rot = -5.7f;
+
     }
 
     public void tick(SpriteBatch batch, double animationparam)
@@ -70,7 +75,7 @@ public class SplashScreen {
                 half = true;
             if (half && y <= Gdx.graphics.getHeight() / 2) {
                 yVel = -yVel;
-                if (Math.abs(yVel) < Gdx.graphics.getHeight() / 144) {
+                if (Math.abs(yVel) < Gdx.graphics.getHeight() / scale*Gdx.graphics.getDensity()) {
                     yVel = 0;
                     yAccel = 0;
                     rot = 0;
