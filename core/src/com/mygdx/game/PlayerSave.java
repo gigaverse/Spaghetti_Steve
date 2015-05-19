@@ -20,7 +20,7 @@ public class PlayerSave {
         territories = new ArrayList<Territory>();
         potentialTerritories = new ArrayList<Territory>();
         current = 0;
-        total = 0;
+        total = 10000000;
     }
 
     public boolean init()

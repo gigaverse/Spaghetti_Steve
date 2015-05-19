@@ -74,12 +74,14 @@ public class ExpansionMenu {
                 }
 
                 public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                    MyGdxGame.timer.cancel();
                     if(player.getTotal() >= r.getCost()) {
                         player.setTotal(player.getTotal() - r.getCost());
                         player.getPotentialRestaurants().remove(j);
                         player.getRestaurants().add(r);
                         MyGdxGame.ExpansionScreen();
                     }
+                    
                 }
             });
 

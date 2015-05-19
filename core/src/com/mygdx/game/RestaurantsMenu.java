@@ -105,8 +105,13 @@ public class RestaurantsMenu {
             greenButton.font = style.font;
 
             TextButton purchaseButton = new TextButton("Seek New Restaurants...", greenButton);
-            purchaseButton.setHeight((int)(Gdx.graphics.getHeight()*0.1));
+            purchaseButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
             purchaseButton.setWidth(Gdx.graphics.getWidth());
+            if(player.getRestaurants().size()>=10)
+            {
+
+                purchaseButton.setText("Merge Restaurants into a territory");
+            }
 
             purchaseButton.addListener(new InputListener() {
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
