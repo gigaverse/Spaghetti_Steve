@@ -29,7 +29,7 @@ public class RestaurantsMenu {
             table.setFillParent(true);
             //scrollTable.center();
 
-            Label label = new Label("Restaurants", labelStyle);
+            Label label = new Label(player.country ? "Territories" : "Restaurants", labelStyle);
             label.setAlignment(Align.center);
             label.setWrap(false);
             label.setHeight((int)(Gdx.graphics.getHeight()*0.1));
@@ -45,54 +45,101 @@ public class RestaurantsMenu {
 
             table.row();
 
-            for(int i = 0; i < player.getRestaurants().size(); i++)
-            {
-                final int j = i;
-                Restaurant r = player.getRestaurants().get(i);
-                final Label counter = new Label(String.format("%.1f\nlbs/sec",r.getIncomePerSecond()), labelStyle);
-                counter.setAlignment(Align.center);
-                counter.setWrap(true);
-                counter.setHeight((int)(Gdx.graphics.getHeight()*0.1));
-                counter.setWidth(Gdx.graphics.getWidth());
 
-                final TextButton upgradeButton = new TextButton(String.format("%s", r.getName()), style);
-                upgradeButton.setHeight((int)(Gdx.graphics.getHeight()*0.1));
-                upgradeButton.setWidth(Gdx.graphics.getWidth());
+            if(!player.country) {
+                for (int i = 0; i < player.getRestaurants().size(); i++) {
+                    final int j = i;
+                    Restaurant r = player.getRestaurants().get(i);
+                    final Label counter = new Label(String.format("%.1f\nlbs/sec", r.getIncomePerSecond()), labelStyle);
+                    counter.setAlignment(Align.center);
+                    counter.setWrap(true);
+                    counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+                    counter.setWidth(Gdx.graphics.getWidth());
 
-                upgradeButton.addListener(new InputListener() {
-                    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                        return true;
-                    }
+                    final TextButton upgradeButton = new TextButton(String.format("%s", r.getName()), style);
+                    upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+                    upgradeButton.setWidth(Gdx.graphics.getWidth());
 
-                    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                        player.setCurrent(j);
-                        MyGdxGame.RestaurantScreen(0);
-                    }
-                });
+                    upgradeButton.addListener(new InputListener() {
+                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                            return true;
+                        }
 
-                scrollTable.add(upgradeButton)
-                        .expandX()
-                        .padTop((int)(Gdx.graphics.getHeight()*0.0125))
-                        .padBottom((int)(Gdx.graphics.getHeight()*0.0125))
-                        .width((int)(Gdx.graphics.getWidth()*0.6))
-                        .padLeft((int)(Gdx.graphics.getWidth()*0.025))
-                        .padRight((int)(Gdx.graphics.getWidth()*0.025))
-                        .height(upgradeButton.getHeight());
+                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                            player.setCurrent(j);
+                            MyGdxGame.RestaurantScreen(0);
+                        }
+                    });
 
-                scrollTable.add(counter)
-                        .padTop((int)(Gdx.graphics.getHeight()*0.0125))
-                        .padBottom((int)(Gdx.graphics.getHeight()*0.0125))
-                        .padLeft((int)(Gdx.graphics.getWidth()*0.025))
-                        .padRight((int)(Gdx.graphics.getWidth()*0.025))
-                        .width((int)(Gdx.graphics.getWidth()*0.3))
-                        .height(counter.getHeight());
+                    scrollTable.add(upgradeButton)
+                            .expandX()
+                            .padTop((int) (Gdx.graphics.getHeight() * 0.0125))
+                            .padBottom((int) (Gdx.graphics.getHeight() * 0.0125))
+                            .width((int) (Gdx.graphics.getWidth() * 0.6))
+                            .padLeft((int) (Gdx.graphics.getWidth() * 0.025))
+                            .padRight((int) (Gdx.graphics.getWidth() * 0.025))
+                            .height(upgradeButton.getHeight());
 
-                scrollTable.row();
+                    scrollTable.add(counter)
+                            .padTop((int) (Gdx.graphics.getHeight() * 0.0125))
+                            .padBottom((int) (Gdx.graphics.getHeight() * 0.0125))
+                            .padLeft((int) (Gdx.graphics.getWidth() * 0.025))
+                            .padRight((int) (Gdx.graphics.getWidth() * 0.025))
+                            .width((int) (Gdx.graphics.getWidth() * 0.3))
+                            .height(counter.getHeight());
+
+                    scrollTable.row();
+                }
+            }
+            else {
+                for (int i = 0; i < player.getTerritories().size(); i++) {
+                    final int j = i;
+                    Territory r = player.getTerritories().get(i);
+                    final Label counter = new Label(String.format("%.1f\nlbs/sec", r.getIncomePerSecond()), labelStyle);
+                    counter.setAlignment(Align.center);
+                    counter.setWrap(true);
+                    counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+                    counter.setWidth(Gdx.graphics.getWidth());
+
+                    final TextButton upgradeButton = new TextButton(String.format("%s", r.getName()), style);
+                    upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+                    upgradeButton.setWidth(Gdx.graphics.getWidth());
+
+                    upgradeButton.addListener(new InputListener() {
+                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                            return true;
+                        }
+
+                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                            player.setCurrent(j);
+                            MyGdxGame.RestaurantScreen(0);
+                        }
+                    });
+
+                    scrollTable.add(upgradeButton)
+                            .expandX()
+                            .padTop((int) (Gdx.graphics.getHeight() * 0.0125))
+                            .padBottom((int) (Gdx.graphics.getHeight() * 0.0125))
+                            .width((int) (Gdx.graphics.getWidth() * 0.6))
+                            .padLeft((int) (Gdx.graphics.getWidth() * 0.025))
+                            .padRight((int) (Gdx.graphics.getWidth() * 0.025))
+                            .height(upgradeButton.getHeight());
+
+                    scrollTable.add(counter)
+                            .padTop((int) (Gdx.graphics.getHeight() * 0.0125))
+                            .padBottom((int) (Gdx.graphics.getHeight() * 0.0125))
+                            .padLeft((int) (Gdx.graphics.getWidth() * 0.025))
+                            .padRight((int) (Gdx.graphics.getWidth() * 0.025))
+                            .width((int) (Gdx.graphics.getWidth() * 0.3))
+                            .height(counter.getHeight());
+
+                    scrollTable.row();
+                }
             }
 
             table.add(scroller).size(Gdx.graphics.getWidth(), (int) (Gdx.graphics.getHeight() * 0.575));
 
-            //TODO Make button stand out
+
 
             TextButton.TextButtonStyle greenButton = new TextButton.TextButtonStyle();
 
@@ -104,14 +151,18 @@ public class RestaurantsMenu {
             greenButton.down = buttonSkin.getDrawable("buttonPressed");
             greenButton.font = style.font;
 
-            TextButton purchaseButton = new TextButton("Seek New Restaurants...", greenButton);
+            String buttonName = "Seek New Restaurants...";
+            if(player.getRestaurants().size() == 10)
+            {
+                buttonName = "Assemble into a Union";
+            }
+            if(player.country)
+            {
+                buttonName = "Challenge Nearby Countries";
+            }
+            final TextButton purchaseButton = new TextButton(buttonName, greenButton);
             purchaseButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
             purchaseButton.setWidth(Gdx.graphics.getWidth());
-            if(player.getRestaurants().size()>=10)
-            {
-
-                purchaseButton.setText("Merge Restaurants into a territory");
-            }
 
             purchaseButton.addListener(new InputListener() {
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -119,8 +170,18 @@ public class RestaurantsMenu {
                 }
 
                 public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                    //TODO Make the code that finds a new Restaurant
-                    MyGdxGame.ExpansionScreen();
+                    if(purchaseButton.getText().equals("Assemble into a Union"))
+                    {
+                        Territory t = new Territory();
+                        player.getTerritories().add(t);
+                        player.country = true;
+                    }
+                    else if(!player.country)
+                        MyGdxGame.ExpansionScreen();
+                    else
+                    {
+
+                    }
                 }
             });
 

@@ -12,7 +12,7 @@ public class Restaurant {
     private String name;
     public Restaurant()
     {
-        //TODO ANY UPDATES TO THE RESTAURANT MENU HAPPENS HERE!
+        //ANY UPDATES TO THE RESTAURANT MENU HAPPENS HERE!
         name = "Spaghetti Steve's Pasta Palace";
 
         upgrades = new ArrayList<Upgrade>();

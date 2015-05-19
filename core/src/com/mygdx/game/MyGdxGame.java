@@ -84,7 +84,7 @@ public class MyGdxGame extends ApplicationAdapter {
         iconSprite.setCenterY(Gdx.graphics.getHeight() / 2);
 
         player = new PlayerSave();
-        FileHandle hope = Gdx.files.local("pasta3.dat");
+        FileHandle hope = Gdx.files.local("pasta4.dat");
         try {
             Json j = new Json();
             String wow = hope.readString();
@@ -423,6 +423,18 @@ public class MyGdxGame extends ApplicationAdapter {
         labelStyle.font = big;
         upgradeScreen.addActor(menuButton);
         upgradeScreen.addActor(optionsButton);
+        t = new Timer();
+        t.schedule(new saveGame(), 0, 1000);
+    }
+
+    public static void TerritoryScreen()
+    {
+        upgradeScreen.clear();
+        labelStyle.font = font24;
+        upgradeScreen.addActor(TerritoryMenu.territoryMenu(player, labelStyle, buttonStyle));
+        labelStyle.font = big;
+        upgradeScreen.addActor(menuButton);
+        upgradeScreen.addActor(optionsButton);
     }
 
     public void hide()
@@ -459,7 +471,7 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             //saving file
             double numPasta = 0;
-            double numDollars = 0;
+            double numDollars = 1000;
             for(Restaurant r : player.getRestaurants())
             {
                 numPasta = 0.1;
@@ -485,7 +497,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
                 r.setSum(r.getSum() + numPasta);
 
-                for(float i = 0; i < numDollars; i+=1.5)
+                for(float i = 0; i < numDollars; i+=10000000.5)
                 {
                     FallingObject doshSprite = new FallingObject(money, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float)Math.random()*5f, -(float)Math.random()*3f);
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
@@ -500,12 +512,12 @@ public class MyGdxGame extends ApplicationAdapter {
                 moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotal())));
         }
     }
-    //TODO FIX SAVING
-    class saveGame extends TimerTask
+
+    static class saveGame extends TimerTask
     {
         public void run() {
             //saving file
-            FileHandle hope = Gdx.files.local("pasta3.dat");
+            FileHandle hope = Gdx.files.local("pasta4.dat");
             Json json = new Json();
             hope.writeString(json.toJson(player), false);
         }

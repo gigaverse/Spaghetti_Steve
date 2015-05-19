@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
 
 /**
  * Created by mahmo266317 on 5/7/2015.
@@ -41,7 +42,7 @@ public class ExpansionMenu {
 
         table.row();
 
-        //TODO - Add Restaurants to take
+
         if(player.getPotentialRestaurants().size() == 0)
         {
             try {
@@ -74,7 +75,7 @@ public class ExpansionMenu {
                 }
 
                 public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                    MyGdxGame.timer.cancel();
+                    MyGdxGame.t.cancel();
                     if(player.getTotal() >= r.getCost()) {
                         player.setTotal(player.getTotal() - r.getCost());
                         player.getPotentialRestaurants().remove(j);
