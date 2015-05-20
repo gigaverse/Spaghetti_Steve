@@ -42,10 +42,10 @@ public class TerritoryMenu {
 
         table.row();
 
-        for(int i = 0; i < player.getRestaurants().size(); i++)
+        for(int i = 0; i < player.getTerritories().size(); i++)
         {
             final int j = i;
-            Restaurant r = player.getRestaurants().get(i);
+            Territory r = player.getTerritories().get(i);
             final Label counter = new Label(String.format("%.1f\nlbs/sec",r.getIncomePerSecond()), labelStyle);
             counter.setAlignment(Align.center);
             counter.setWrap(true);

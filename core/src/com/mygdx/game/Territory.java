@@ -9,7 +9,7 @@ public class Territory
 {
     private ArrayList<Upgrade> upgrades;
     private ArrayList<Unit> units;
-    public double sum, cost;
+    public double sum, cost, previous;
     private String name;
     public Territory()
     {
@@ -19,9 +19,9 @@ public class Territory
         upgrades = new ArrayList<Upgrade>();
 
         //TODO add proper stats to all
-        upgrades.add(new Upgrade("Speghetti Revolution", 0, 5, 0.025));
-        upgrades.add(new Upgrade("Fedelini Flag", 0, 5, 0.025));
-        upgrades.add(new Upgrade("Capellini Constitution", 0, 5, 0.025));
+        upgrades.add(new Upgrade("Speghetti Revolution", 0, 1000000000, 10000));
+        upgrades.add(new Upgrade("Fedelini Flag", 0, 1750000000, 25000));
+        upgrades.add(new Upgrade("Capellini Constitution", 0, 3000000000l, 55000));
 
 
         units = new ArrayList<Unit>();
@@ -54,6 +54,14 @@ public class Territory
     public ArrayList<Upgrade> getUpgrades()
     {
         return upgrades;
+    }
+
+    public void compilePrevious(ArrayList<Restaurant> arr)
+    {
+        for(Restaurant r : arr)
+        {
+            previous += r.getIncomePerSecond();
+        }
     }
 
     public Upgrade remove(int name)
@@ -98,7 +106,7 @@ public class Territory
         {
             sum += u.tick();
         }
-        return sum*10;
+        return sum*10 + previous;
     }
 
     public String getName() {

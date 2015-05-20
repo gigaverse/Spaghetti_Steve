@@ -7,8 +7,8 @@ import java.util.*;
  */
 public class Upgrade{
     private String name;
-    private long amount, cost;
-    private double worth;
+    private long amount;
+    private double worth, cost;
 
     public Upgrade()
     {
@@ -17,7 +17,7 @@ public class Upgrade{
         cost = 0;
         worth = 0;
     }
-    public Upgrade(String name, long amount,long cost, double worth)
+    public Upgrade(String name, long amount,double cost, double worth)
     {
         this.name = name;
         this.amount = amount;
@@ -31,7 +31,7 @@ public class Upgrade{
         cost = (long)Math.ceil(cost*1.1);
     }
 
-    public long getCost()
+    public double getCost()
     {
         return cost;
     }

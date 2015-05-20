@@ -12,9 +12,10 @@ public class PlayerSave {
     private ArrayList<Territory> potentialTerritories;
     int current;
     double total;
-    boolean country;
+    boolean country, save;
     public PlayerSave()
     {
+        save = true;
         restaurants = new ArrayList<Restaurant>();
         potentialRestaurants = new ArrayList<Restaurant>();
         territories = new ArrayList<Territory>();
@@ -38,6 +39,7 @@ public class PlayerSave {
         current = 0;
         total = 0;
         restaurants = new ArrayList<Restaurant>();
+        country = false;
         return restaurants.add(new Restaurant());
     }
 
