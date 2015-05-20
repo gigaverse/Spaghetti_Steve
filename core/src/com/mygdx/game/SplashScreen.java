@@ -22,6 +22,7 @@ public class SplashScreen {
     int timer;
     public SplashScreen()
     {
+        MyGdxGame.hide();
         fallingSprites = new ArrayList<FallingObject>();
         money = new Texture(Gdx.files.internal("dosh.png"));
         pasta = new Texture(Gdx.files.internal("pasta.png"));

@@ -98,6 +98,7 @@ public class OptionsMenu {
             }
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                MyGdxGame.willAnimate();
                 FileHandle hope = Gdx.files.local("pasta3.dat");
                 Json json = new Json();
                 hope.writeString(json.toJson(player), false);

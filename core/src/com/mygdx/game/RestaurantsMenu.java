@@ -165,21 +165,19 @@ public class RestaurantsMenu {
             purchaseButton.setWidth(Gdx.graphics.getWidth());
 
             purchaseButton.addListener(new InputListener() {
-                public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     return true;
                 }
 
-                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                    if(purchaseButton.getText().equals("Assemble into a Union"))
-                    {
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    if (purchaseButton.getText().equals("Assemble into a Union")) {
                         Territory t = new Territory();
                         player.getTerritories().add(t);
                         player.country = true;
-                    }
-                    else if(!player.country)
+                        MyGdxGame.TerritoryScreen();
+                    } else if (!player.country)
                         MyGdxGame.ExpansionScreen();
-                    else
-                    {
+                    else {
 
                     }
                 }

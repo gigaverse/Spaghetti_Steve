@@ -114,7 +114,7 @@ public class TerritoryMenu {
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 if(purchaseButton.getText().equals("Merge Restaurants into a territory"))
                 {
-
+                    MyGdxGame.TerritoryScreen();
                 }
                 else
                     MyGdxGame.ExpansionScreen();
