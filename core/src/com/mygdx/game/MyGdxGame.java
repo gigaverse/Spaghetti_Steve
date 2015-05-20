@@ -32,7 +32,7 @@ public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Sprite iconSprite;
 
-    ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>();
+    private static ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>();
 
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
@@ -53,6 +53,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
     private static Stage optionsScreen;
 
+    private static boolean shouldAnimate = true;
+
     static Label pastaDisplay;
     static Label moneyDisplay;
 
@@ -63,6 +65,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void create () {
+
+        shouldAnimate=true;
         //read file if its been previously saved
         splashScreen = new SplashScreen();
 
@@ -162,6 +166,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 {
                     state = states[1];
                     upgradeScreen.clear();
+
                     upgradeScreen.addActor(RestaurantsMenu.restaurantsMenu(player,labelStyle,buttonStyle));
                     upgradeScreen.addActor(menuButton);
                     upgradeScreen.addActor(optionsButton);
@@ -216,7 +221,7 @@ public class MyGdxGame extends ApplicationAdapter {
         //Dealing with the Upgrade Menus
         upgradeScreen = new Stage();
 
-        //TODO make sure to put this label code somewhere more organized
+
         labelAtlas = new TextureAtlas("label.atlas");
         labelSkin = new Skin();
         labelSkin.addRegions(labelAtlas);
@@ -294,7 +299,7 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.begin();
 
 
-        //TODO Multiply sprites in a list or something and apply random X velocity and gravity
+
         if(!state.equals(states[3])) {
             iconSprite.scale((float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
             iconSprite.draw(batch);
@@ -329,12 +334,21 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.begin();
 
 
-        for (int i = fallingSprites.size() - 1; i >= 0; i--) {
-            FallingObject f = fallingSprites.get(i);
-            if(f == null || !f.draw(batch))
-                fallingSprites.remove(i);
 
-        }
+            if(shouldAnimate==true) {
+                for (int i = fallingSprites.size() - 1; i >= 0; i--) {
+                    FallingObject f = fallingSprites.get(i);
+                    if (f == null || !f.draw(batch))
+                        fallingSprites.remove(i);
+                }
+            }
+            else
+            {
+                Gdx.app.log("wow","Should animate = "+shouldAnimate);
+
+            }
+
+
 
         batch.end();
 
@@ -437,9 +451,14 @@ public class MyGdxGame extends ApplicationAdapter {
         upgradeScreen.addActor(optionsButton);
     }
 
-    public void hide()
+    public static void hide()
     {
         fallingSprites = new ArrayList<FallingObject>();
+    }
+    public static void willAnimate()
+    {
+        shouldAnimate=!shouldAnimate;
+
     }
 
     public static String convertNumber(double d)
@@ -471,7 +490,7 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             //saving file
             double numPasta = 0;
-            double numDollars = 1000;
+            double numDollars = 0;
             for(Restaurant r : player.getRestaurants())
             {
                 numPasta = 0.1;
@@ -497,7 +516,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
                 r.setSum(r.getSum() + numPasta);
 
-                for(float i = 0; i < numDollars; i+=10000000.5)
+                for(float i = 0; i < numDollars; i+=1.5)
                 {
                     FallingObject doshSprite = new FallingObject(money, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float)Math.random()*5f, -(float)Math.random()*3f);
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
@@ -517,6 +536,7 @@ public class MyGdxGame extends ApplicationAdapter {
     {
         public void run() {
             //saving file
+
             FileHandle hope = Gdx.files.local("pasta4.dat");
             Json json = new Json();
             hope.writeString(json.toJson(player), false);
