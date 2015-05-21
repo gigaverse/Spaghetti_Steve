@@ -3,8 +3,12 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
@@ -20,6 +24,7 @@ public class SplashScreen {
     boolean half;
     Sprite chef;
     int timer;
+    BitmapFont titleF;
     public SplashScreen()
     {
         MyGdxGame.hide();
@@ -41,16 +46,21 @@ public class SplashScreen {
 
         rot = -5.7f;
 
+        //create font
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ka1.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = (int)(32*Gdx.graphics.getDensity());
+        titleF = generator.generateFont(parameter);
     }
 
     public void tick(SpriteBatch batch, double animationparam)
     {
-        if(timer % 4 == 0) {
-            FallingObject pastaSprite = new FallingObject(pasta, (int)(-Gdx.graphics.getWidth()*0.1), (int)(Gdx.graphics.getHeight()*0.75), (float)Math.random()*10f, 15);
+        if(timer % 5 == 0) {
+            FallingObject pastaSprite = new FallingObject(pasta, (int)(-Gdx.graphics.getWidth()*0.1), (int)((Math.random()*Gdx.graphics.getHeight()*0.15)+Gdx.graphics.getHeight()*0.60), (float)Math.random()*10f, 15);
             pastaSprite.scale(.75f * Gdx.graphics.getDensity());
             fallingSprites.add(pastaSprite);
 
-            FallingObject moneySprite = new FallingObject(money, (int)(Gdx.graphics.getWidth()*1.1), (int)(Gdx.graphics.getHeight()*0.75), -(float)Math.random()*10f, 15);
+            FallingObject moneySprite = new FallingObject(money, (int)(Gdx.graphics.getWidth()*1.1), (int)((Math.random()*Gdx.graphics.getHeight()*0.15)+Gdx.graphics.getHeight()*0.60), -(float)Math.random()*10f, 15);
             moneySprite.scale(.75f * Gdx.graphics.getDensity());
             fallingSprites.add(moneySprite);
         }
@@ -76,6 +86,19 @@ public class SplashScreen {
             if (half && y <= Gdx.graphics.getHeight() / 2) {
                 yVel = -yVel;
                 if (Math.abs(yVel) < Gdx.graphics.getHeight() / (scale*Gdx.graphics.getDensity())) {
+
+                    //Title Shennigans, may or may not work currently
+                    Label.LabelStyle titleStyle = new Label.LabelStyle();
+                    titleStyle.font = titleF;
+                    Label title = new Label("Spaghetti\nSmackdown", titleStyle);
+                    title.setAlignment(Align.center);
+                    title.setWrap(true);
+                    title.setX(Gdx.graphics.getWidth()/2);
+                    title.setY(Gdx.graphics.getHeight()/2);
+                    //title.setWidth(Gdx.graphics.getWidth()/2);
+                    //title.setHeight(Gdx.graphics.getHeight()/10);
+                    this.addActor(title);
+
                     yVel = 0;
                     yAccel = 0;
                     rot = 0;
