@@ -172,7 +172,7 @@ public class UpgradeMenu {
                 if(pageNumber == 3 && !u.getType().equals("quality"))
                     continue;
 
-                final Label counter = new Label(String.format("Amount: %d\n%.2f lbs/sec", u.getAmount(), u.getMultiplier()*u.getAmount()*10), labelStyle);
+                final Label counter = new Label(String.format("Amount: %d\n$%.2f/sec", u.getAmount(), u.getMultiplier()*u.getAmount()*10), labelStyle);
                 if(u.getType().equals("quality"))
                     counter.setText("Level\n" +(u.getAmount()+1));
                 counter.setAlignment(Align.center);
@@ -385,7 +385,7 @@ public class UpgradeMenu {
                 if(pageNumber == 3 && !u.getType().equals("quality"))
                     continue;
 
-                final Label counter = new Label(String.format("Amount: %d\n%.2f lbs/sec", u.getAmount(), u.getMultiplier()*u.getAmount()*10), labelStyle);
+                final Label counter = new Label(String.format("Amount: %d\n$%.2f/sec", u.getAmount(), u.getMultiplier()*u.getAmount()*10), labelStyle);
                 if(u.getType().equals("quality"))
                     counter.setText("Level\n" +(u.getAmount()+1));
                 counter.setAlignment(Align.center);

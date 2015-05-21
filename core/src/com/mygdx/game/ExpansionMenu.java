@@ -133,7 +133,7 @@ public class ExpansionMenu {
         {
             Restaurant r = new Restaurant();
             r.setName(MyGdxGame.nameGenerator.pull()+"'s\n" +suffixes[(int)(Math.random()*suffixes.length)]);
-            r.setCost(Math.pow(((i+1)*100), 1.3));
+            r.setCost(Math.pow(((i+1)*100), 1.6));
             player.getPotentialRestaurants().add(r);
         }
     }

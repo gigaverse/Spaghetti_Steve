@@ -34,15 +34,15 @@ public class Upgrade{
         cost = (long)Math.ceil(cost*1.1);
         if(amount%25 == 0)
         {
-            mult++;
+            mult *=2;
         }
         if(amount%100 == 0)
         {
-            mult++;
+            mult *=2;
         }
         if(amount%1000 == 0)
         {
-            mult += 10;
+            mult *= 2.5;
         }
     }
 

@@ -319,7 +319,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         if(state.equals(states[3]))
         {
-            if(Gdx.input.isTouched())
+            if(Gdx.input.isTouched() && Gdx.input.getDeltaY() > 0)
             {
                 state = (states[0]);
             }
@@ -353,7 +353,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.end();
 
-        if(fallingSprites.size() >= 5000)
+        if(fallingSprites.size() >= 3000)
             fallingSprites = new ArrayList<FallingObject>();
 
         //Main Screen Drawing
@@ -462,6 +462,7 @@ public class MyGdxGame extends ApplicationAdapter {
     {
         fallingSprites = new ArrayList<FallingObject>();
     }
+
     public static void willAnimate()
     {
         shouldAnimate=!shouldAnimate;
