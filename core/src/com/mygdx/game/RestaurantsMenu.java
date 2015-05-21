@@ -50,7 +50,7 @@ public class RestaurantsMenu {
                 for (int i = 0; i < player.getRestaurants().size(); i++) {
                     final int j = i;
                     Restaurant r = player.getRestaurants().get(i);
-                    final Label counter = new Label(String.format("%.1f\nlbs/sec", r.getIncomePerSecond()), labelStyle);
+                    final Label counter = new Label(String.format("%.1f lbs/sec\n$%.2f/sec", r.getIncomePerSecond(), r.getMoneyPerSecond()), labelStyle);
                     counter.setAlignment(Align.center);
                     counter.setWrap(true);
                     counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));

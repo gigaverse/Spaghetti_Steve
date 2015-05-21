@@ -120,6 +120,16 @@ public class Restaurant {
         return sum*10;
     }
 
+    public double getMoneyPerSecond()
+    {
+        double sum = 0;
+        for(Unit u : units)
+        {
+            sum += u.getAmount()*u.getMultiplier();
+        }
+        return sum*10;
+    }
+
     public String getName() {
         return name;
     }

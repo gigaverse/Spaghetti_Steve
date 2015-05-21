@@ -166,8 +166,9 @@ public class MyGdxGame extends ApplicationAdapter {
                 {
                     state = states[1];
                     upgradeScreen.clear();
-
+                    labelStyle.font = font20;
                     upgradeScreen.addActor(RestaurantsMenu.restaurantsMenu(player,labelStyle,buttonStyle));
+                    labelStyle.font = font24;
                     upgradeScreen.addActor(menuButton);
                     upgradeScreen.addActor(optionsButton);
                     Gdx.input.setInputProcessor(upgradeScreen);
@@ -257,7 +258,7 @@ public class MyGdxGame extends ApplicationAdapter {
         moneyStyle.background = moneySkin.getDrawable("default");
         moneyStyle.font = big;
 
-        moneyDisplay = new Label(String.format("$%.2f", player.getTotal()), moneyStyle);
+        moneyDisplay = new Label(String.format("$%.2f", player.getTotalMoney()), moneyStyle);
         moneyDisplay.setAlignment(Align.center);
         moneyDisplay.setWrap(true);
         moneyDisplay.setX(Gdx.graphics.getWidth()/2);
@@ -423,7 +424,7 @@ public class MyGdxGame extends ApplicationAdapter {
     public static void RestaurantScreen(int page)
     {
             upgradeScreen.clear();
-            labelStyle.font = font24;
+            labelStyle.font = font20;
             buttonStyle.font = font20;
         if(!player.country)
             upgradeScreen.addActor(UpgradeMenu.upgradeMenu(player,labelStyle,buttonStyle,page));
@@ -513,6 +514,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 }
 
                 r.setSum(r.getSum() + numPasta);
+                player.setTotalPasta(player.getTotalPasta() + numPasta);
                 }
 
                 for(float i = 0; i < numDollars; i+=1.5)
@@ -531,12 +533,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-            player.setTotal(player.getTotal() + numDollars);
+            player.setTotalMoney(player.getTotalMoney() + numDollars);
             if(pastaDisplay != null) {
-                pastaDisplay.setText(String.format("%s\nlbs", convertNumber(player.getCurrentRestaurant().sum)));
+                pastaDisplay.setText(String.format("%s\nlbs", convertNumber(player.getTotalPasta())));
             }
             if(moneyDisplay != null)
-                moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotal())));
+                moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotalMoney())));
         }
     }
 

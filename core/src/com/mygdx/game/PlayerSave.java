@@ -6,12 +6,12 @@ import java.util.ArrayList;
  * Created by mahmo266317 on 5/4/2015.
  */
 public class PlayerSave {
-    private ArrayList<Restaurant> restaurants;
-    private ArrayList<Restaurant> potentialRestaurants;
+    private volatile ArrayList<Restaurant> restaurants;
+    private volatile ArrayList<Restaurant> potentialRestaurants;
     private ArrayList<Territory> territories;
     private ArrayList<Territory> potentialTerritories;
     int current;
-    double total;
+    double totalMoney, totalPasta;
     boolean country, save;
     public PlayerSave()
     {
@@ -21,7 +21,8 @@ public class PlayerSave {
         territories = new ArrayList<Territory>();
         potentialTerritories = new ArrayList<Territory>();
         current = 0;
-        total = 10000000;
+        totalMoney = 0;
+        totalPasta = 0;
     }
 
     public boolean init()
@@ -37,7 +38,8 @@ public class PlayerSave {
         territories = new ArrayList<Territory>();
         potentialTerritories = new ArrayList<Territory>();
         current = 0;
-        total = 0;
+        totalMoney = 0;
+        totalPasta = 0;
         restaurants = new ArrayList<Restaurant>();
         country = false;
         return restaurants.add(new Restaurant());
@@ -78,13 +80,23 @@ public class PlayerSave {
         this.current = current;
     }
 
-    public void setTotal(double total)
+    public void setTotalMoney(double total)
     {
-        this.total = total;
+        this.totalMoney = total;
     }
 
-    public double getTotal()
+    public double getTotalMoney()
     {
-        return total;
+        return totalMoney;
+    }
+
+    public void setTotalPasta(double total)
+    {
+        this.totalPasta = total;
+    }
+
+    public double getTotalPasta()
+    {
+        return totalPasta;
     }
 }
