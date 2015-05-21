@@ -25,6 +25,7 @@ public class SplashScreen {
     Sprite chef;
     int timer;
     BitmapFont titleF;
+    BitmapFont titleFs;
     public SplashScreen()
     {
         MyGdxGame.hide();
@@ -51,6 +52,10 @@ public class SplashScreen {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int)(32*Gdx.graphics.getDensity());
         titleF = generator.generateFont(parameter);
+        parameter.size = (int)(24*Gdx.graphics.getDensity());
+        titleFs = generator.generateFont(parameter);
+        titleF.setColor(0f,0f,0f,255f);
+        titleFs.setColor(0f,0f,0f,255f);
     }
 
     public void tick(SpriteBatch batch, double animationparam)
@@ -88,16 +93,8 @@ public class SplashScreen {
                 if (Math.abs(yVel) < Gdx.graphics.getHeight() / (scale*Gdx.graphics.getDensity())) {
 
                     //Title Shennigans, may or may not work currently
-                    Label.LabelStyle titleStyle = new Label.LabelStyle();
-                    titleStyle.font = titleF;
-                    Label title = new Label("Spaghetti\nSmackdown", titleStyle);
-                    title.setAlignment(Align.center);
-                    title.setWrap(true);
-                    title.setX(Gdx.graphics.getWidth()/2);
-                    title.setY(Gdx.graphics.getHeight()/2);
-                    //title.setWidth(Gdx.graphics.getWidth()/2);
-                    //title.setHeight(Gdx.graphics.getHeight()/10);
-                    this.addActor(title);
+                    titleF.draw(batch, " Spaghetti\nSmackdown", Gdx.graphics.getWidth()*.15f, Gdx.graphics.getHeight()*.93f);
+                    titleFs.draw(batch, "Slide Down To\n      V Begin V", Gdx.graphics.getWidth()*.17f, Gdx.graphics.getHeight()*.15f);
 
                     yVel = 0;
                     yAccel = 0;
