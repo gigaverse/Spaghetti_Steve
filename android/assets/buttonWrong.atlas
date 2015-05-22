@@ -1,0 +1,12 @@
+
+buttonWrong.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+default
+  rotate: false
+  xy: 1, 1
+  size: 720, 200
+  orig: 720, 200
+  offset: 0, 0
+  index: -1

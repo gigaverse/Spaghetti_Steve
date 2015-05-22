@@ -42,4 +42,15 @@ public class FallingObject {
         sprite.scale(f);
     }
 
+    public double getX()
+    {
+        return x;
+    }
+
+    public double getY()
+    {
+        return y;
+    }
+
+
 }

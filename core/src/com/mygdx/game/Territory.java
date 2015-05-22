@@ -19,9 +19,9 @@ public class Territory
         upgrades = new ArrayList<Upgrade>();
 
         //TODO add proper stats to all
-        upgrades.add(new Upgrade("Speghetti Revolution", 0, 1000000000, 10000));
-        upgrades.add(new Upgrade("Fedelini Flag", 0, 1750000000, 25000));
-        upgrades.add(new Upgrade("Capellini Constitution", 0, 3000000000l, 55000));
+        upgrades.add(new Upgrade("Speghetti Revolution", 0, 100000000, 10000));
+        upgrades.add(new Upgrade("Fedelini Flag", 0, 175000000, 25000));
+        upgrades.add(new Upgrade("Capellini Constitution", 0, 300000000l, 55000));
 
 
         units = new ArrayList<Unit>();
@@ -105,6 +105,21 @@ public class Territory
         for(Upgrade u : upgrades)
         {
             sum += u.tick();
+        }
+        return sum*10 + previous;
+    }
+
+    public double tick()
+    {
+        return getIncomePerSecond()/10;
+    }
+
+    public double getMoneyPerSecond()
+    {
+        double sum = 0;
+        for(Unit u : units)
+        {
+            sum += u.getMultiplier()*u.getAmount();
         }
         return sum*10 + previous;
     }

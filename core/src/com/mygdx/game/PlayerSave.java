@@ -99,4 +99,36 @@ public class PlayerSave {
     {
         return totalPasta;
     }
+
+    public double pastaPerSecond()
+    {
+        double d = 0;
+        if(!country) {
+            for (Restaurant r : restaurants) {
+                d += r.getIncomePerSecond();
+            }
+        }
+        else {
+            for (Territory t : territories) {
+                d += t.getIncomePerSecond();
+            }
+        }
+
+        return d;
+    }
+
+    public double moneyPerSecond()
+    {
+        double d = 0;
+        for(Restaurant r : restaurants)
+        {
+            d += r.getMoneyPerSecond();
+        }
+        for(Territory t : territories)
+        {
+            d += t.getMoneyPerSecond();
+        }
+
+        return d;
+    }
 }

@@ -31,19 +31,19 @@ import java.util.TimerTask;
 public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Sprite iconSprite;
-
+    public static boolean restlist = false;
     private static ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>();
 
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
     double animationparam = 0;
-    private static BitmapFont font, big, font20,  font24;
+    public static BitmapFont font, big, font20,  font24;
     private static TextureAtlas buttonsAtlas;
-    private static Skin buttonSkin;
+    public static Skin buttonSkin;
     private static TextButton menuButton, optionsButton;
     private static TextureAtlas labelAtlas;
     private static Skin labelSkin;
-    private static TextButton.TextButtonStyle buttonStyle;
+    public static TextButton.TextButtonStyle buttonStyle;
     private static Label.LabelStyle labelStyle;
     private static Texture icon, money, pasta;
     public static Timer timer, t;
@@ -99,6 +99,8 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         batch = new SpriteBatch();
+        if(player == null)
+            player = new PlayerSave();
         if(player.getRestaurants().size() == 0) {
             player.init();
         }
@@ -112,6 +114,8 @@ public class MyGdxGame extends ApplicationAdapter {
         mainScreen = new Stage();
         buttonsAtlas = new TextureAtlas("menuButton.atlas");
         buttonSkin = new Skin();
+        buttonSkin.addRegions(buttonsAtlas);
+        buttonsAtlas = new TextureAtlas("buttonWrong.atlas");
         buttonSkin.addRegions(buttonsAtlas);
 
         //Generates Bitmap font from .ttf and scales it
@@ -135,6 +139,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         buttonStyle.up = buttonSkin.getDrawable("button");
         buttonStyle.down = buttonSkin.getDrawable("buttonPressed");
+        buttonStyle.over = buttonSkin.getDrawable("default");
         buttonStyle.font = font;
 
         TextButton.TextButtonStyle optionsStyle = new TextButton.TextButtonStyle();
@@ -266,7 +271,7 @@ public class MyGdxGame extends ApplicationAdapter {
         moneyDisplay.setWidth(Gdx.graphics.getWidth()/2);
         moneyDisplay.setHeight(Gdx.graphics.getHeight()/10);
         mainScreen.addActor(moneyDisplay);
-
+        restlist = false;
     }
 
 
@@ -294,6 +299,7 @@ public class MyGdxGame extends ApplicationAdapter {
         }
         else if(state.equals(states[0]))
         {
+            restlist = false;
             mainScreen.act();
         }
 
@@ -353,7 +359,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.end();
 
-        if(fallingSprites.size() >= 3000)
+        if(fallingSprites.size() >= 1000 && Math.abs(fallingSprites.get(fallingSprites.size() - 1).getY() - fallingSprites.get(fallingSprites.size() - 600).getY()) < Gdx.graphics.getHeight() / 3)
             fallingSprites = new ArrayList<FallingObject>();
 
         //Main Screen Drawing
@@ -499,33 +505,48 @@ public class MyGdxGame extends ApplicationAdapter {
             //saving file
             double numPasta = 0;
             double numDollars = 0;
-            for(Restaurant r : player.getRestaurants())
+            double totalPasta = 0;
+            if(!player.country) {
+                for (Restaurant r : player.getRestaurants()) {
+                    numPasta = 0.1;
+                    for (Upgrade u : r.getUpgrades()) {
+                        if (u != null) {
+                            numPasta += u.tick();
+                        }
+                    }
+
+                    for (Unit u : r.getUnits()) {
+                        if (u != null)
+                            numDollars += u.getAmount() * u.getMultiplier();
+                    }
+
+                    r.setSum(r.getSum() + numPasta);
+                    player.setTotalPasta(player.getTotalPasta() + numPasta);
+                    totalPasta += numPasta;
+                }
+            }
+            else
             {
-                numPasta = 0.1;
-                for(Upgrade u : r.getUpgrades())
-                {
-                    if(u != null)
-                        numPasta += u.tick();
-                }
+                for (Territory r : player.getTerritories()) {
+                    numPasta = 0.1;
+                    numPasta += r.tick();
 
-                for(Unit u : r.getUnits())
-                {
-                    if(u != null)
-                        numDollars += u.getAmount()*u.getMultiplier();
-                }
+                    numDollars += (r.getMoneyPerSecond()/10);
 
-                r.setSum(r.getSum() + numPasta);
-                player.setTotalPasta(player.getTotalPasta() + numPasta);
+                    r.setSum(r.getSum() + numPasta);
+                    player.setTotalPasta(player.getTotalPasta() + numPasta);
+                    totalPasta += numPasta;
                 }
+            }
 
-                for(float i = 0; i < numDollars; i+=1.5)
+                for(float i = 0; i < numDollars; i+=5000)
                 {
                     FallingObject doshSprite = new FallingObject(money, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float)Math.random()*5f, -(float)Math.random()*3f);
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
                     fallingSprites.add(doshSprite);
                 }
 
-                for(int i = 0; i < numPasta; i+=350)
+                for(int i = 0; i < totalPasta; i+=50000)
                 {
                     FallingObject doshSprite = new FallingObject(pasta, 0, Gdx.graphics.getHeight(), (float)Math.random()*5f, -(float)Math.random()*3f);
                     doshSprite.scale(.75f*Gdx.graphics.getDensity());
@@ -536,10 +557,17 @@ public class MyGdxGame extends ApplicationAdapter {
 
             player.setTotalMoney(player.getTotalMoney() + numDollars);
             if(pastaDisplay != null) {
-                pastaDisplay.setText(String.format("%s\nlbs", convertNumber(player.getTotalPasta())));
+                if(restlist)
+                    pastaDisplay.setText(String.format("%s lbs /sec", convertNumber(player.pastaPerSecond())));
+                else
+                    pastaDisplay.setText(String.format("%s\nlbs", convertNumber(player.getTotalPasta())));
             }
-            if(moneyDisplay != null)
-                moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotalMoney())));
+            if(moneyDisplay != null) {
+                if (restlist)
+                    moneyDisplay.setText(String.format("$%s /sec", convertNumber(player.moneyPerSecond())));
+                else
+                    moneyDisplay.setText(String.format("$%s", convertNumber(player.getTotalMoney())));
+            }
         }
     }
 

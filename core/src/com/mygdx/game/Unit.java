@@ -6,7 +6,7 @@ package com.mygdx.game;
 public class Unit {
     private String name, type;
     private long amount, cost;
-    private double multiplier,atk,def,range;
+    private double multiplier,atk,def,range, mult;
 
     public Unit()
     {
@@ -20,6 +20,7 @@ public class Unit {
         this.amount = amount;
         this.cost = cost;
         this.multiplier = multiplier;
+        mult = 1;
     }
 
     public Unit(String name,String type, long amount, long cost, double atk, double def, double range)
@@ -31,6 +32,7 @@ public class Unit {
         this.def = def;
         this.atk = atk;
         this.range = range;
+        mult = 1;
     }
 
     public Unit(String name,String type, long amount, long cost, double multiplier, double atk, double def, double range)
@@ -43,6 +45,7 @@ public class Unit {
         this.def = def;
         this.atk = atk;
         this.range = range;
+        mult = 1;
     }
 
     public void add()
@@ -52,6 +55,10 @@ public class Unit {
             cost = (long)Math.pow(cost, 1.2);
         else
             cost = (long)Math.ceil(cost*1.1);
+        if(amount%25 == 0)
+            mult *=2;
+        if(amount % 100 == 0)
+            mult *= 8;
     }
 
     public String getName()
@@ -98,7 +105,7 @@ public class Unit {
 
     public double getMultiplier()
     {
-        return multiplier;
+        return multiplier*mult;
     }
 
     public void setName(String name) {

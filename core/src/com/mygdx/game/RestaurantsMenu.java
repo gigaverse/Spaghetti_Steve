@@ -20,6 +20,7 @@ public class RestaurantsMenu {
 
         public static Table restaurantsMenu(final PlayerSave player, final Label.LabelStyle labelStyle,final TextButton.TextButtonStyle style)
         {
+            MyGdxGame.restlist = true;
             //Created labels and added "buying" an upgrade
             Table scrollTable = new Table();
             scrollTable.top();
@@ -67,6 +68,7 @@ public class RestaurantsMenu {
 
                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                             player.setCurrent(j);
+                            MyGdxGame.restlist = false;
                             MyGdxGame.RestaurantScreen(0);
                         }
                     });
@@ -112,6 +114,7 @@ public class RestaurantsMenu {
 
                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                             player.setCurrent(j);
+                            MyGdxGame.restlist = false;
                             MyGdxGame.RestaurantScreen(0);
                         }
                     });
@@ -181,6 +184,7 @@ public class RestaurantsMenu {
                     else {
 
                     }
+                    MyGdxGame.restlist = false;
                 }
             });
 
