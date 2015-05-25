@@ -37,7 +37,7 @@ public class MyGdxGame extends ApplicationAdapter {
     SpriteBatch batch;
     Sprite iconSprite;
     public static boolean restlist = false;
-    private static ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>(), clickedSprites = new ArrayList<FallingObject>();
+    private volatile static ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>(), clickedSprites = new ArrayList<FallingObject>();
 
 
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
@@ -348,23 +348,42 @@ public class MyGdxGame extends ApplicationAdapter {
         if(Gdx.input.justTouched() && state == states[0])
         {
             player.setTotalPasta(player.getTotalPasta() + player.getPPC());
-            for(float i = 0; i < player.getPPC(); i++)
-            {
-                int vel = 20;
-                double ang = Math.random()*360;
-
-                FallingObject doshSprite = new FallingObject(macaroni, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(vel*Math.cos(ang)), (float)(vel*Math.sin(ang)));
+            if(player.getPPC() > 1000000000) {
+                for (int i = 0; i < (player.getPPC() / 1000000000); i += 10) {
+                    int ang = (int)(Math.random()*360);
+                    FallingObject doshSprite = new FallingObject(spaghetti, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(20*Math.cos(ang)), (float)(20*Math.sin(ang)));
+                    doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                    clickedSprites.add(doshSprite);
+                }
+            }
+            for (int i = 0; i < (int)(player.getPPC() % 1000000000) / 1000000; i += 200) {
+                int ang = (int)(Math.random()*360);
+                FallingObject doshSprite = new FallingObject(shells, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(20*Math.cos(ang)), (float)(20*Math.sin(ang)));
                 doshSprite.scale(.75f * Gdx.graphics.getDensity());
                 clickedSprites.add(doshSprite);
+            }
 
+            for (int i = 0; i < (int)(player.getPPC() % 1000000) / 1000; i += 200) {
+                int ang = (int)(Math.random()*360);
+                FallingObject doshSprite = new FallingObject(penne,Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(20*Math.cos(ang)), (float)(20*Math.sin(ang)));
+                doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                clickedSprites.add(doshSprite);
+            }
+
+            for (int i = 0; i < (player.getPPC() % 1000); i += 200) {
+                int ang = (int)(Math.random()*360);
+                FallingObject doshSprite = new FallingObject(macaroni, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(20*Math.cos(ang)), (float)(120*Math.sin(ang)));
+                doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                clickedSprites.add(doshSprite);
             }
 
         }
 
-        for(FallingObject f : clickedSprites)
+        for(int i = clickedSprites.size()-1; i >= 0; i-- )
         {
+            FallingObject f  = clickedSprites.get(i);
             if (f == null || !f.draw(batch))
-                fallingSprites.remove(f);
+                clickedSprites.remove(f);
         }
 
         batch.end();
