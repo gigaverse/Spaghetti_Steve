@@ -5,15 +5,15 @@ package com.mygdx.game;
  */
 public class Unit {
     private String name, type;
-    private long amount, cost;
-    private double multiplier,atk,def,range, mult;
+    private long amount;
+    private double multiplier,atk,def,range, mult, cost;
 
     public Unit()
     {
         this.name = "";
     }
 
-    public Unit(String name,String type,  long amount, long cost, double multiplier)
+    public Unit(String name,String type,  long amount, double cost, double multiplier)
     {
         this.type = type;
         this.name = name;
@@ -23,7 +23,7 @@ public class Unit {
         mult = 1;
     }
 
-    public Unit(String name,String type, long amount, long cost, double atk, double def, double range)
+    public Unit(String name,String type, long amount, double cost, double atk, double def, double range)
     {
         this.type = type;
         this.name = name;
@@ -35,7 +35,7 @@ public class Unit {
         mult = 1;
     }
 
-    public Unit(String name,String type, long amount, long cost, double multiplier, double atk, double def, double range)
+    public Unit(String name,String type, long amount, double cost, double multiplier, double atk, double def, double range)
     {
         this.name = name;
         this.type = type;
@@ -58,12 +58,21 @@ public class Unit {
         if(amount%25 == 0)
             mult *=2;
         if(amount % 100 == 0)
-            mult *= 8;
+            mult *= 4;
     }
 
     public String getName()
     {
-        return name;
+        String s = "";
+        if(name.equals("Michelin Stars"))
+        {
+            for(int i = 0; i < amount; i++)
+            {
+                s += "★";
+            }
+        }
+
+        return name + s + (mult > 1 && !type.equals("quality") ? " x " + (int)mult : "");
     }
 
     public String getType()
@@ -79,7 +88,7 @@ public class Unit {
         return amount;
     }
 
-    public long getCost() {
+    public double getCost() {
         return cost;
     }
 
@@ -91,7 +100,7 @@ public class Unit {
         this.atk = atk;
     }
 
-    public void setCost(long cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 

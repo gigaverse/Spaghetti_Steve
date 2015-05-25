@@ -173,16 +173,15 @@ public class RestaurantsMenu {
                 }
 
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    if (player.getRestaurants().size() == 10 && !player.country) {
+                    if (player.getRestaurants().size() >= 10 && !player.country) {
                         Territory t = new Territory();
                         player.getTerritories().add(t);
                         t.compilePrevious(player.getRestaurants());
                         player.country = true;
                         MyGdxGame.TerritoryScreen();
-                    } else if (!player.country)
-                        MyGdxGame.ExpansionScreen();
+                    }
                     else {
-
+                        MyGdxGame.ExpansionScreen();
                     }
                     MyGdxGame.restlist = false;
                 }

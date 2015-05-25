@@ -11,8 +11,8 @@ public class PlayerSave {
     private ArrayList<Territory> territories;
     private ArrayList<Territory> potentialTerritories;
     int current;
-    double totalMoney, totalPasta;
-    boolean country, save;
+    double totalMoney, totalPasta, pastaPerClick;
+    boolean country, save, music;
     public PlayerSave()
     {
         save = true;
@@ -23,6 +23,8 @@ public class PlayerSave {
         current = 0;
         totalMoney = 0;
         totalPasta = 0;
+        pastaPerClick = 0.5;
+        music = true;
     }
 
     public boolean init()
@@ -130,5 +132,15 @@ public class PlayerSave {
         }
 
         return d;
+    }
+
+    public void setPPC(double pastaPerClick)
+    {
+        this.pastaPerClick = pastaPerClick;
+    }
+
+    public double getPPC()
+    {
+        return pastaPerClick;
     }
 }

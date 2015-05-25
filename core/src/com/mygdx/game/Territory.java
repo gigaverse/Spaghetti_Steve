@@ -30,13 +30,21 @@ public class Territory
 
         //minion units
         //TODO minion combat?
-        units.add(new Unit("Elicoidali Embryo","minion",0, 10000, 1,1,1));
-        units.add(new Unit("Spaghetto Trenne Thug","minion",0, 10000, 1,1,1));
-        units.add(new Unit("Whole-grain Worker","minion",0, 30000, 2,2,2));
+        units.add(new Unit("Pastamancer","minion",0, 100000000, 1,1,1));
+        units.add(new Unit("Penne Pikeman","minion",0, 350000000, 1,1,1));
+        units.add(new Unit("Spaghetti Bomber","minion",0, 50000000000d, 2,2,2));
 
-        units.add(new Unit("Cannerozzetti CEO","minion",0, 75000, 3,4,3));
-        units.add(new Unit("Malloreddus Mayor","minion",0, 75000, 3,4,3));
-        units.add(new Unit("Spaghetti Stalin","minion",0, 120000, 5,10,5));
+        units.add(new Unit("Bigoli Bomber","minion",0, 150000000000d, 3,4,3));
+        units.add(new Unit("Capellini Capper","minion",0, 750000000000d, 3,4,3));
+        units.add(new Unit("Pici Punisher","minion",0, 3500000000000d, 5,10,5));
+
+        units.add(new Unit("Elicoidali Engine","minion",0, 3500000000000d, 1,1,1));
+        units.add(new Unit("Spaghetto Trenne Thug","minion",0, 3500000000000d, 1,1,1));
+        units.add(new Unit("Whole-grain Worker","minion",0, 3500000000000d, 2,2,2));
+
+        units.add(new Unit("Cannerozzetti CEO","minion",0, 3500000000000d, 3,4,3));
+        units.add(new Unit("Malloreddus Mayor","minion",0, 3500000000000d, 3,4,3));
+        units.add(new Unit("Spaghetti Stalin","minion",0, 3500000000000d, 5,10,5));
 
 
     }

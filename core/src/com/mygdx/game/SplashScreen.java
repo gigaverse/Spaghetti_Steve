@@ -30,8 +30,8 @@ public class SplashScreen {
     {
         MyGdxGame.hide();
         fallingSprites = new ArrayList<FallingObject>();
-        money = new Texture(Gdx.files.internal("dosh.png"));
-        pasta = new Texture(Gdx.files.internal("pasta.png"));
+        money = new Texture(Gdx.files.internal("bag.png"));
+        pasta = new Texture(Gdx.files.internal("penne.png"));
         c = new Texture(Gdx.files.internal("chef.png"));
         y = -Gdx.graphics.getHeight()/4;
         yAccel = Gdx.graphics.getHeight()/(1920*2f);

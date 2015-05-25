@@ -38,11 +38,7 @@ public class Upgrade{
         }
         if(amount%100 == 0)
         {
-            mult *=2;
-        }
-        if(amount%1000 == 0)
-        {
-            mult *= 2.5;
+            mult *=4;
         }
     }
 

@@ -10,6 +10,7 @@ public class Restaurant {
     private ArrayList<Unit> units;
     public double sum, cost;
     private String name;
+    private int stars;
     public Restaurant()
     {
         //ANY UPDATES TO THE RESTAURANT MENU HAPPENS HERE!
@@ -17,29 +18,31 @@ public class Restaurant {
 
         upgrades = new ArrayList<Upgrade>();
 
-        upgrades.add(new Upgrade("Forks", 0, 5, 0.025));
-        upgrades.add(new Upgrade("Pasta Pans", 0, 40, 0.1));
-        upgrades.add(new Upgrade("Instant Noodles", 0, 160, 0.3));
+        upgrades.add(new Upgrade("Forks", 0, 50, 0.025));
+        upgrades.add(new Upgrade("Pasta Pans", 0, 150, 0.1));
+        upgrades.add(new Upgrade("Instant Noodles", 0, 300, 0.3));
 
-        upgrades.add(new Upgrade("Tomato Sauce", 0, 600, 0.75));
-        upgrades.add(new Upgrade("Boiling Water", 0, 1100, 1.5));
-        upgrades.add(new Upgrade("Angel Hair Pasta", 0, 2050, 3));
+        upgrades.add(new Upgrade("Tomato Sauce", 0, 1000, 0.75));
+        upgrades.add(new Upgrade("Boiling Water", 0, 2300, 1.5));
+        upgrades.add(new Upgrade("Angel Hair Pasta", 0, 4600, 3));
 
-        upgrades.add(new Upgrade("Pasta Cutter", 0, 6666, 10.0));
-        upgrades.add(new Upgrade("Alfredo Cauldron", 0, 15000, 24.0));
-        upgrades.add(new Upgrade("Spaghetti Spitter", 0, 35000, 45));
+        upgrades.add(new Upgrade("Pasta Cutter", 0, 9000, 10.0));
+        upgrades.add(new Upgrade("Alfredo Cauldron", 0, 16000, 24.0));
+        upgrades.add(new Upgrade("Spaghetti Spitter", 0, 45000, 35));
 
-        upgrades.add(new Upgrade("Pasta Room", 0, 100000, 75));
-        upgrades.add(new Upgrade("Spaghetti Monster", 0, 225000, 135));
-        upgrades.add(new Upgrade("Spaghetti Community", 0, 400000, 200));
+        upgrades.add(new Upgrade("Pasta Room", 0, 100000, 50));
+        upgrades.add(new Upgrade("Spaghetti Monster", 0, 225000, 85));
+        upgrades.add(new Upgrade("Spaghetti Community", 0, 400000, 125));
 
         upgrades.add(new Upgrade("Pasta Fort", 0, 875000, 335));
-        upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 1750000, 575));
-        upgrades.add(new Upgrade("The Spaghetto", 0 , 3000000, 1000));
+        upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 1750000, 275));
+        upgrades.add(new Upgrade("The Spaghetto", 0 , 3000000, 600));
 
 
         units = new ArrayList<Unit>();
         units.add(new Unit("Pasta Maker","quality",0, 5000, 0));
+        units.add(new Unit("Michelin Stars","quality",0, 500000, 0));
+
 
         units.add(new Unit("Table Bus","money",0, 500, 0.005));
         units.add(new Unit("Waiter","money",0, 2500, 0.015));
@@ -110,6 +113,7 @@ public class Restaurant {
         {
             sum += u.tick();
         }
+
         return sum*10;
     }
 
@@ -124,7 +128,13 @@ public class Restaurant {
     }
 
     public String getName() {
-        return name;
+        stars = (int)units.get(1).getAmount();
+        String s = "";
+        for(int i = 0; i < stars; i++)
+        {
+            s += "*";
+        }
+        return name + "\n" + s;
     }
 
     public void setName(String name)

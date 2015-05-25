@@ -101,7 +101,7 @@ public class TerritoryMenu {
         greenButton.down = buttonSkin.getDrawable("buttonPressed");
         greenButton.font = style.font;
 
-        final TextButton purchaseButton = new TextButton("Merge Restaurants into a territory", greenButton);
+        final TextButton purchaseButton = new TextButton("Challenge Nearby Countries", greenButton);
         purchaseButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
         purchaseButton.setWidth(Gdx.graphics.getWidth());
 
@@ -112,7 +112,7 @@ public class TerritoryMenu {
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                if(purchaseButton.getText().equals("Merge Restaurants into a territory"))
+                if(purchaseButton.getText().equals("Challenge Nearby Countries"))
                 {
                     MyGdxGame.TerritoryScreen();
                 }

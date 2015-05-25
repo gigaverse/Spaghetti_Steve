@@ -1,7 +1,10 @@
 package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,10 +33,12 @@ import java.util.TimerTask;
 
 
 public class MyGdxGame extends ApplicationAdapter {
+    public static Music italy;
     SpriteBatch batch;
     Sprite iconSprite;
     public static boolean restlist = false;
-    private static ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>();
+    private static ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>(), clickedSprites = new ArrayList<FallingObject>();
+
 
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
@@ -45,7 +51,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private static Skin labelSkin;
     public static TextButton.TextButtonStyle buttonStyle;
     private static Label.LabelStyle labelStyle;
-    private static Texture icon, money, pasta;
+    private static Texture icon, coin, dollar, wadOfMoney, bagOfMoney, macaroni, penne, shells, spaghetti;
     public static Timer timer, t;
     private static Stage upgradeScreen;
 
@@ -58,30 +64,32 @@ public class MyGdxGame extends ApplicationAdapter {
     static Label pastaDisplay;
     static Label moneyDisplay;
 
-    static PlayerSave player;
+    static volatile PlayerSave player;
     static String[] states = {"GameView", "UpgradeMenu", "OptionsMenu", "SplashScreen"};
     static String state = states[3];
     public static NameGenerator nameGenerator;
 
     @Override
     public void create () {
+        italy = Gdx.audio.newMusic(Gdx.files.internal("italy.ogg"));
 
-        shouldAnimate=true;
+
+                shouldAnimate=true;
         //read file if its been previously saved
         splashScreen = new SplashScreen();
 
         state = states[3];
         icon = new Texture(Gdx.files.internal("chefs.png"));
-        try {
-            nameGenerator = new NameGenerator();
-        }
-        catch(IOException e)
-        {
-            Gdx.app.log("wow",e.toString());
-        }
 
-        money = new Texture(Gdx.files.internal("dosh.png"));
-        pasta = new Texture(Gdx.files.internal("pasta.png"));
+        coin = new Texture(Gdx.files.internal("coin.png"));
+        dollar = new Texture(Gdx.files.internal("dollar.png"));
+        wadOfMoney = new Texture(Gdx.files.internal("wad.png"));
+        bagOfMoney = new Texture(Gdx.files.internal("bag.png"));
+
+        macaroni = new Texture(Gdx.files.internal("penne.png"));
+        penne = new Texture(Gdx.files.internal("penne.png"));
+        shells = new Texture(Gdx.files.internal("penne.png"));
+        spaghetti = new Texture(Gdx.files.internal("penne.png"));
 
         iconSprite = new Sprite(icon);
         iconSprite.setCenterX(Gdx.graphics.getWidth() / 2);
@@ -272,12 +280,44 @@ public class MyGdxGame extends ApplicationAdapter {
         moneyDisplay.setHeight(Gdx.graphics.getHeight()/10);
         mainScreen.addActor(moneyDisplay);
         restlist = false;
+
+
+        try {
+            nameGenerator = new NameGenerator();
+        }
+        catch(IOException e)
+        {
+            Gdx.app.log("wow",e.toString());
+        }
+
+        italy.setLooping(true);
+        if(player.music)
+        {
+            italy.play();
+        }
     }
 
 
     @Override
     public void render ()
     {
+        if((state.equals(states[1]) && !Gdx.input.getInputProcessor().equals(upgradeScreen)) || (!mainScreen.getActors().contains(menuButton, false) && state.equals(states[0])))
+        {
+            mainScreen.addActor(menuButton);
+            mainScreen.addActor(optionsButton);
+            Gdx.input.setInputProcessor(mainScreen);
+            state = states[0];
+
+        }
+        else if(state.equals(states[2]) && !Gdx.input.getInputProcessor().equals(optionsScreen))
+        {
+            mainScreen.addActor(menuButton);
+            mainScreen.addActor(optionsButton);
+            Gdx.input.setInputProcessor(mainScreen);
+            state = states[0];
+        }
+
+
         if(!state.equals(states[3])) {
             Gdx.gl.glClearColor((float) (210 / 256.0), (float) (215 / 256.0), (float) (223 / 256.0), 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -305,13 +345,40 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.begin();
 
+        if(Gdx.input.justTouched() && state == states[0])
+        {
+            player.setTotalPasta(player.getTotalPasta() + player.getPPC());
+            for(float i = 0; i < player.getPPC(); i++)
+            {
+                int vel = 20;
+                double ang = Math.random()*360;
+
+                FallingObject doshSprite = new FallingObject(macaroni, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(vel*Math.cos(ang)), (float)(vel*Math.sin(ang)));
+                doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                clickedSprites.add(doshSprite);
+
+            }
+
+        }
+
+        for(FallingObject f : clickedSprites)
+        {
+            if (f == null || !f.draw(batch))
+                fallingSprites.remove(f);
+        }
+
+        batch.end();
+
+
+
+        batch.begin();
+
 
 
         if(!state.equals(states[3])) {
             iconSprite.scale((float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
             iconSprite.draw(batch);
             iconSprite.rotate(-0.5f);
-
             iconSprite.scale(-(float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
         }
 
@@ -319,7 +386,6 @@ public class MyGdxGame extends ApplicationAdapter {
         animationparam = (animationparam + 0.05) % (2*Math.PI);
 
         batch.end();
-
 
         batch.begin();
 
@@ -384,6 +450,7 @@ public class MyGdxGame extends ApplicationAdapter {
         //Drawing the Top Bar
 
     }
+
 
     public void show() {
         batch.dispose();
@@ -450,8 +517,6 @@ public class MyGdxGame extends ApplicationAdapter {
         labelStyle.font = big;
         upgradeScreen.addActor(menuButton);
         upgradeScreen.addActor(optionsButton);
-        t = new Timer();
-        t.schedule(new saveGame(), 0, 1000);
     }
 
     public static void TerritoryScreen()
@@ -477,7 +542,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     public static String convertNumber(double d)
     {
-        char[] prefixes = "YZEPTGMK".toCharArray();
+        char[] prefixes = "SsQqTBMK".toCharArray();
         String[] s = String.format("%.2f", d).split("\\.");
         String prefix = "";
 
@@ -508,27 +573,21 @@ public class MyGdxGame extends ApplicationAdapter {
             double totalPasta = 0;
             if(!player.country) {
                 for (Restaurant r : player.getRestaurants()) {
-                    numPasta = 0.1;
-                    for (Upgrade u : r.getUpgrades()) {
-                        if (u != null) {
-                            numPasta += u.tick();
-                        }
-                    }
+                    numPasta = 0;
+                    numPasta += r.getIncomePerSecond();
 
-                    for (Unit u : r.getUnits()) {
-                        if (u != null)
-                            numDollars += u.getAmount() * u.getMultiplier();
-                    }
+                    numDollars += r.getMoneyPerSecond();
 
                     r.setSum(r.getSum() + numPasta);
                     player.setTotalPasta(player.getTotalPasta() + numPasta);
                     totalPasta += numPasta;
                 }
+                player.setPPC(0.5 + (totalPasta/100));
             }
             else
             {
                 for (Territory r : player.getTerritories()) {
-                    numPasta = 0.1;
+                    numPasta = 0;
                     numPasta += r.tick();
 
                     numDollars += (r.getMoneyPerSecond()/10);
@@ -538,20 +597,58 @@ public class MyGdxGame extends ApplicationAdapter {
                     totalPasta += numPasta;
                 }
             }
-
-                for(float i = 0; i < numDollars; i+=5000)
-                {
-                    FallingObject doshSprite = new FallingObject(money, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float)Math.random()*5f, -(float)Math.random()*3f);
-                    doshSprite.scale(.75f*Gdx.graphics.getDensity());
-                    fallingSprites.add(doshSprite);
+                if(numDollars > 1000000000) {
+                    for (float i = 0; i < (numDollars / 100000000); i += 10) { // MoneyBag
+                        FallingObject doshSprite = new FallingObject(bagOfMoney, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                        fallingSprites.add(doshSprite);
+                    }
                 }
+                    for (float i = 0; i < (int)(numDollars % 100000000)/100000; i += 100) { // Wad
+                        FallingObject doshSprite = new FallingObject(wadOfMoney, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                        fallingSprites.add(doshSprite);
+                    }
 
-                for(int i = 0; i < totalPasta; i+=50000)
-                {
-                    FallingObject doshSprite = new FallingObject(pasta, 0, Gdx.graphics.getHeight(), (float)Math.random()*5f, -(float)Math.random()*3f);
-                    doshSprite.scale(.75f*Gdx.graphics.getDensity());
-                    fallingSprites.add(doshSprite);
+                    for (float i = 0; i < (int)(numDollars % 100000)/100; i += 100) { // Dollar
+                        FallingObject doshSprite = new FallingObject(dollar, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                        fallingSprites.add(doshSprite);
+                    }
+
+                    for (float i = 0; i < (numDollars % 100); i += 10) { // Coin
+                        FallingObject doshSprite = new FallingObject(coin, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                        fallingSprites.add(doshSprite);
+                    }
+
+
+                if(totalPasta > 1000000000) {
+                    for (int i = 0; i < (totalPasta / 1000000000); i += 10) {
+                        FallingObject doshSprite = new FallingObject(spaghetti, 0, Gdx.graphics.getHeight(), (float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                        fallingSprites.add(doshSprite);
+                    }
                 }
+                    for (int i = 0; i < (int)(totalPasta % 1000000000) / 1000000; i += 200) {
+                        FallingObject doshSprite = new FallingObject(shells, 0, Gdx.graphics.getHeight(), (float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                        fallingSprites.add(doshSprite);
+                    }
+
+                    for (int i = 0; i < (int)(totalPasta % 1000000) / 1000; i += 200) {
+                        FallingObject doshSprite = new FallingObject(penne, 0, Gdx.graphics.getHeight(), (float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                        fallingSprites.add(doshSprite);
+                    }
+
+                    for (int i = 0; i < (totalPasta % 1000); i += 200) {
+                        FallingObject doshSprite = new FallingObject(macaroni, 0, Gdx.graphics.getHeight(), (float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        doshSprite.scale(.75f * Gdx.graphics.getDensity());
+                        fallingSprites.add(doshSprite);
+                    }
+
+
 
 
 
@@ -575,7 +672,7 @@ public class MyGdxGame extends ApplicationAdapter {
     {
         public void run() {
             //saving file
-            if(!player.save)
+            if(!player.save || state != states[0])
                 return;
             FileHandle hope = Gdx.files.local("pasta4.dat");
             Json json = new Json();

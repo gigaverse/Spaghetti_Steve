@@ -219,7 +219,7 @@ public class UpgradeMenu {
                 buttonStyle.over = MyGdxGame.buttonSkin.getDrawable("default");
                 buttonStyle.font = MyGdxGame.font20;
 
-                final TextButton upgradeButton = new TextButton(String.format("%s\n%d lbs", u.getName(), u.getCost()), buttonStyle);
+                final TextButton upgradeButton = new TextButton(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())), buttonStyle);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
                 final Drawable d = buttonStyle.down;
@@ -384,7 +384,7 @@ public class UpgradeMenu {
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 counter.setWidth(Gdx.graphics.getWidth());
 
-                final TextButton upgradeButton = new TextButton(String.format("%s\nCosts %.0f lbs", u.getName(), u.getCost()), style);
+                final TextButton upgradeButton = new TextButton(String.format("%s\nCosts %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())), style);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
 
@@ -444,7 +444,7 @@ public class UpgradeMenu {
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 counter.setWidth(Gdx.graphics.getWidth());
 
-                final TextButton upgradeButton = new TextButton(String.format("%s\n%d lbs", u.getName(), u.getCost()), style);
+                final TextButton upgradeButton = new TextButton(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())), style);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
 

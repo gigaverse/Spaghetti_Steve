@@ -118,6 +118,49 @@ public class OptionsMenu {
 
         scrollTable.row();
 
+        final TextButton muteGame = new TextButton(String.format("Music is On"), style);
+        muteGame.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+        muteGame.setWidth(Gdx.graphics.getWidth());
+
+        if(!MyGdxGame.italy.isPlaying())
+        {
+            muteGame.setText("Music is Off");
+        }
+
+
+        muteGame.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if(!player.music)
+                {
+                    player.music = true;
+                    if(!MyGdxGame.italy.isPlaying())
+                        MyGdxGame.italy.play();
+                    MyGdxGame.italy.setVolume(1);
+                    muteGame.setText("Music is On");
+                }
+                else
+                {
+                    player.music = false;
+                    MyGdxGame.italy.setVolume(0);
+                    muteGame.setText("Music is Off");
+                }
+            }
+        });
+
+        scrollTable
+                .add(muteGame)
+                .padTop((int)(Gdx.graphics.getHeight()*0.025))
+                .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                .width((int)(Gdx.graphics.getWidth()*0.95))
+                .height(label.getHeight());
+
+        scrollTable.row();
+
         table.add(scroller).size(Gdx.graphics.getWidth(),(int)(Gdx.graphics.getHeight()*0.675)).setActorY((int) (Gdx.graphics.getHeight() * 0.1));
         return table;
     }
