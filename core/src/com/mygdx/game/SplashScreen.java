@@ -26,6 +26,10 @@ public class SplashScreen {
     int timer;
     BitmapFont titleF;
     BitmapFont titleFs;
+
+    public static Texture backgroundTexture;
+    public static Sprite backgroundSprite;
+
     public SplashScreen()
     {
         MyGdxGame.hide();
@@ -41,6 +45,10 @@ public class SplashScreen {
         chef.setCenterY(y);
         timer = 0;
         scale = 2/3.0f;
+
+        backgroundTexture = new Texture("SplashscreenKitchen.jpg");
+        backgroundSprite = new Sprite(backgroundTexture);
+        backgroundSprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         Gdx.app.log("wow", Gdx.graphics.getDensity() + "");
         yVel = Gdx.graphics.getHeight()/48;
@@ -60,6 +68,7 @@ public class SplashScreen {
 
     public void tick(SpriteBatch batch, double animationparam)
     {
+        backgroundSprite.draw(batch);
         if(timer % 5 == 0) {
             FallingObject pastaSprite = new FallingObject(pasta, (int)(-Gdx.graphics.getWidth()*0.1), (int)((Math.random()*Gdx.graphics.getHeight()*0.15)+Gdx.graphics.getHeight()*0.60), (float)Math.random()*10f, 15);
             pastaSprite.scale(.75f * Gdx.graphics.getDensity());
