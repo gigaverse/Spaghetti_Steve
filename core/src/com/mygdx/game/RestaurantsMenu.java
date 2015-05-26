@@ -97,7 +97,7 @@ public class RestaurantsMenu {
                 for (int i = 0; i < player.getTerritories().size(); i++) {
                     final int j = i;
                     Territory r = player.getTerritories().get(i);
-                    final Label counter = new Label(String.format("%.1f\nlbs/sec", MyGdxGame.convertNumber(r.getIncomePerSecond())), labelStyle);
+                    final Label counter = new Label(String.format("%s\nlbs/sec", MyGdxGame.convertNumber(r.getIncomePerSecond())), labelStyle);
                     counter.setAlignment(Align.center);
                     counter.setWrap(true);
                     counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
