@@ -96,8 +96,9 @@ public class MyGdxGame extends ApplicationAdapter {
         iconSprite.setCenterY(Gdx.graphics.getHeight() / 2);
 
         player = new PlayerSave();
-        FileHandle hope = Gdx.files.local("pasta4.dat");
+        FileHandle hope;
         try {
+            hope = Gdx.files.local("pasta4.dat");
             Json j = new Json();
             String wow = hope.readString();
             player = j.fromJson(PlayerSave.class, wow);
@@ -351,21 +352,21 @@ public class MyGdxGame extends ApplicationAdapter {
             if(player.getPPC() > 1000000000) {
                 for (int i = 0; i < (player.getPPC() / 1000000000); i += 10) {
                     int ang = (int)(Math.random()*360);
-                    FallingObject doshSprite = new FallingObject(spaghetti, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(20*Math.cos(ang)), (float)(20*Math.sin(ang)));
+                    FallingObject doshSprite = new FallingObject(spaghetti, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(10*Math.cos(ang)), (float)(10*Math.sin(ang)));
                     doshSprite.scale(.75f * Gdx.graphics.getDensity());
                     clickedSprites.add(doshSprite);
                 }
             }
             for (int i = 0; i < (int)(player.getPPC() % 1000000000) / 1000000; i += 200) {
                 int ang = (int)(Math.random()*360);
-                FallingObject doshSprite = new FallingObject(shells, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(20*Math.cos(ang)), (float)(20*Math.sin(ang)));
+                FallingObject doshSprite = new FallingObject(shells, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(10*Math.cos(ang)), (float)(10*Math.sin(ang)));
                 doshSprite.scale(.75f * Gdx.graphics.getDensity());
                 clickedSprites.add(doshSprite);
             }
 
             for (int i = 0; i < (int)(player.getPPC() % 1000000) / 1000; i += 200) {
                 int ang = (int)(Math.random()*360);
-                FallingObject doshSprite = new FallingObject(penne,Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(20*Math.cos(ang)), (float)(20*Math.sin(ang)));
+                FallingObject doshSprite = new FallingObject(penne,Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(10*Math.cos(ang)), (float)(10*Math.sin(ang)));
                 doshSprite.scale(.75f * Gdx.graphics.getDensity());
                 clickedSprites.add(doshSprite);
             }
@@ -595,7 +596,20 @@ public class MyGdxGame extends ApplicationAdapter {
                     numPasta = 0;
                     numPasta += r.getIncomePerSecond();
 
-                    numDollars += r.getMoneyPerSecond();
+                    if(r.getIncomePerSecond() > 300000)
+                    {
+                        r.setStars(1);
+                    }
+                    if(r.getIncomePerSecond() > 3500000)
+                    {
+                        r.setStars(2);
+                    }
+                    if(r.getIncomePerSecond() > 20000000)
+                    {
+                        r.setStars(3);
+                    }
+
+                    numDollars += (r.getMoneyPerSecond()*player.getMichelinMultiplier());
 
                     r.setSum(r.getSum() + numPasta);
                     player.setTotalPasta(player.getTotalPasta() + numPasta);
@@ -617,25 +631,25 @@ public class MyGdxGame extends ApplicationAdapter {
                 }
             }
                 if(numDollars > 1000000000) {
-                    for (float i = 0; i < (numDollars / 100000000); i += 10) { // MoneyBag
+                    for (float i = 0; i < (numDollars / 100000000); i += 20) { // MoneyBag
                         FallingObject doshSprite = new FallingObject(bagOfMoney, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
                 }
-                    for (float i = 0; i < (int)(numDollars % 100000000)/100000; i += 100) { // Wad
+                    for (float i = 0; i < (int)(numDollars % 100000000)/100000; i += 250) { // Wad
                         FallingObject doshSprite = new FallingObject(wadOfMoney, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
 
-                    for (float i = 0; i < (int)(numDollars % 100000)/100; i += 100) { // Dollar
+                    for (float i = 0; i < (int)(numDollars % 100000)/100; i += 250) { // Dollar
                         FallingObject doshSprite = new FallingObject(dollar, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
 
-                    for (float i = 0; i < (numDollars % 100); i += 10) { // Coin
+                    for (float i = 0; i < (numDollars % 100); i += 25) { // Coin
                         FallingObject doshSprite = new FallingObject(coin, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
@@ -643,25 +657,25 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
                 if(totalPasta > 1000000000) {
-                    for (int i = 0; i < (totalPasta / 1000000000); i += 10) {
+                    for (int i = 0; i < (totalPasta / 1000000000); i += 20) {
                         FallingObject doshSprite = new FallingObject(spaghetti, 0, Gdx.graphics.getHeight(), (float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
                 }
-                    for (int i = 0; i < (int)(totalPasta % 1000000000) / 1000000; i += 200) {
+                    for (int i = 0; i < (int)(totalPasta % 1000000000) / 1000000; i += 250) {
                         FallingObject doshSprite = new FallingObject(shells, 0, Gdx.graphics.getHeight(), (float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
 
-                    for (int i = 0; i < (int)(totalPasta % 1000000) / 1000; i += 200) {
+                    for (int i = 0; i < (int)(totalPasta % 1000000) / 1000; i += 250) {
                         FallingObject doshSprite = new FallingObject(penne, 0, Gdx.graphics.getHeight(), (float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
 
-                    for (int i = 0; i < (totalPasta % 1000); i += 200) {
+                    for (int i = 0; i < (totalPasta % 1000); i += 250) {
                         FallingObject doshSprite = new FallingObject(macaroni, 0, Gdx.graphics.getHeight(), (float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
