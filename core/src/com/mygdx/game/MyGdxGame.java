@@ -593,9 +593,9 @@ public class MyGdxGame extends ApplicationAdapter {
             if(!player.country) {
                 for (Restaurant r : player.getRestaurants()) {
                     numPasta = 0;
-                    numPasta += r.getIncomePerSecond();
+                    numPasta += r.getIncomePerSecond()/10;
 
-                    numDollars += r.getMoneyPerSecond();
+                    numDollars += r.getMoneyPerSecond()/10;
 
                     r.setSum(r.getSum() + numPasta);
                     player.setTotalPasta(player.getTotalPasta() + numPasta);
