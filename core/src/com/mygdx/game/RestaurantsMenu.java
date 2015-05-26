@@ -51,7 +51,7 @@ public class RestaurantsMenu {
                 for (int i = 0; i < player.getRestaurants().size(); i++) {
                     final int j = i;
                     Restaurant r = player.getRestaurants().get(i);
-                    final Label counter = new Label(String.format("%.1f lbs/sec\n$%.2f/sec", r.getIncomePerSecond(), r.getMoneyPerSecond()), labelStyle);
+                    final Label counter = new Label(String.format("%s lbs/sec\n$%s/sec", MyGdxGame.convertNumber(r.getIncomePerSecond()), MyGdxGame.convertNumber(r.getMoneyPerSecond())), labelStyle);
                     counter.setAlignment(Align.center);
                     counter.setWrap(true);
                     counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
@@ -97,7 +97,7 @@ public class RestaurantsMenu {
                 for (int i = 0; i < player.getTerritories().size(); i++) {
                     final int j = i;
                     Territory r = player.getTerritories().get(i);
-                    final Label counter = new Label(String.format("%.1f\nlbs/sec", r.getIncomePerSecond()), labelStyle);
+                    final Label counter = new Label(String.format("%s\nlbs/sec", MyGdxGame.convertNumber(r.getIncomePerSecond())), labelStyle);
                     counter.setAlignment(Align.center);
                     counter.setWrap(true);
                     counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));

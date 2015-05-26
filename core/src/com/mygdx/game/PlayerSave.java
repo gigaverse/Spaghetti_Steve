@@ -143,4 +143,26 @@ public class PlayerSave {
     {
         return pastaPerClick;
     }
+
+    public double getMichelinMultiplier()
+    {
+        double mult = 1;
+
+        for(Restaurant r : restaurants)
+        {
+            if(r.getStars() == 1)
+            {
+                mult += 1;
+            }
+            if(r.getStars() == 2)
+            {
+                mult += 4;
+            }
+            if(r.getStars() == 3)
+            {
+                mult += 10;
+            }
+        }
+        return mult;
+    }
 }

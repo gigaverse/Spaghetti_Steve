@@ -41,19 +41,31 @@ public class Restaurant {
 
         units = new ArrayList<Unit>();
         units.add(new Unit("Pasta Maker","quality",0, 5000, 0));
-        units.add(new Unit("Michelin Stars","quality",0, 500000, 0));
-
 
         units.add(new Unit("Table Bus","money",0, 500, 0.005));
         units.add(new Unit("Waiter","money",0, 2500, 0.015));
         units.add(new Unit("Server","money",0, 7500, 0.035));
 
         units.add(new Unit("Sous Chef","money",0, 15000, 0.075));
-        units.add(new Unit("Advertisement","money",0, 35000, 0.25));
+        units.add(new Unit("Late Night Ad","money",0, 35000, 0.25));
         units.add(new Unit("Internet Shop","money",0, 75000, 1));
 
+        units.add(new Unit("Phone App Ads","money",0, 250000, 4));
+        units.add(new Unit("Bucatini Bank","money",0, 750000, 16));
+        units.add(new Unit("The Spaghetti-net","money",0, 2500000, 50));
 
 
+
+    }
+
+    public int getStars()
+    {
+        return stars;
+    }
+
+    public void setStars(int stars)
+    {
+        this.stars = stars;
     }
 
     public boolean add(Upgrade u)
@@ -128,7 +140,6 @@ public class Restaurant {
     }
 
     public String getName() {
-        stars = (int)units.get(1).getAmount();
         String s = "";
         for(int i = 0; i < stars; i++)
         {
