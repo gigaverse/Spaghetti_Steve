@@ -462,7 +462,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         if(state.equals(states[3]))
         {
-            if(Gdx.input.isTouched() && Gdx.input.getDeltaY() > 0)
+            if(Gdx.input.isTouched() && Gdx.input.getDeltaY() > Gdx.graphics.getHeight() * .05f)
             {
                 state = (states[0]);
             }
