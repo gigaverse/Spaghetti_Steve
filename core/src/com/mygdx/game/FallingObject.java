@@ -15,6 +15,7 @@ public class FallingObject {
     public FallingObject(Texture t, int x, int y, float xVel, float yVel)
     {
         sprite = new Sprite(t);
+        sprite.scale(-(Gdx.graphics.getDensity()/1.25f));
         this.x = x;
         this.y = y;
         rot = (float)(Math.random()*2 - 1);

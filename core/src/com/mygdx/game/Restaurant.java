@@ -18,25 +18,25 @@ public class Restaurant {
 
         upgrades = new ArrayList<Upgrade>();
 
-        upgrades.add(new Upgrade("Forks", 0, 25, 0.025));
-        upgrades.add(new Upgrade("Pasta Pans", 0, 75, 0.1));
-        upgrades.add(new Upgrade("Instant Noodles", 0, 150, 0.3));
+        upgrades.add(new Upgrade("Forks", 0, 25, 0.1));
+        upgrades.add(new Upgrade("Pasta Pans", 0, 75, 0.4));
+        upgrades.add(new Upgrade("Instant Noodles", 0, 150, 1.2));
 
-        upgrades.add(new Upgrade("Tomato Sauce", 0, 500, 0.75));
-        upgrades.add(new Upgrade("Boiling Water", 0, 1150, 1.5));
-        upgrades.add(new Upgrade("Angel Hair Pasta", 0, 2300, 3));
+        upgrades.add(new Upgrade("Tomato Sauce", 0, 500, 2.25));
+        upgrades.add(new Upgrade("Boiling Water", 0, 1150, 4.5));
+        upgrades.add(new Upgrade("Angel Hair Pasta", 0, 2300, 10));
 
-        upgrades.add(new Upgrade("Pasta Cutter", 0, 4500, 10.0));
-        upgrades.add(new Upgrade("Alfredo Cauldron", 0, 8000, 24.0));
-        upgrades.add(new Upgrade("Spaghetti Spitter", 0, 22500, 35));
+        upgrades.add(new Upgrade("Pasta Cutter", 0, 4500, 23));
+        upgrades.add(new Upgrade("Alfredo Cauldron", 0, 8000, 36));
+        upgrades.add(new Upgrade("Spaghetti Spitter", 0, 22500, 55));
 
-        upgrades.add(new Upgrade("Pasta Room", 0, 50000, 50));
-        upgrades.add(new Upgrade("Spaghetti Monster", 0, 112500, 85));
-        upgrades.add(new Upgrade("Spaghetti Community", 0, 200000, 125));
+        upgrades.add(new Upgrade("Pasta Room", 0, 50000, 105));
+        upgrades.add(new Upgrade("Spaghetti Monster", 0, 112500, 155));
+        upgrades.add(new Upgrade("Spaghetti Community", 0, 200000, 210));
 
         upgrades.add(new Upgrade("Pasta Fort", 0, 437500, 335));
-        upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 800000, 275));
-        upgrades.add(new Upgrade("The Spaghetto", 0 , 1500000, 600));
+        upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 800000, 575));
+        upgrades.add(new Upgrade("The Spaghetto", 0 , 1500000, 830));
 
 
         units = new ArrayList<Unit>();

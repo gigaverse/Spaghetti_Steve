@@ -39,6 +39,11 @@ public class MyGdxGame extends ApplicationAdapter {
     public static boolean restlist = false;
     private volatile static ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>(), clickedSprites = new ArrayList<FallingObject>();
 
+    Texture[][] chef = new Texture[2][2];
+    int chefPosition = 0;
+    int flusterTimer = 0;
+    int fluster = 0;
+
 
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
     private static Stage mainScreen;
@@ -71,6 +76,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void create () {
+
+        chef[0][0] = new Texture(Gdx.files.internal("steve/steve_1.png"));
+        chef[0][1] = new Texture(Gdx.files.internal("steve/steve_2.png"));
+        chef[1][0] = new Texture(Gdx.files.internal("steve/steve_1m.png"));
+        chef[1][1] = new Texture(Gdx.files.internal("steve/steve_2m.png"));
+
         italy = Gdx.audio.newMusic(Gdx.files.internal("italy.ogg"));
 
 
@@ -81,15 +92,14 @@ public class MyGdxGame extends ApplicationAdapter {
         state = states[3];
         icon = new Texture(Gdx.files.internal("chefs.png"));
 
-        coin = new Texture(Gdx.files.internal("coin.png"));
-        dollar = new Texture(Gdx.files.internal("dollar.png"));
-        wadOfMoney = new Texture(Gdx.files.internal("wad.png"));
-        bagOfMoney = new Texture(Gdx.files.internal("bag.png"));
+        dollar = new Texture(Gdx.files.internal("money/bill.png"));
+        wadOfMoney = new Texture(Gdx.files.internal("money/stack.png"));
+        bagOfMoney = new Texture(Gdx.files.internal("money/bag.png"));
 
-        macaroni = new Texture(Gdx.files.internal("penne.png"));
-        penne = new Texture(Gdx.files.internal("penne.png"));
-        shells = new Texture(Gdx.files.internal("penne.png"));
-        spaghetti = new Texture(Gdx.files.internal("penne.png"));
+        macaroni = new Texture(Gdx.files.internal("pasta/mac.png"));
+        penne = new Texture(Gdx.files.internal("pasta/penne.png"));
+        shells = new Texture(Gdx.files.internal("pasta/shell.png"));
+        spaghetti = new Texture(Gdx.files.internal("pasta/spaghetti.png"));
 
         iconSprite = new Sprite(icon);
         iconSprite.setCenterX(Gdx.graphics.getWidth() / 2);
@@ -302,6 +312,12 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void render ()
     {
+        flusterTimer--;
+        if(flusterTimer <= 0)
+        {
+            fluster = 0;
+            flusterTimer = 0;
+        }
         if((state.equals(states[1]) && !Gdx.input.getInputProcessor().equals(upgradeScreen)) || (!mainScreen.getActors().contains(menuButton, false) && state.equals(states[0])))
         {
             mainScreen.addActor(menuButton);
@@ -346,8 +362,49 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.begin();
 
+
+
+
+
+        if(!state.equals(states[3])) {
+            iconSprite.scale((float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+            iconSprite.draw(batch);
+            iconSprite.rotate(-0.5f);
+            iconSprite.scale(-(float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+        }
+
+
+        animationparam = (animationparam + 0.05) % (2*Math.PI);
+
+        batch.end();
+
+        batch.begin();
+
+
+
+        if(shouldAnimate) {
+            for (int i = fallingSprites.size() - 1; i >= 0; i--) {
+                FallingObject f = fallingSprites.get(i);
+                if (f == null || !f.draw(batch))
+                    fallingSprites.remove(i);
+            }
+        }
+        else
+        {
+            Gdx.app.log("wow","Should animate = "+shouldAnimate);
+
+        }
+
+
+
+        batch.end();
+
+        batch.begin();
+
         if(Gdx.input.justTouched() && state == states[0])
         {
+            flusterTimer = 90;
+            fluster = 1;
             player.setTotalPasta(player.getTotalPasta() + player.getPPC());
             if(player.getPPC() > 1000000000) {
                 for (int i = 0; i < (player.getPPC() / 1000000000); i += 10) {
@@ -389,21 +446,15 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.end();
 
-
-
+        //TODO CHEF
         batch.begin();
 
-
-
-        if(!state.equals(states[3])) {
-            iconSprite.scale((float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
-            iconSprite.draw(batch);
-            iconSprite.rotate(-0.5f);
-            iconSprite.scale(-(float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
-        }
-
-
-        animationparam = (animationparam + 0.05) % (2*Math.PI);
+        chefPosition = (chefPosition + (Math.random() <= 0.03 ? 1 : 0)) % 2;
+        Sprite currentChef = new Sprite(chef[fluster][chefPosition]);
+        currentChef.scale(1.5f);
+        currentChef.setCenterX(Gdx.graphics.getWidth()/2);
+        currentChef.setCenterY(Gdx.graphics.getHeight()/2);
+        currentChef.draw(batch);
 
         batch.end();
 
@@ -424,26 +475,6 @@ public class MyGdxGame extends ApplicationAdapter {
             return;
 
 
-        batch.begin();
-
-
-
-            if(shouldAnimate) {
-                for (int i = fallingSprites.size() - 1; i >= 0; i--) {
-                    FallingObject f = fallingSprites.get(i);
-                    if (f == null || !f.draw(batch))
-                        fallingSprites.remove(i);
-                }
-            }
-            else
-            {
-                Gdx.app.log("wow","Should animate = "+shouldAnimate);
-
-            }
-
-
-
-        batch.end();
 
         if(fallingSprites.size() >= 1000 && Math.abs(fallingSprites.get(fallingSprites.size() - 1).getY() - fallingSprites.get(fallingSprites.size() - 600).getY()) < Gdx.graphics.getHeight() / 3)
             fallingSprites = new ArrayList<FallingObject>();
@@ -637,19 +668,19 @@ public class MyGdxGame extends ApplicationAdapter {
                     }
                 }
                     for (float i = 0; i < (int)(numDollars % 100000000)/100000; i += 250) { // Wad
-                        FallingObject doshSprite = new FallingObject(wadOfMoney, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        FallingObject doshSprite = new FallingObject(bagOfMoney, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
 
                     for (float i = 0; i < (int)(numDollars % 100000)/100; i += 250) { // Dollar
-                        FallingObject doshSprite = new FallingObject(dollar, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        FallingObject doshSprite = new FallingObject(wadOfMoney, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
 
                     for (float i = 0; i < (numDollars % 100); i += 25) { // Coin
-                        FallingObject doshSprite = new FallingObject(coin, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
+                        FallingObject doshSprite = new FallingObject(dollar, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), -(float) Math.random() * 5f, -(float) Math.random() * 3f);
                         doshSprite.scale(.75f * Gdx.graphics.getDensity());
                         fallingSprites.add(doshSprite);
                     }
