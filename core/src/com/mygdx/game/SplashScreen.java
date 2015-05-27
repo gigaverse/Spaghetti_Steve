@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenManager;
 
 
 /**
@@ -27,6 +30,9 @@ public class SplashScreen {
     Sprite titleText, titleText2;
     Texture titleF;
     Texture titleFs;
+
+    TweenManager myManager;
+    TweenCallback backgroundAnimationTweenComplete;
 
     public SplashScreen()
     {
@@ -68,6 +74,8 @@ public class SplashScreen {
 
     public void tick(SpriteBatch batch, double animationparam)
     {
+        myManager.update(Gdx.graphics.getDeltaTime());
+
         backgroundSprite.draw(batch);
         if(timer % 5 == 0) {
             FallingObject pastaSprite = new FallingObject(pasta, (int)(-Gdx.graphics.getWidth()*0.1), (int)((Math.random()*Gdx.graphics.getHeight()*0.15)+Gdx.graphics.getHeight()*0.60), (float)Math.random()*10f, 15);
@@ -87,29 +95,36 @@ public class SplashScreen {
         timer++;
         if(timer >= 25) {
             //TODO Draw Chef popping up
-            chef.scale((float) (0.3 + 0.1 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
-            chef.draw(batch);
-            chef.rotate(rot);
-            chef.setCenterY(y);
-            chef.scale(-(float) (0.3 + 0.1 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
-            y = y + yVel;
-            if (!half)
-                rot += 0.05;
-            if (y >= Gdx.graphics.getHeight() / 2)
-                half = true;
-            if (half && y <= Gdx.graphics.getHeight() / 2) {
-                yVel = -yVel;
-                if (Math.abs(yVel) < Gdx.graphics.getHeight() / (scale*Gdx.graphics.getDensity())) {
-
+//            chef.scale((float) (0.3 + 0.1 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+//            chef.draw(batch);
+//            chef.rotate(rot);
+//            chef.setCenterY(y);
+//            chef.scale(-(float) (0.3 + 0.1 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
+//            y = y + yVel;
+//            if (!half)
+//                rot += 0.05;
+//            if (y >= Gdx.graphics.getHeight() / 2)
+//                half = true;
+//            if (half && y <= Gdx.graphics.getHeight() / 2) {
+//                yVel = -yVel;
+//                if (Math.abs(yVel) < Gdx.graphics.getHeight() / (scale*Gdx.graphics.getDensity())) {
+//
                     titleText.draw(batch);
                     titleText2.draw(batch);
 
-                    yVel = 0;
-                    yAccel = 0;
-                    rot = 0;
-                }
-            }
-            yVel -= yAccel;
+                    chef.draw(batch);
+                    Tween.to(chef, )
+                            .target(0, 0)
+                            .setCallback(backgroundAnimationTweenComplete)
+                            .setCallbackTriggers(TweenCallback.COMPLETE)
+                            .start(myManager);
+//
+//                    yVel = 0;
+//                    yAccel = 0;
+//                    rot = 0;
+//                }
+//            }
+//            yVel -= yAccel;
         }
 
         if(timer >= 1050)
