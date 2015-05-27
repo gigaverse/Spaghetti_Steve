@@ -244,7 +244,7 @@ public class UpgradeMenu {
                             player.setTotalPasta(player.getTotalPasta() - u.getCost());
                             u.add();
                             upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
-                            counter.setText(String.format("Amount: %d\n$%.2f/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)));
+                            counter.setText(String.format("Amount: %d\n$%s/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)));
                             if(u.getType().equals("quality"))
                                 counter.setText("Level:\n" +(u.getAmount()+1));
                         }

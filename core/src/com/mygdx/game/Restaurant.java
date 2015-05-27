@@ -18,25 +18,25 @@ public class Restaurant {
 
         upgrades = new ArrayList<Upgrade>();
 
-        upgrades.add(new Upgrade("Forks", 0, 50, 0.025));
-        upgrades.add(new Upgrade("Pasta Pans", 0, 150, 0.1));
-        upgrades.add(new Upgrade("Instant Noodles", 0, 300, 0.3));
+        upgrades.add(new Upgrade("Forks", 0, 25, 0.025));
+        upgrades.add(new Upgrade("Pasta Pans", 0, 75, 0.1));
+        upgrades.add(new Upgrade("Instant Noodles", 0, 150, 0.3));
 
-        upgrades.add(new Upgrade("Tomato Sauce", 0, 1000, 0.75));
-        upgrades.add(new Upgrade("Boiling Water", 0, 2300, 1.5));
-        upgrades.add(new Upgrade("Angel Hair Pasta", 0, 4600, 3));
+        upgrades.add(new Upgrade("Tomato Sauce", 0, 500, 0.75));
+        upgrades.add(new Upgrade("Boiling Water", 0, 1150, 1.5));
+        upgrades.add(new Upgrade("Angel Hair Pasta", 0, 2300, 3));
 
-        upgrades.add(new Upgrade("Pasta Cutter", 0, 9000, 10.0));
-        upgrades.add(new Upgrade("Alfredo Cauldron", 0, 16000, 24.0));
-        upgrades.add(new Upgrade("Spaghetti Spitter", 0, 45000, 35));
+        upgrades.add(new Upgrade("Pasta Cutter", 0, 4500, 10.0));
+        upgrades.add(new Upgrade("Alfredo Cauldron", 0, 8000, 24.0));
+        upgrades.add(new Upgrade("Spaghetti Spitter", 0, 22500, 35));
 
-        upgrades.add(new Upgrade("Pasta Room", 0, 100000, 50));
-        upgrades.add(new Upgrade("Spaghetti Monster", 0, 225000, 85));
-        upgrades.add(new Upgrade("Spaghetti Community", 0, 400000, 125));
+        upgrades.add(new Upgrade("Pasta Room", 0, 50000, 50));
+        upgrades.add(new Upgrade("Spaghetti Monster", 0, 112500, 85));
+        upgrades.add(new Upgrade("Spaghetti Community", 0, 200000, 125));
 
-        upgrades.add(new Upgrade("Pasta Fort", 0, 875000, 335));
-        upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 1750000, 275));
-        upgrades.add(new Upgrade("The Spaghetto", 0 , 3000000, 600));
+        upgrades.add(new Upgrade("Pasta Fort", 0, 437500, 335));
+        upgrades.add(new Upgrade("Flying Spaghetti Monster", 0, 800000, 275));
+        upgrades.add(new Upgrade("The Spaghetto", 0 , 1500000, 600));
 
 
         units = new ArrayList<Unit>();

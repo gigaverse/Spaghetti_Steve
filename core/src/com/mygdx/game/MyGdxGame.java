@@ -373,7 +373,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
             for (int i = 0; i < (player.getPPC() % 1000); i += 200) {
                 int ang = (int)(Math.random()*360);
-                FallingObject doshSprite = new FallingObject(macaroni, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(20*Math.cos(ang)), (float)(120*Math.sin(ang)));
+                FallingObject doshSprite = new FallingObject(macaroni, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, (float)(10*Math.cos(ang)), (float)(10*Math.sin(ang)));
                 doshSprite.scale(.75f * Gdx.graphics.getDensity());
                 clickedSprites.add(doshSprite);
             }
@@ -594,11 +594,7 @@ public class MyGdxGame extends ApplicationAdapter {
             if(!player.country) {
                 for (Restaurant r : player.getRestaurants()) {
                     numPasta = 0;
-                    numPasta += r.getIncomePerSecond()/10;
-
-<<<<<<< HEAD
-                    numDollars += r.getMoneyPerSecond()/10;
-=======
+                    numPasta += (r.getIncomePerSecond()/10);
                     if(r.getIncomePerSecond() > 300000)
                     {
                         r.setStars(1);
@@ -612,8 +608,7 @@ public class MyGdxGame extends ApplicationAdapter {
                         r.setStars(3);
                     }
 
-                    numDollars += (r.getMoneyPerSecond()*player.getMichelinMultiplier());
->>>>>>> origin/dev
+                    numDollars += ((r.getMoneyPerSecond()/10)*player.getMichelinMultiplier());
 
                     r.setSum(r.getSum() + numPasta);
                     player.setTotalPasta(player.getTotalPasta() + numPasta);
