@@ -3,12 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
@@ -24,8 +20,6 @@ public class SplashScreen {
     boolean half;
     Sprite chef;
     int timer;
-//    BitmapFont titleF;
-//    BitmapFont titleFs;
 
     Texture backgroundTexture;
     Sprite backgroundSprite;
@@ -38,8 +32,8 @@ public class SplashScreen {
     {
         MyGdxGame.hide();
         fallingSprites = new ArrayList<FallingObject>();
-        money = new Texture(Gdx.files.internal("bag.png"));
-        pasta = new Texture(Gdx.files.internal("penne.png"));
+        money = new Texture(Gdx.files.internal("money/bag.png"));
+        pasta = new Texture(Gdx.files.internal("pasta/penne.png"));
         c = new Texture(Gdx.files.internal("chef.png"));
         y = -Gdx.graphics.getHeight()/4;
         yAccel = Gdx.graphics.getHeight()/(1920*2f);
@@ -58,27 +52,17 @@ public class SplashScreen {
         titleFs = new Texture("sd.png");
         titleText = new Sprite(titleF);
         titleText2 = new Sprite(titleFs);
-        titleText.scale(Gdx.graphics.getDensity());
-        titleText2.scale(Gdx.graphics.getDensity());
-
-        Texture titleF;
-        Texture titleFs;
+        titleText.scale(Gdx.graphics.getDensity() * .50f);
+        titleText2.scale(Gdx.graphics.getDensity()* .50f);
+        titleText.setCenterX(Gdx.graphics.getWidth()/2);
+        titleText2.setCenterX(Gdx.graphics.getWidth()/2);
+        titleText.setCenterY(Gdx.graphics.getHeight()*.87f);
+        titleText2.setCenterY(Gdx.graphics.getHeight()*.12f);
 
         Gdx.app.log("wow", Gdx.graphics.getDensity() + "");
         yVel = Gdx.graphics.getHeight()/48;
 
         rot = -5.7f;
-
-        //create font
-//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("ka1.ttf"));
-//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//        parameter.size = (int)(32*Gdx.graphics.getDensity());
-//        titleF = generator.generateFont(parameter);
-//        parameter.size = (int)(24*Gdx.graphics.getDensity());
-//        titleFs = generator.generateFont(parameter);
-//        titleF.setColor(0f,0f,0f,255f);
-//        titleFs.setColor(0f,0f,0f,255f);
-
 
     }
 
@@ -117,11 +101,8 @@ public class SplashScreen {
                 yVel = -yVel;
                 if (Math.abs(yVel) < Gdx.graphics.getHeight() / (scale*Gdx.graphics.getDensity())) {
 
-                    //Title Shennigans, may or may not work currently
                     titleText.draw(batch);
-                    //,Gdx.graphics.getWidth()*.15f, Gdx.graphics.getHeight()*.93f
                     titleText2.draw(batch);
-                    //,Gdx.graphics.getWidth()*.17f, Gdx.graphics.getHeight()*.15f
 
                     yVel = 0;
                     yAccel = 0;
