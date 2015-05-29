@@ -19,9 +19,17 @@ public class Territory
         upgrades = new ArrayList<Upgrade>();
 
         //TODO add proper stats to all
-        upgrades.add(new Upgrade("Speghetti Revolution", 0, 100000000, 10000));
-        upgrades.add(new Upgrade("Fedelini Flag", 0, 175000000, 25000));
-        upgrades.add(new Upgrade("Capellini Constitution", 0, 300000000l, 55000));
+        upgrades.add(new Upgrade("Spaghetti Revolution", 0, 1*Math.pow(10, 9), 10000));
+        upgrades.add(new Upgrade("Fedelini Flag", 0, 7*Math.pow(10, 9), 25000));
+        upgrades.add(new Upgrade("Capellini Constitution", 0, 15*Math.pow(10, 9), 55000));
+
+        upgrades.add(new Upgrade("Tomato Sauce Town", 0, 4.5f*Math.pow(10, 11), 10000));
+        upgrades.add(new Upgrade("Spaghetti Stream", 0, 9.5*Math.pow(10, 12), 25000));
+        upgrades.add(new Upgrade("Rigatoni Roads", 0, 15*Math.pow(10, 13), 55000));
+
+        upgrades.add(new Upgrade("Angel Hair Airships", 0, 6*Math.pow(10, 15), 10000));
+        upgrades.add(new Upgrade("Pasta Punisher", 0, 4.45*Math.pow(10, 17), 25000));
+        upgrades.add(new Upgrade("Spaghetti Satellite", 0, 2*Math.pow(10, 20), 55000));
 
 
         units = new ArrayList<Unit>();
