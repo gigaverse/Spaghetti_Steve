@@ -39,6 +39,7 @@ public class MyGdxGame extends ApplicationAdapter {
     int chefPosition = 0;
     int flusterTimer = 0;
     int fluster = 0;
+    boolean splashEnd = false;
 
 
     /*When you make a stage, you want to make the stage and all the things that fall under it*/
@@ -302,6 +303,8 @@ public class MyGdxGame extends ApplicationAdapter {
         {
             italy.play();
         }
+
+        splashEnd = false;
     }
 
 
@@ -330,16 +333,9 @@ public class MyGdxGame extends ApplicationAdapter {
             state = states[0];
         }
 
-
-        if(!state.equals(states[3])) {
             Gdx.gl.glClearColor((float) (210 / 256.0), (float) (215 / 256.0), (float) (223 / 256.0), 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        }
-        else
-        {
-            Gdx.gl.glClearColor(1,1,1,1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        }
+
 
 
         if(state.equals(states[1]))
@@ -362,7 +358,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-        if(!state.equals(states[3])) {
+        if(!state.equals(states[3]) || splashEnd) {
             iconSprite.scale((float) (0.3 + 0.05 * Math.cos(animationparam)) * Gdx.graphics.getDensity());
             iconSprite.draw(batch);
             iconSprite.rotate(-0.5f);
@@ -456,13 +452,23 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.begin();
 
+        mainScreen.draw();
+
+        batch.end();
+
+        batch.begin();
+
         if(state.equals(states[3]))
         {
-            if(Gdx.input.isTouched() && Gdx.input.getDeltaY() > Gdx.graphics.getHeight() * .05f)
+            if((Gdx.input.isTouched() && Gdx.input.getDeltaY() > Gdx.graphics.getHeight() * .05f) || splashEnd)
             {
-                state = (states[0]);
+                splashEnd = true;
+                if(splashScreen.tick(batch, animationparam, true))
+                    state = (states[0]);
             }
-            splashScreen.tick(batch, animationparam);
+            else {
+                splashScreen.tick(batch, animationparam, false);
+            }
         }
 
         batch.end();
@@ -476,11 +482,6 @@ public class MyGdxGame extends ApplicationAdapter {
             fallingSprites = new ArrayList<FallingObject>();
 
         //Main Screen Drawing
-        batch.begin();
-
-        mainScreen.draw();
-
-        batch.end();
 
         //Everything else
         batch.begin();

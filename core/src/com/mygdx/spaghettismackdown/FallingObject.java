@@ -53,5 +53,10 @@ public class FallingObject {
         return y;
     }
 
+    public void setYVel(float yVel)
+    {
+        this.yVel = yVel;
+    }
+
 
 }

@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
-//import aurelienribon.tweenengine.Tween;
-//import aurelienribon.tweenengine.TweenCallback;
-//import aurelienribon.tweenengine.TweenManager;
+
 
 
 /**
@@ -22,6 +20,7 @@ public class SplashScreen {
     boolean half;
     Sprite chef;
     int timer;
+    float endVelocity;
 
     Texture backgroundTexture;
     Sprite backgroundSprite;
@@ -35,6 +34,7 @@ public class SplashScreen {
 
     public SplashScreen()
     {
+        endVelocity = 0;
         MyGdxGame.hide();
         fallingSprites = new ArrayList<FallingObject>();
         money = new Texture(Gdx.files.internal("money/bag.png"));
@@ -71,12 +71,11 @@ public class SplashScreen {
 
     }
 
-    public void tick(SpriteBatch batch, double animationparam)
+    public boolean tick(SpriteBatch batch, double animationparam, boolean end)
     {
-       // myManager.update(Gdx.graphics.getDeltaTime());
 
         backgroundSprite.draw(batch);
-        if(timer % 5 == 0) {
+        if(timer % 5 == 0 && !end) {
             FallingObject pastaSprite = new FallingObject(pasta, (int)(-Gdx.graphics.getWidth()*0.1), (int)((Math.random()*Gdx.graphics.getHeight()*0.15)+Gdx.graphics.getHeight()*0.60), (float)Math.random()*10f, 15);
             pastaSprite.scale(.75f * Gdx.graphics.getDensity());
             fallingSprites.add(pastaSprite);
@@ -106,7 +105,7 @@ public class SplashScreen {
                 half = true;
             if (half && y <= Gdx.graphics.getHeight() / 2) {
                 yVel = -yVel;
-                if (Math.abs(yVel) < Gdx.graphics.getHeight() / (scale*Gdx.graphics.getDensity())) {
+                if (Math.abs(yVel) < Gdx.graphics.getHeight() / (scale*Gdx.graphics.getDensity()) && !end) {
 
 
                     yVel = 0;
@@ -117,19 +116,35 @@ public class SplashScreen {
             yVel -= yAccel;
 
 
-                               titleText.draw(batch);
+                 titleText.draw(batch);
                  titleText2.draw(batch);
-//
-//                    chef.draw(batch);
-//                    Tween.to(chef, )
-//                            .target(0, 0)
-//                            .setCallback(backgroundAnimationTweenComplete)
-//                            .setCallbackTriggers(TweenCallback.COMPLETE)
-//                            .start(myManager);
-//
+
+
         }
 
         if(timer >= 1050)
             timer -= 1000;
+
+
+        if(end)
+        {
+
+            endVelocity = Gdx.graphics.getHeight()/30;
+
+            for(FallingObject f : fallingSprites)
+            {
+                f.setYVel(endVelocity);
+            }
+
+            backgroundSprite.setY(backgroundSprite.getY() - endVelocity);
+            y -= endVelocity;
+            titleText.setY(titleText.getY() - endVelocity);
+            titleText2.setY(titleText2.getY() - endVelocity);
+
+            if(backgroundSprite.getY() < -1*backgroundSprite.getHeight())
+                return true;
+        }
+
+        return false;
     }
 }
