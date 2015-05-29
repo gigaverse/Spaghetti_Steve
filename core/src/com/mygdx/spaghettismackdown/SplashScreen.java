@@ -57,8 +57,8 @@ public class SplashScreen {
         titleFs = new Texture("sd.png");
         titleText = new Sprite(titleF);
         titleText2 = new Sprite(titleFs);
-        titleText.scale(Gdx.graphics.getDensity() * .50f);
-        titleText2.scale(Gdx.graphics.getDensity()* .50f);
+        titleText.scale(Gdx.graphics.getWidth() / 720);
+        titleText2.scale(Gdx.graphics.getWidth() / 720);
         titleText.setCenterX(Gdx.graphics.getWidth()/2);
         titleText2.setCenterX(Gdx.graphics.getWidth()/2);
         titleText.setCenterY(Gdx.graphics.getHeight()*.87f);

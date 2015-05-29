@@ -12,10 +12,11 @@ public class PlayerSave {
     private ArrayList<Territory> potentialTerritories;
     int current;
     double totalMoney, totalPasta, pastaPerClick;
-    boolean country, save, music;
+    boolean country, save, music, animation;
     public PlayerSave()
     {
         save = true;
+        animation = true;
         restaurants = new ArrayList<Restaurant>();
         potentialRestaurants = new ArrayList<Restaurant>();
         territories = new ArrayList<Territory>();
@@ -124,11 +125,11 @@ public class PlayerSave {
         double d = 0;
         for(Restaurant r : restaurants)
         {
-            d += r.getMoneyPerSecond();
+            d += r.getMoneyPerSecond()*getMichelinMultiplier();
         }
         for(Territory t : territories)
         {
-            d += t.getMoneyPerSecond();
+            d += t.getMoneyPerSecond()*getMichelinMultiplier();
         }
 
         return d;

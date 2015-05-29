@@ -14,9 +14,10 @@ import com.badlogic.gdx.utils.Align;
  * Created by mahmo266317 on 5/1/2015.
  */
 public class UpgradeMenu {
-    public static Table upgradeMenu(final PlayerSave player, Label.LabelStyle labelStyle, TextButton.TextButtonStyle style, final int pageNumber)
+    public static Table upgradeMenu(final PlayerSave player, Label.LabelStyle labelStyle, TextButton.TextButtonStyle style, final int pageNumber, final int multiplierNumber)
     {
         final String[] states = {"Upgrades", "Financial", "Minions", "Quality"};
+        MyGdxGame.currentPage = pageNumber;
 
         //Created labels and added "buying" an upgrade
 
@@ -51,7 +52,7 @@ public class UpgradeMenu {
                 n %= states.length;
                 if(n == 2 && !player.country)
                     n--;
-                MyGdxGame.RestaurantScreen(n);
+                MyGdxGame.RestaurantScreen(n, multiplierNumber);
             }
         });
 
@@ -72,7 +73,7 @@ public class UpgradeMenu {
                 n %= states.length;
                 if(n == 2 && !player.country)
                     n++;
-                MyGdxGame.RestaurantScreen(n);
+                MyGdxGame.RestaurantScreen(n, multiplierNumber);
             }
         });
 
@@ -126,7 +127,7 @@ public class UpgradeMenu {
                 buttonStyle.over = MyGdxGame.buttonSkin.getDrawable("default");
                 buttonStyle.font = MyGdxGame.font20;
 
-                final TextButton upgradeButton = new TextButton(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())), buttonStyle);
+                final TextButton upgradeButton = new TextButton(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))), buttonStyle);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
 
@@ -135,7 +136,7 @@ public class UpgradeMenu {
                 upgradeButton.addListener(new InputListener() {
 
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if(player.getTotalPasta() >= u.getCost()) {
+                        if(player.getTotalPasta() >= u.getCost(multiplierNumber)) {
                             if(buttonStyle.down != d) {
                                 buttonStyle.down = d;
                             }
@@ -148,11 +149,11 @@ public class UpgradeMenu {
                     }
 
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (player.getTotalPasta() >= u.getCost()) {
+                        if (player.getTotalPasta() >= u.getCost(multiplierNumber)) {
 
-                            player.setTotalPasta(player.getTotalPasta() - u.getCost());
-                            u.add();
-                            upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
+                            player.setTotalPasta(player.getTotalPasta() - u.getCost(multiplierNumber));
+                            u.add(multiplierNumber);
+                            upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))));
                             counter.setText(String.format("Amount: %s\n%s lbs/sec", u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)));
                         }
                     }
@@ -217,13 +218,13 @@ public class UpgradeMenu {
                 buttonStyle.over = MyGdxGame.buttonSkin.getDrawable("default");
                 buttonStyle.font = MyGdxGame.font20;
 
-                final TextButton upgradeButton = new TextButton(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())), buttonStyle);
+                final TextButton upgradeButton = new TextButton(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))), buttonStyle);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
                 final Drawable d = buttonStyle.down;
                 upgradeButton.addListener(new InputListener() {
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if(player.getTotalPasta() >= u.getCost()) {
+                        if(player.getTotalPasta() >= u.getCost(multiplierNumber)) {
                             if(buttonStyle.down != d) {
                                 buttonStyle.down = d;
                             }
@@ -237,11 +238,11 @@ public class UpgradeMenu {
                     }
 
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (player.getTotalPasta() >= u.getCost()) {
+                        if (player.getTotalPasta() >= u.getCost(multiplierNumber)) {
 
-                            player.setTotalPasta(player.getTotalPasta() - u.getCost());
-                            u.add();
-                            upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
+                            player.setTotalPasta(player.getTotalPasta() - u.getCost(multiplierNumber));
+                            u.add(multiplierNumber);
+                            upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))));
                             counter.setText(String.format("Amount: %d\n$%s/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)));
                             if(u.getType().equals("quality"))
                                 counter.setText("Level:\n" +(u.getAmount()+1));
@@ -277,10 +278,10 @@ public class UpgradeMenu {
 
     }
 
-    public static Table territoryUpgradeMenu(final PlayerSave player, Label.LabelStyle labelStyle, TextButton.TextButtonStyle style, final int pageNumber)
+    public static Table territoryUpgradeMenu(final PlayerSave player, Label.LabelStyle labelStyle, TextButton.TextButtonStyle style, final int pageNumber, final int multiplierNumber)
     {
         final String[] states = {"Upgrades", "Financial", "Minions", "Quality"};
-
+        MyGdxGame.currentPage = pageNumber;
         //Created labels and added "buying" an upgrade
 
         Table scrollTable = new Table();
@@ -376,13 +377,13 @@ public class UpgradeMenu {
 
             for (int i = 0; i < Math.min(player.getCurrentTerritory().getUpgrades().size(),pastaMakerLevel*3); i++) {
                 final Upgrade u = player.getCurrentTerritory().getUpgrade(i);
-                final Label counter = new Label(String.format("Amount: %d\n%.2f lbs/sec", u.getAmount(), u.getWorth()*u.getAmount()*10), labelStyle);
+                final Label counter = new Label(String.format("Amount: %d\n%s lbs/sec", u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)), labelStyle);
                 counter.setAlignment(Align.center);
                 counter.setWrap(true);
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 counter.setWidth(Gdx.graphics.getWidth());
 
-                final TextButton upgradeButton = new TextButton(String.format("%s\nCosts %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())), style);
+                final TextButton upgradeButton = new TextButton(String.format("%s\nCosts %s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))), style);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
 
@@ -392,11 +393,11 @@ public class UpgradeMenu {
                     }
 
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (player.getTotalPasta() >= u.getCost()) {
-                            player.setTotalPasta(player.getTotalPasta() - u.getCost());
-                            u.add();
-                            upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
-                            counter.setText(String.format("Amount: %d\n%.2f lbs/sec", u.getAmount(), u.getWorth()*u.getAmount()*10));
+                        if (player.getTotalPasta() >= u.getCost(multiplierNumber)) {
+                            player.setTotalPasta(player.getTotalPasta() - u.getCost(multiplierNumber));
+                            u.add(multiplierNumber);
+                            upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))));
+                            counter.setText(String.format("Amount: %d\n%s lbs/sec", u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)));
                         }
                     }
                 });
@@ -434,7 +435,7 @@ public class UpgradeMenu {
                 if(pageNumber == 3 && !u.getType().equals("quality"))
                     continue;
 
-                final Label counter = new Label(String.format("Amount: %d\n$%.2f/sec", u.getAmount(), u.getMultiplier()*u.getAmount()*10), labelStyle);
+                final Label counter = new Label(String.format("Amount: %d\n$%s/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)), labelStyle);
                 if(u.getType().equals("quality"))
                     counter.setText("Level\n" +(u.getAmount()+1));
                 counter.setAlignment(Align.center);
@@ -442,7 +443,7 @@ public class UpgradeMenu {
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 counter.setWidth(Gdx.graphics.getWidth());
 
-                final TextButton upgradeButton = new TextButton(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())), style);
+                final TextButton upgradeButton = new TextButton(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))), style);
                 upgradeButton.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
                 upgradeButton.setWidth(Gdx.graphics.getWidth());
 
@@ -452,11 +453,11 @@ public class UpgradeMenu {
                     }
 
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        if (player.getTotalPasta() >= u.getCost()) {
-                            player.setTotalPasta( player.getTotalPasta() - u.getCost());
-                            u.add();
+                        if (player.getTotalPasta() >= u.getCost(multiplierNumber)) {
+                            player.setTotalPasta( player.getTotalPasta() - u.getCost(multiplierNumber));
+                            u.add(multiplierNumber);
                             upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
-                            counter.setText(String.format("Amount: %d\n%.2f lbs/sec", u.getAmount(), u.getMultiplier()*u.getAmount()*10));
+                            counter.setText(String.format("Amount: %d\n%s lbs/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)));
                             if(u.getType().equals("quality"))
                                 counter.setText("Level:\n" +(u.getAmount()+1));
                         }

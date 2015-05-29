@@ -51,28 +51,64 @@ public class Unit {
     public void add()
     {
         amount++;
-        if(type.equals("quality"))
-            cost = (long)Math.pow(cost, 1.2);
+        if(type.equals("quality")) {
+            if(amount >= 4) {
+                amount = 4;
+                cost = Double.MAX_VALUE;
+            }
+            cost =  Math.pow(cost, 1.2);
+        }
         else
-            cost = (long)Math.ceil(cost*1.1);
+            cost = Math.ceil(cost*1.1);
         if(amount%25 == 0)
             mult *=2;
         if(amount % 100 == 0)
             mult *= 4;
     }
 
-    public String getName()
+    public void add(int n)
     {
-        String s = "";
-        if(name.equals("Michelin Stars"))
+        for(int i = 0; i < n; i++)
         {
-            for(int i = 0; i < amount; i++)
-            {
-                s += "★";
+            amount++;
+
+            if(amount%25 == 0)
+                mult *=2;
+            if(amount % 100 == 0)
+                mult *= 8;
+            if(type.equals("quality")) {
+                if(amount >= 4) {
+                    amount = 4;
+                    cost = Double.MAX_VALUE;
+                }
+                cost =  Math.pow(cost, 1.2);
+            }
+            else
+                cost = cost*1.1;
+        }
+    }
+
+    public double getCost(int n)
+    {
+        double c = cost;
+        double coost = 0;
+        for(int i = 0; i < n; i++)
+        {
+            coost += c;
+            if(type.equals("quality")) {
+                c = Math.pow(c , 1.2);
+            }
+            else {
+                c =  c * 1.1;
             }
         }
 
-        return name + s + (mult > 1 && !type.equals("quality") ? " x " + (int)mult : "");
+        return coost;
+    }
+
+    public String getName()
+    {
+        return name + (mult > 1 && !type.equals("quality") ? " x " + (int)mult : "");
     }
 
     public String getType()

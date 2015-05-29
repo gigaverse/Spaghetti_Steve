@@ -134,7 +134,6 @@ public class ExpansionMenu {
 
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                         player.save = false;
-                        MyGdxGame.t.cancel();
                         if (player.getTotalMoney() >= r.getCost()) {
                             player.setTotalMoney(player.getTotalMoney() - r.getCost());
                             player.getPotentialTerritories().remove(j);

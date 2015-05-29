@@ -97,7 +97,7 @@ public class OptionsMenu {
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 MyGdxGame.willAnimate();
-                FileHandle hope = Gdx.files.local("pasta3.dat");
+                FileHandle hope = Gdx.files.local("pasta4.dat");
                 Json json = new Json();
                 hope.writeString(json.toJson(player), false);
                 MyGdxGame.timer.cancel();
@@ -151,6 +151,32 @@ public class OptionsMenu {
 
         scrollTable
                 .add(muteGame)
+                .padTop((int)(Gdx.graphics.getHeight()*0.025))
+                .padLeft((int)(Gdx.graphics.getWidth()*0.025))
+                .padRight((int)(Gdx.graphics.getWidth()*0.025))
+                .width((int)(Gdx.graphics.getWidth()*0.95))
+                .height(label.getHeight());
+
+        scrollTable.row();
+
+        final TextButton animations = new TextButton(String.format("Animations are ON"), style);
+        animations.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
+        animations.setWidth(Gdx.graphics.getWidth());
+
+
+        animations.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                player.animation = !player.animation;
+                animations.setText(player.animation ? "Animations are ON" : "Animations are OFF");
+            }
+        });
+
+        scrollTable
+                .add(animations)
                 .padTop((int)(Gdx.graphics.getHeight()*0.025))
                 .padLeft((int)(Gdx.graphics.getWidth()*0.025))
                 .padRight((int)(Gdx.graphics.getWidth()*0.025))

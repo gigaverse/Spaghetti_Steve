@@ -29,7 +29,7 @@ public class Upgrade{
     public void add()
     {
         amount++;
-        cost = (long)Math.ceil(cost*1.1);
+        cost = Math.ceil(cost*1.1);
         if(amount%25 == 0)
         {
             mult *=2;
@@ -40,9 +40,37 @@ public class Upgrade{
         }
     }
 
+    public void add(int n)
+    {
+        for(int i = 0; i < n; i++)
+        {
+            amount++;
+
+            if(amount%25 == 0)
+                mult *=2;
+            if(amount % 100 == 0)
+                mult *= 4;
+
+            cost = cost*1.1;
+        }
+    }
+
     public double getCost()
     {
         return cost;
+    }
+
+    public double getCost(int n)
+    {
+        double c = cost;
+        double coost = 0;
+        for(int i = 0; i < n; i++)
+        {
+            coost += c;
+            c = c*1.1;
+        }
+
+        return coost;
     }
 
     public String getName()
