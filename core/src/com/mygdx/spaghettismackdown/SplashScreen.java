@@ -57,8 +57,8 @@ public class SplashScreen {
         titleFs = new Texture("sd.png");
         titleText = new Sprite(titleF);
         titleText2 = new Sprite(titleFs);
-        titleText.scale(Gdx.graphics.getWidth() / 720);
-        titleText2.scale(Gdx.graphics.getWidth() / 720);
+        titleText.setSize(Gdx.graphics.getWidth()*0.8f, Gdx.graphics.getHeight()*0.1f);
+        titleText2.setSize(Gdx.graphics.getWidth()*0.8f, Gdx.graphics.getHeight()*0.1f);
         titleText.setCenterX(Gdx.graphics.getWidth()/2);
         titleText2.setCenterX(Gdx.graphics.getWidth()/2);
         titleText.setCenterY(Gdx.graphics.getHeight()*.87f);
@@ -77,11 +77,11 @@ public class SplashScreen {
         backgroundSprite.draw(batch);
         if(timer % 5 == 0 && !end) {
             FallingObject pastaSprite = new FallingObject(pasta, (int)(-Gdx.graphics.getWidth()*0.1), (int)((Math.random()*Gdx.graphics.getHeight()*0.15)+Gdx.graphics.getHeight()*0.60), (float)Math.random()*10f, 15);
-            pastaSprite.scale(.75f * Gdx.graphics.getDensity());
+            pastaSprite.getSprite().setSize(Gdx.graphics.getWidth()*.29166666f,Gdx.graphics.getWidth()*0.2759259f);
             fallingSprites.add(pastaSprite);
 
             FallingObject moneySprite = new FallingObject(money, (int)(Gdx.graphics.getWidth()*1.1), (int)((Math.random()*Gdx.graphics.getHeight()*0.15)+Gdx.graphics.getHeight()*0.60), -(float)Math.random()*10f, 15);
-            moneySprite.scale(.75f * Gdx.graphics.getDensity());
+            moneySprite.getSprite().setSize(Gdx.graphics.getWidth()*(250f/1080f),Gdx.graphics.getWidth()*(318f/1080f));
             fallingSprites.add(moneySprite);
         }
 

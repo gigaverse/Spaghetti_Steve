@@ -1,12 +1,15 @@
 package com.mygdx.spaghettismackdown;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import java.io.IOException;
@@ -23,6 +26,8 @@ public class ExpansionMenu {
         final ScrollPane scroller = new ScrollPane(scrollTable);
         final Table table = new Table();
         table.setFillParent(true);
+
+        table.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("back.png")))));
 
         Label label = new Label("Select A Restaurant to Claim...", labelStyle);
         label.setAlignment(Align.center);
