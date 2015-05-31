@@ -28,6 +28,26 @@ public class PlayerSave {
         music = true;
     }
 
+    public void setRestaurants(ArrayList<Restaurant> restaurants)
+    {
+        this.restaurants = restaurants;
+    }
+
+    public void setPotentialRestaurants(ArrayList<Restaurant> restaurants)
+    {
+        this.potentialRestaurants = restaurants;
+    }
+
+    public void setTerritories(ArrayList<Territory> territories)
+    {
+        this.territories = territories;
+    }
+
+    public void setPotentialTerritories(ArrayList<Territory> territories)
+    {
+        this.potentialTerritories = territories;
+    }
+
     public boolean init()
     {
         restaurants = new ArrayList<Restaurant>();

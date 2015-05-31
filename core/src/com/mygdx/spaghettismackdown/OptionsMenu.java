@@ -102,9 +102,14 @@ public class OptionsMenu {
 
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 MyGdxGame.willAnimate();
-                FileHandle hope = Gdx.files.local("pasta4.dat");
+                if(!player.save)
+                    return;
+                FileHandle hope = Gdx.files.local("saveGame.dat");
                 Json json = new Json();
-                hope.writeString(json.toJson(player), false);
+                String save = String.format("%s youssefspatentpendingsplitphrase %s youssefspatentpendingsplitphrase %s youssefspatentpendingsplitphrase", player.getTotalMoney() + "", player.getTotalPasta() + "", player.getPPC() + "");
+                save += json.toJson(player.getRestaurants()) + "youssefspatentpendingsplitphrase" + json.toJson(player.getTerritories()) + "youssefspatentpendingsplitphrase" +
+                        json.toJson(player.getPotentialRestaurants()) + "youssefspatentpendingsplitphrase" + json.toJson(player.getPotentialTerritories()) + "youssefspatentpendingsplitphrase";
+                hope.writeString(save, false);
                 MyGdxGame.timer.cancel();
                 MyGdxGame.t.cancel();
                 Gdx.app.exit();

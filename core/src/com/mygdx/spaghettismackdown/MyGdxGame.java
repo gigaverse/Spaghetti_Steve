@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.JsonReader;
 
 
 import java.io.IOException;
@@ -105,15 +106,23 @@ public class MyGdxGame extends ApplicationAdapter {
 
         player = new PlayerSave();
         FileHandle hope;
-        try {
-            hope = Gdx.files.local("pasta4.dat");
+        //try {
+            hope = Gdx.files.local("saveGame.dat");
             Json j = new Json();
-            String wow = hope.readString();
-            player = j.fromJson(PlayerSave.class, wow);
-        }
-        catch(Exception ex) {
-            Gdx.app.log("wow", ex.toString());
-        }
+            String ha = hope.readString();
+            String[] wow = ha.split("youssefspatentpendingsplitphrase");
+            Gdx.app.log("wow", wow[0]);
+            player.setTotalMoney(Double.parseDouble(wow[0]));
+            player.setTotalPasta(Double.parseDouble(wow[1]));
+            player.setPPC(Double.parseDouble(wow[2]));
+            player.setRestaurants(j.fromJson(ArrayList.class, Restaurant.class, wow[3]));
+            player.setTerritories(j.fromJson(ArrayList.class,Territory.class, wow[4]));
+            player.setPotentialRestaurants(j.fromJson(ArrayList.class, Restaurant.class, wow[5]));
+            player.setPotentialTerritories(j.fromJson(ArrayList.class, Territory.class, wow[6]));
+        //}
+        //catch(Exception ex) {
+           // Gdx.app.log("wow", ex.toString());
+        //}
 
         batch = new SpriteBatch();
         if(player == null)
@@ -821,9 +830,13 @@ public class MyGdxGame extends ApplicationAdapter {
             //saving file
             if(!player.save)
                 return;
-            FileHandle hope = Gdx.files.local("pasta4.dat");
+            FileHandle hope = Gdx.files.local("saveGame.dat");
             Json json = new Json();
-            hope.writeString(json.toJson(player), false);
+            String save = String.format("%s youssefspatentpendingsplitphrase %s youssefspatentpendingsplitphrase %s youssefspatentpendingsplitphrase", player.getTotalMoney() + "", player.getTotalPasta() + "", player.getPPC() + "");
+            save += json.toJson(player.getRestaurants()) + "youssefspatentpendingsplitphrase" + json.toJson(player.getTerritories()) + "youssefspatentpendingsplitphrase" +
+                    json.toJson(player.getPotentialRestaurants()) + "youssefspatentpendingsplitphrase" + json.toJson(player.getPotentialTerritories()) + "youssefspatentpendingsplitphrase";
+            hope.writeString(save, false);
+
         }
     }
 }
