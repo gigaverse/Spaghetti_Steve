@@ -106,7 +106,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         player = new PlayerSave();
         FileHandle hope;
-        //try {
+        try {
             hope = Gdx.files.local("saveGame.dat");
             Json j = new Json();
             String ha = hope.readString();
@@ -119,10 +119,10 @@ public class MyGdxGame extends ApplicationAdapter {
             player.setTerritories(j.fromJson(ArrayList.class,Territory.class, wow[4]));
             player.setPotentialRestaurants(j.fromJson(ArrayList.class, Restaurant.class, wow[5]));
             player.setPotentialTerritories(j.fromJson(ArrayList.class, Territory.class, wow[6]));
-        //}
-        //catch(Exception ex) {
-           // Gdx.app.log("wow", ex.toString());
-        //}
+        }
+        catch(Exception ex) {
+             Gdx.app.log("wow", ex.toString());
+        }
 
         batch = new SpriteBatch();
         if(player == null)
@@ -458,6 +458,7 @@ public class MyGdxGame extends ApplicationAdapter {
         if(Gdx.input.justTouched() && state == states[0]) {
             flusterTimer = 90;
             fluster = 1;
+            float widthmult = (chefPosition == 0 ? 0.75f:0.85f);
             player.setTotalPasta(player.getTotalPasta() + player.getPPC());
             if (player.animation) {
                 if (player.getPPC() > 1000000000) {
@@ -483,8 +484,8 @@ public class MyGdxGame extends ApplicationAdapter {
                 }
 
                 for (int i = 0; i < (player.getPPC() % 1000); i += (1000 - (Gdx.graphics.getDensity() * 150))) {
-                    int ang = (int) (Math.random() * 360);
-                    FallingObject doshSprite = new FallingObject(macaroni, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 2, (float) (10 * Math.cos(ang)), (float) (10 * Math.sin(ang)));
+                    int ang = 45 + (int)(Math.random() * 90);
+                    FallingObject doshSprite = new FallingObject(macaroni, (int)(Gdx.graphics.getWidth()*widthmult), (int)(Gdx.graphics.getHeight()*0.05f), (float) (20 * Math.cos(ang)), (float) Math.abs(20 * Math.sin(ang)));
                     doshSprite.getSprite().setSize(Gdx.graphics.getWidth()*0.25925925925f,Gdx.graphics.getWidth()*0.16481481481f);
                     clickedSprites.add(doshSprite);
                 }
@@ -503,7 +504,7 @@ public class MyGdxGame extends ApplicationAdapter {
         //TODO CHEF
         batch.begin();
 
-        chefPosition = (chefPosition + (Math.random() <= 0.03 ? 1 : 0)) % 2;
+        chefPosition = (chefPosition + (fluster == 0 ? (Math.random() <= 0.03 ? 1 : 0) : (Math.random() <= 0.1 ? 1 : 0))) % 2;
         Sprite currentChef = new Sprite(chef[fluster][chefPosition]);
         if(chefPosition == 1)
             currentChef.setSize(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*0.0979381443f,Gdx.graphics.getWidth()*1.072164f);

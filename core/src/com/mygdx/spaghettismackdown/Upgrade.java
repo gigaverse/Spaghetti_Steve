@@ -45,11 +45,12 @@ public class Upgrade{
         for(int i = 0; i < n; i++)
         {
             amount++;
-
+            if(amount == 10)
+                mult*=2;
             if(amount%25 == 0)
                 mult *=2;
             if(amount % 100 == 0)
-                mult *= 4;
+                mult *= 10;
 
             cost = cost*1.1;
         }

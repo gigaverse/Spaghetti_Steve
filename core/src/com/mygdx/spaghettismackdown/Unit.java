@@ -71,11 +71,12 @@ public class Unit {
         for(int i = 0; i < n; i++)
         {
             amount++;
-
+            if(amount == 10)
+                mult*=2;
             if(amount%25 == 0)
                 mult *=2;
             if(amount % 100 == 0)
-                mult *= 8;
+                mult *= 10;
             if(type.equals("quality")) {
                 if(amount >= 4) {
                     amount = 4;
