@@ -20,6 +20,7 @@ import java.io.IOException;
 public class ExpansionMenu {
     public static Table expansionMenu(final PlayerSave player, Label.LabelStyle labelStyle, TextButton.TextButtonStyle style)
     {
+        player.save = false;
         Table scrollTable = new Table();
         scrollTable.top();
 
@@ -49,15 +50,15 @@ public class ExpansionMenu {
                 .height(label.getHeight());
 
         table.row();
-            if(player.getRestaurants().size() + player.getPotentialRestaurants().size() <= 10) {
+            if(player.getRestaurants().size() + player.getPotentialRestaurants().size() <= 5) {
                 try {
                     populatePotential(player);
                 } catch (Exception io) {
-
+                    Gdx.app.log("wow", io.toString());
                 }
             }
 
-        if(player.getTerritories().size() + player.getPotentialTerritories().size() <= 10 && player.country) {
+        if(player.getTerritories().size() + player.getPotentialTerritories().size() <= 5 && player.country) {
             try {
                 populatePotential(player);
             } catch (Exception io) {
@@ -85,14 +86,12 @@ public class ExpansionMenu {
                     }
 
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        player.save = false;
                         if (player.getTotalMoney() >= r.getCost()) {
                             player.setTotalMoney(player.getTotalMoney() - r.getCost());
                             player.getPotentialRestaurants().remove(j);
                             player.getRestaurants().add(r);
                             MyGdxGame.ExpansionScreen();
                         }
-                        player.save = true;
                     }
                 });
 
@@ -138,14 +137,12 @@ public class ExpansionMenu {
                     }
 
                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                        player.save = false;
                         if (player.getTotalMoney() >= r.getCost()) {
                             player.setTotalMoney(player.getTotalMoney() - r.getCost());
                             player.getPotentialTerritories().remove(j);
                             player.getTerritories().add(r);
                             MyGdxGame.ExpansionScreen();
                         }
-                        player.save = true;
                     }
                 });
 
@@ -178,7 +175,7 @@ public class ExpansionMenu {
 
     private static void populatePotential(PlayerSave player) throws IOException {
         if (!player.country) {
-            if(player.getPotentialRestaurants().size() +  player.getRestaurants().size()>= 10)
+            if(player.getPotentialRestaurants().size() +  player.getRestaurants().size()>= 5)
                 return;
             String[] suffixes = {" Pasta Palace",
                     " Spaghetti Stand",
@@ -195,10 +192,11 @@ public class ExpansionMenu {
                     " Orzo Outlet",
                     " Tortelli Tower"};
 
-            for (int i = 0; i < 10 - player.getRestaurants().size(); i++) {
+            for (int i = 0; i < 5 - player.getRestaurants().size(); i++) {
                 Restaurant r = new Restaurant();
+                r.setRestaurant(i+2);
                 r.setName(MyGdxGame.nameGenerator.pull() + "'s\n" + suffixes[(int) (Math.random() * suffixes.length)]);
-                r.setCost(Math.pow(((i + 1) * 1000), 2.3));
+                r.setCost(Math.pow(((Math.pow(i + 1, 3)) * 1000), 3.3));
                 player.getPotentialRestaurants().add(r);
             }
         }

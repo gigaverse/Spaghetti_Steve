@@ -25,8 +25,10 @@ import com.badlogic.gdx.utils.JsonReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -116,9 +118,15 @@ public class MyGdxGame extends ApplicationAdapter {
             player.setTotalPasta(Double.parseDouble(wow[1]));
             player.setPPC(Double.parseDouble(wow[2]));
             player.setRestaurants(j.fromJson(ArrayList.class, Restaurant.class, wow[3]));
-            player.setTerritories(j.fromJson(ArrayList.class,Territory.class, wow[4]));
+            player.setTerritories(j.fromJson(ArrayList.class, Territory.class, wow[4]));
             player.setPotentialRestaurants(j.fromJson(ArrayList.class, Restaurant.class, wow[5]));
             player.setPotentialTerritories(j.fromJson(ArrayList.class, Territory.class, wow[6]));
+            player.country = Boolean.parseBoolean(wow[7]);
+            player.music = Boolean.parseBoolean(wow[8]);
+            player.animation = Boolean.parseBoolean(wow[9]);
+            double timeSinceLastLogIn =  (System.currentTimeMillis() - Long.parseLong(wow[10]))/1000;
+            player.setTotalMoney(player.getTotalMoney() + player.moneyPerSecond()*timeSinceLastLogIn);
+            player.setTotalPasta(player.getTotalPasta() + player.pastaPerSecond()*timeSinceLastLogIn);
         }
         catch(Exception ex) {
              Gdx.app.log("wow", ex.toString());
@@ -233,6 +241,7 @@ public class MyGdxGame extends ApplicationAdapter {
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                player.save = true;
                 if(state.equals(states[0]) || state.equals(states[2]))
                 {
                     state = states[1];
@@ -268,6 +277,7 @@ public class MyGdxGame extends ApplicationAdapter {
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                player.save = true;
                 if(state.equals(states[0]) || state.equals(states[1]))
                 {
                     state = states[2];
@@ -464,21 +474,21 @@ public class MyGdxGame extends ApplicationAdapter {
                 if (player.getPPC() > 1000000000) {
                     for (int i = 0; i < Math.min((player.getPPC() / 1000000000), 80); i += (100 - (Gdx.graphics.getDensity() * 15))) {
                         int ang = (int) (Math.random() * 360);
-                        FallingObject doshSprite = new FallingObject(spaghetti, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 2, (float) (10 * Math.cos(ang)), (float) (10 * Math.sin(ang)));
+                        FallingObject doshSprite = new FallingObject(spaghetti, (int)(Gdx.graphics.getWidth()*widthmult), (int)(Gdx.graphics.getHeight()*0.05f), (float) (20 * Math.cos(ang)), (float) Math.abs(20 * Math.sin(ang)));
                         doshSprite.getSprite().setSize(Gdx.graphics.getWidth()*0.00833333333f,Gdx.graphics.getWidth()*0.36759259f);
                         clickedSprites.add(doshSprite);
                     }
                 }
                 for (int i = 0; i < (int) (player.getPPC() % 1000000000) / 1000000; i += (1000 - (Gdx.graphics.getDensity() * 150))) {
                     int ang = (int) (Math.random() * 360);
-                    FallingObject doshSprite = new FallingObject(shells, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 2, (float) (10 * Math.cos(ang)), (float) (10 * Math.sin(ang)));
+                    FallingObject doshSprite = new FallingObject(shells, (int)(Gdx.graphics.getWidth()*widthmult), (int)(Gdx.graphics.getHeight()*0.05f), (float) (20 * Math.cos(ang)), (float) Math.abs(20 * Math.sin(ang)));
                     doshSprite.getSprite().setSize(Gdx.graphics.getWidth()*0.2509259f,Gdx.graphics.getWidth()*0.15925925925f);
                     clickedSprites.add(doshSprite);
                 }
 
                 for (int i = 0; i < (int) (player.getPPC() % 1000000) / 1000; i += (1000 - (Gdx.graphics.getDensity() * 150))) {
                     int ang = (int) (Math.random() * 360);
-                    FallingObject doshSprite = new FallingObject(penne, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 2, (float) (10 * Math.cos(ang)), (float) (10 * Math.sin(ang)));
+                    FallingObject doshSprite = new FallingObject(penne, (int)(Gdx.graphics.getWidth()*widthmult), (int)(Gdx.graphics.getHeight()*0.05f), (float) (20 * Math.cos(ang)), (float) Math.abs(20 * Math.sin(ang)));
                     doshSprite.getSprite().setSize(Gdx.graphics.getWidth()*.29166666f,Gdx.graphics.getWidth()*0.2759259f);
                     clickedSprites.add(doshSprite);
                 }
@@ -831,11 +841,14 @@ public class MyGdxGame extends ApplicationAdapter {
             //saving file
             if(!player.save)
                 return;
+
+            Date date = new Date();
             FileHandle hope = Gdx.files.local("saveGame.dat");
             Json json = new Json();
             String save = String.format("%s youssefspatentpendingsplitphrase %s youssefspatentpendingsplitphrase %s youssefspatentpendingsplitphrase", player.getTotalMoney() + "", player.getTotalPasta() + "", player.getPPC() + "");
             save += json.toJson(player.getRestaurants()) + "youssefspatentpendingsplitphrase" + json.toJson(player.getTerritories()) + "youssefspatentpendingsplitphrase" +
-                    json.toJson(player.getPotentialRestaurants()) + "youssefspatentpendingsplitphrase" + json.toJson(player.getPotentialTerritories()) + "youssefspatentpendingsplitphrase";
+                    json.toJson(player.getPotentialRestaurants()) + "youssefspatentpendingsplitphrase" + json.toJson(player.getPotentialTerritories()) + "youssefspatentpendingsplitphrase" +
+                    player.country + "youssefspatentpendingsplitphrase" + player.music + "youssefspatentpendingsplitphrase" + player.animation + "youssefspatentpendingsplitphrase" + System.currentTimeMillis();
             hope.writeString(save, false);
 
         }

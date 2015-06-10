@@ -96,4 +96,14 @@ public class Upgrade{
     {
         return (worth*amount*mult);
     }
+
+    public void setCost(double cost)
+    {
+        this.cost = cost;
+    }
+
+    public void setWorth(double worth)
+    {
+        this.worth = worth;
+    }
 }

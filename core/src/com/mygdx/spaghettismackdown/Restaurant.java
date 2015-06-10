@@ -58,6 +58,25 @@ public class Restaurant {
 
     }
 
+    public void setRestaurant(int num)
+    {
+        if(num <= 1)
+            return;
+        for(Upgrade u : upgrades)
+        {
+            u.setCost(Math.pow(u.getCost(), num));
+            u.setWorth(Math.pow(u.getWorth(), 0.8 * num));
+        }
+
+        for(Unit u : units)
+        {
+            if(u.getType().equals("quality")) {
+                u.setCost(Math.pow(u.getCost(), num));
+                u.setMultiplier(u.getMultiplier()* Math.pow(2 , Math.pow(2, num)));
+            }
+        }
+    }
+
     public int getStars()
     {
         return stars;

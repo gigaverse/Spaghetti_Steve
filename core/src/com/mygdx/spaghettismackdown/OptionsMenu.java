@@ -169,7 +169,7 @@ public class OptionsMenu {
 
         scrollTable.row();
 
-        final TextButton animations = new TextButton(String.format("Animations are ON"), style);
+        final TextButton animations = new TextButton((player.animation ? "Animations are ON" : "Animations are OFF"), style);
         animations.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
         animations.setWidth(Gdx.graphics.getWidth());
 

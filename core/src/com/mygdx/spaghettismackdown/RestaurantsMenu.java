@@ -158,7 +158,7 @@ public class RestaurantsMenu {
             greenButton.font = style.font;
 
             String buttonName = "Seek New Restaurants...";
-            if(player.getRestaurants().size() == 10)
+            if(player.getRestaurants().size() == 5)
             {
                 buttonName = "Assemble into a Union";
             }
@@ -176,7 +176,7 @@ public class RestaurantsMenu {
                 }
 
                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    if (player.getRestaurants().size() >= 10 && !player.country) {
+                    if (player.getRestaurants().size() >= 5 && !player.country) {
                         Territory t = new Territory();
                         player.getTerritories().add(t);
                         t.compilePrevious(player.getRestaurants());
