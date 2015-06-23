@@ -5,7 +5,7 @@ package com.mygdx.spaghettismackdown;
  */
 public class Unit {
     private String name, type;
-    private long amount;
+    private double amount;
     private double multiplier,atk,def,range, mult, cost;
 
     public Unit()
@@ -109,7 +109,7 @@ public class Unit {
 
     public String getName()
     {
-        return name + (mult > 1 && !type.equals("quality") ? " x " + (int)mult : "");
+        return name + (mult > 1 && !type.equals("quality") ? " x " + MyGdxGame.convertNumber(mult) : "");
     }
 
     public String getType()
@@ -121,7 +121,7 @@ public class Unit {
         return atk;
     }
 
-    public long getAmount() {
+    public double getAmount() {
         return amount;
     }
 

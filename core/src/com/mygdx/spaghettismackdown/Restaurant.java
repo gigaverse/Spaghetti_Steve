@@ -139,13 +139,13 @@ public class Restaurant {
 
     public double getIncomePerSecond()
     {
-        double sum = 0;
+        double sum = 0d;
         for(Upgrade u : upgrades)
         {
             sum += u.tick();
         }
 
-        return sum*10;
+        return sum*10d;
     }
 
     public double getMoneyPerSecond()

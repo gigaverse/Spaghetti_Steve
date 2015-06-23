@@ -728,7 +728,7 @@ public class MyGdxGame extends ApplicationAdapter {
             if(!player.country) {
                 for (Restaurant r : player.getRestaurants()) {
                     numPasta = 0;
-                    numPasta += (r.getIncomePerSecond()/10);
+                    numPasta += (r.getIncomePerSecond()/10d);
                     if(r.getIncomePerSecond() > 300000)
                     {
                         r.setStars(1);

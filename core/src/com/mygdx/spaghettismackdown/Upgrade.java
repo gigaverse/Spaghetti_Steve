@@ -5,9 +5,9 @@ package com.mygdx.spaghettismackdown;
  */
 public class Upgrade{
     private String name;
-    private long amount;
+    private double amount;
     private double worth, cost;
-    private int mult;
+    private double mult;
 
     public Upgrade()
     {
@@ -17,7 +17,7 @@ public class Upgrade{
         worth = 0;
         mult = 1;
     }
-    public Upgrade(String name, long amount,double cost, double worth)
+    public Upgrade(String name, double amount,double cost, double worth)
     {
         this.name = name;
         this.amount = amount;
@@ -77,12 +77,12 @@ public class Upgrade{
     public String getName()
     {
         if(mult > 1)
-            return name + " x " + mult;
+            return name + " x " + MyGdxGame.convertNumber(mult);
         return name;
 
     }
 
-    public long getAmount()
+    public double getAmount()
     {
         return amount;
     }

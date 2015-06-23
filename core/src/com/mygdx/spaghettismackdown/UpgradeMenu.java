@@ -115,7 +115,7 @@ public class UpgradeMenu {
 
         if(pageNumber == 0) {
             //THIS IS THE LOCATION IN WHICH YOU DECIDE WHEN YOU SEE UPGRADES
-            long pastaMakerLevel = player.getCurrentRestaurant().getUnits().get(0).getAmount() + 1;
+            long pastaMakerLevel = (int)(player.getCurrentRestaurant().getUnits().get(0).getAmount() + 1);
 
             for (int i = 0; i < Math.min(player.getCurrentRestaurant().getUpgrades().size(),pastaMakerLevel*3); i++) {
                 final Upgrade u = player.getCurrentRestaurant().getUpgrade(i);
@@ -159,7 +159,7 @@ public class UpgradeMenu {
                             player.setTotalPasta(player.getTotalPasta() - u.getCost(multiplierNumber));
                             u.add(multiplierNumber);
                             upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))));
-                            counter.setText(String.format("Amount: %s\n%s lbs/sec", u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)));
+                            counter.setText(String.format("Amount: %s\n%s lbs/sec", (int)u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)));
                         }
                     }
                 });
@@ -187,7 +187,7 @@ public class UpgradeMenu {
         else
         {
             int money = 0, minion = 0, quality = 0;
-            long pastaMakerLevel = player.getCurrentRestaurant().getUnits().get(0).getAmount() + 1;
+            long pastaMakerLevel = (int)(player.getCurrentRestaurant().getUnits().get(0).getAmount() + 1);
 
 
             for (int i = 0; i < player.getCurrentRestaurant().getUnits().size(); i++) {
@@ -207,9 +207,9 @@ public class UpgradeMenu {
                 else
                     quality++;
 
-                final Label counter = new Label(String.format("Amount: %s\n$%s/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)), labelStyle);
+                final Label counter = new Label(String.format("Amount: %s\n$%s/sec", (int)u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)), labelStyle);
                 if(u.getType().equals("quality"))
-                    counter.setText("Level\n" +(u.getAmount()+1));
+                    counter.setText("Level\n" +((int)u.getAmount()+1));
                 counter.setAlignment(Align.center);
                 counter.setWrap(true);
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
@@ -248,9 +248,9 @@ public class UpgradeMenu {
                             player.setTotalPasta(player.getTotalPasta() - u.getCost(multiplierNumber));
                             u.add(multiplierNumber);
                             upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))));
-                            counter.setText(String.format("Amount: %d\n$%s/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)));
+                            counter.setText(String.format("Amount: %d\n$%s/sec", (int)u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)));
                             if(u.getType().equals("quality"))
-                                counter.setText("Level:\n" +(u.getAmount()+1));
+                                counter.setText("Level:\n" +((int)u.getAmount()+1));
                         }
 
                     }
@@ -378,11 +378,11 @@ public class UpgradeMenu {
 
         if(pageNumber == 0) {
             //THIS IS THE LOCATION IN WHICH YOU DECIDE WHEN YOU SEE UPGRADES
-            long pastaMakerLevel = player.getCurrentTerritory().getUnits().get(0).getAmount() + 1;
+            long pastaMakerLevel = (int)(player.getCurrentTerritory().getUnits().get(0).getAmount() + 1);
 
             for (int i = 0; i < Math.min(player.getCurrentTerritory().getUpgrades().size(),pastaMakerLevel*3); i++) {
                 final Upgrade u = player.getCurrentTerritory().getUpgrade(i);
-                final Label counter = new Label(String.format("Amount: %d\n%s lbs/sec", u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)), labelStyle);
+                final Label counter = new Label(String.format("Amount: %d\n%s lbs/sec", (int)u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)), labelStyle);
                 counter.setAlignment(Align.center);
                 counter.setWrap(true);
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
@@ -402,7 +402,7 @@ public class UpgradeMenu {
                             player.setTotalPasta(player.getTotalPasta() - u.getCost(multiplierNumber));
                             u.add(multiplierNumber);
                             upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost(multiplierNumber))));
-                            counter.setText(String.format("Amount: %d\n%s lbs/sec", u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)));
+                            counter.setText(String.format("Amount: %d\n%s lbs/sec", (int)u.getAmount(), MyGdxGame.convertNumber(u.getWorth()*u.getAmount()*10)));
                         }
                     }
                 });
@@ -440,9 +440,9 @@ public class UpgradeMenu {
                 if(pageNumber == 3 && !u.getType().equals("quality"))
                     continue;
 
-                final Label counter = new Label(String.format("Amount: %d\n$%s/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)), labelStyle);
+                final Label counter = new Label(String.format("Amount: %d\n$%s/sec", (int)u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)), labelStyle);
                 if(u.getType().equals("quality"))
-                    counter.setText("Level\n" +(u.getAmount()+1));
+                    counter.setText("Level\n" +((int)u.getAmount()+1));
                 counter.setAlignment(Align.center);
                 counter.setWrap(true);
                 counter.setHeight((int) (Gdx.graphics.getHeight() * 0.1));
@@ -462,9 +462,9 @@ public class UpgradeMenu {
                             player.setTotalPasta( player.getTotalPasta() - u.getCost(multiplierNumber));
                             u.add(multiplierNumber);
                             upgradeButton.setText(String.format("%s\n%s lbs", u.getName(), MyGdxGame.convertNumber(u.getCost())));
-                            counter.setText(String.format("Amount: %d\n%s lbs/sec", u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)));
+                            counter.setText(String.format("Amount: %d\n%s lbs/sec", (int)u.getAmount(), MyGdxGame.convertNumber(u.getMultiplier()*u.getAmount()*10)));
                             if(u.getType().equals("quality"))
-                                counter.setText("Level:\n" +(u.getAmount()+1));
+                                counter.setText("Level:\n" +((int)u.getAmount()+1));
                         }
                     }
                 });
