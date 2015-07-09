@@ -76,6 +76,7 @@ public class OptionsMenu {
                         FileHandle hope = Gdx.files.local("pasta2.dat");
                         hope.delete();
                         player.reset();
+
                     }
                  }
         });

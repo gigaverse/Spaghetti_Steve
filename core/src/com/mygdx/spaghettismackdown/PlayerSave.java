@@ -65,6 +65,7 @@ public class PlayerSave {
         totalPasta = 0;
         restaurants = new ArrayList<Restaurant>();
         country = false;
+        MyGdxGame.resetChef();
         return restaurants.add(new Restaurant());
     }
 

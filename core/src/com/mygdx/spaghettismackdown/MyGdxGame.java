@@ -38,7 +38,7 @@ public class MyGdxGame extends ApplicationAdapter {
     public static boolean restlist = false;
     private volatile static ArrayList<FallingObject> fallingSprites = new ArrayList<FallingObject>(), clickedSprites = new ArrayList<FallingObject>();
 
-    Texture[][] chef = new Texture[2][2];
+    static Texture[][] chef = new Texture[2][2];
     int chefPosition = 0;
     int flusterTimer = 0;
     int fluster = 0;
@@ -57,7 +57,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private static Skin labelSkin;
     public static TextButton.TextButtonStyle buttonStyle;
     private static Label.LabelStyle labelStyle;
-    private static Texture icon, coin, dollar, wadOfMoney, bagOfMoney, macaroni, penne, shells, spaghetti;
+    private static Texture icon, coin, dollar, wadOfMoney, bagOfMoney, macaroni, penne, shells, spaghetti, meatball, stove;
     public static Timer timer, t;
     private static Stage upgradeScreen;
 
@@ -78,11 +78,6 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void create () {
 
-        chef[0][0] = new Texture(Gdx.files.internal("steve/steve_1.png"));
-        chef[0][1] = new Texture(Gdx.files.internal("steve/steve_2.png"));
-        chef[1][0] = new Texture(Gdx.files.internal("steve/steve_1m.png"));
-        chef[1][1] = new Texture(Gdx.files.internal("steve/steve_2m.png"));
-
         italy = Gdx.audio.newMusic(Gdx.files.internal("italy.ogg"));
 
 
@@ -101,6 +96,8 @@ public class MyGdxGame extends ApplicationAdapter {
         penne = new Texture(Gdx.files.internal("pasta/penne.png"));
         shells = new Texture(Gdx.files.internal("pasta/shell.png"));
         spaghetti = new Texture(Gdx.files.internal("pasta/spaghetti.png"));
+        meatball = new Texture(Gdx.files.internal("pasta/meatball.png"));
+        stove = new Texture(Gdx.files.internal("stove/stove.png"));
 
         iconSprite = new Sprite(icon);
         iconSprite.setCenterX(Gdx.graphics.getWidth() / 2);
@@ -137,6 +134,19 @@ public class MyGdxGame extends ApplicationAdapter {
             player = new PlayerSave();
         if(player.getRestaurants().size() == 0) {
             player.init();
+        }
+
+        chef[0][0] = new Texture(Gdx.files.internal("steve/normal/steve_1.png"));
+        chef[0][1] = new Texture(Gdx.files.internal("steve/normal/steve_2.png"));
+        chef[1][0] = new Texture(Gdx.files.internal("steve/normal/steve_1m.png"));
+        chef[1][1] = new Texture(Gdx.files.internal("steve/normal/steve_2m.png"));
+
+        if(player.country)
+        {
+            chef[0][0] = new Texture(Gdx.files.internal("steve/dictator/steved_1.png"));
+            chef[0][1] = new Texture(Gdx.files.internal("steve/dictator/steved_2.png"));
+            chef[1][0] = new Texture(Gdx.files.internal("steve/dictator/steved_1m.png"));
+            chef[1][1] = new Texture(Gdx.files.internal("steve/dictator/steved_2m.png"));
         }
 
         timer = new Timer();
@@ -511,7 +521,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.end();
 
-        //TODO CHEF
+        //TODO CHEF AND STOVE
         batch.begin();
 
         chefPosition = (chefPosition + (fluster == 0 ? (Math.random() <= 0.03 ? 1 : 0) : (Math.random() <= 0.1 ? 1 : 0))) % 2;
@@ -520,9 +530,15 @@ public class MyGdxGame extends ApplicationAdapter {
             currentChef.setSize(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*0.0979381443f,Gdx.graphics.getWidth()*1.072164f);
         else
             currentChef.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getWidth()*1.072164f);
-        currentChef.setCenterX(Gdx.graphics.getWidth()/2);
-        currentChef.setCenterY(Gdx.graphics.getHeight()/4);
+        currentChef.setCenterX(Gdx.graphics.getWidth() / 2);
+        currentChef.setCenterY(Gdx.graphics.getHeight() / 2.5f);
         currentChef.draw(batch);
+
+        Sprite stoveD = new Sprite(stove);
+        stoveD.setSize(Gdx.graphics.getWidth()/2.4f, Gdx.graphics.getWidth()/3.5f);
+        stoveD.setCenterX(Gdx.graphics.getWidth()*0.8f);
+        stoveD.setCenterY(Gdx.graphics.getHeight() / 6.1f);
+        stoveD.draw(batch);
 
         batch.end();
 
@@ -603,6 +619,14 @@ public class MyGdxGame extends ApplicationAdapter {
         upgradeScreen.addActor(pastaDisplay);
         upgradeScreen.addActor(moneyDisplay);
         Gdx.input.setInputProcessor(upgradeScreen);
+    }
+
+    public static void resetChef()
+    {
+        chef[0][0] = new Texture(Gdx.files.internal("steve/normal/steve_1.png"));
+        chef[0][1] = new Texture(Gdx.files.internal("steve/normal/steve_2.png"));
+        chef[1][0] = new Texture(Gdx.files.internal("steve/normal/steve_1m.png"));
+        chef[1][1] = new Texture(Gdx.files.internal("steve/normal/steve_2m.png"));
     }
 
     public static void upgradeScreen()
